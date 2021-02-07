@@ -1,0 +1,83 @@
+.stripeprefs{
+    text-align: center;
+}
+
+#stripe{
+    text-align: center;
+}
+
+.img-dup {
+    float: right;
+}
+
+.stripe-flex {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.stripe-column {
+    vertical-align: top;
+    margin: 0.5em;
+    width: 100%;
+}
+
+.stripe-row {
+    border-bottom: dashed 1px #000;
+    padding: 0.25em 0;
+}
+
+#stripe_form_amount {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+#payment-form {
+    margin: auto;
+    max-width: 600px;
+    width: 100%;
+}
+
+.stripe-loader,
+.stripe-loader:after {
+    border-radius: 50%;
+    width: 1em;
+    height: 1em;
+}
+.stripe-loader {
+    margin: 00px auto;
+    overflow: hidden;
+    display: inline-block;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999em;
+    border-top: 0.5em solid rgba(255, 255, 255, 0.2);
+    border-right: 0.5em solid rgba(255, 255, 255, 0.2);
+    border-bottom: 0.5em solid rgba(255, 255, 255, 0.2);
+    border-left: 0.5em solid #c0c0c0;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: load8 0.5s infinite linear;
+    animation: load8 0.5s infinite linear;
+}
+@-webkit-keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}

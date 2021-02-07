@@ -1,0 +1,169 @@
+#: ../templates/default/stripe_preferences.tpl:15
+msgid "Stripe public key:"
+msgstr ""
+
+#: ../_routes.php:59
+msgid "Stripe Settings"
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:25
+msgid "Stripe Webhook URL:"
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:20
+msgid "Stripe secret key:"
+msgstr ""
+
+#: ../_routes.php:118
+msgid "An error occured saving stripe preferences :("
+msgstr ""
+
+#: ../templates/default/stripe_history.tpl:60
+msgid "Payment intent"
+msgstr ""
+
+#: ../templates/default/stripe_history.tpl:75
+msgid "No request or unable to read request"
+msgstr ""
+
+#: ../templates/default/stripe_form_checkout.tpl:51
+msgid "CVC"
+msgstr ""
+
+#: ../templates/default/stripe_history.tpl:91
+msgid "Request"
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:12 ../templates/default/stripe_form_checkout.tpl:12
+msgid "Stripe keys has not been defined. Please ask an administrator to add it from plugin preferences."
+msgstr ""
+
+#: ../templates/default/menu.tpl:1
+msgid "Stripe"
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:47
+msgid "Currency for payments:"
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:107
+msgid "The amount you've entered is lower than the minimum amount for the selected option.\\nPlease choose another option or change the amount."
+msgstr ""
+
+#: ../templates/default/stripe_history.tpl:114
+msgid "Show/hide full request"
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:12
+msgid "Stripe preferences"
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:104
+msgid "Please enter an amount."
+msgstr ""
+
+#: ../templates/default/stripe_history.tpl:57
+msgid "duplicate"
+msgstr ""
+
+#: ../templates/default/public_menu.tpl:4 ../templates/default/menu.tpl:3
+msgid "Payment form"
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:16
+msgid "Enter here your Stripe public key."
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:39
+msgid "Enter here the country of your Stripe account."
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:30
+msgid "Payment reason"
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:38
+msgid "Country of your Stripe account:"
+msgstr ""
+
+#: ../templates/default/menu.tpl:5
+msgid "Stripe History"
+msgstr ""
+
+#: ../templates/default/stripe_form_checkout.tpl:55
+msgid "Pay"
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:32
+msgid "Select an payment reason"
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:34
+msgid "Enter here your Stripe webhook secret."
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:33
+msgid "Stripe webhook secret:"
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:21
+msgid "Enter here your Stripe secret key."
+msgstr ""
+
+#: ../templates/default/stripe_form_checkout.tpl:43
+msgid "Card number"
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:29
+msgid "Stripe Webhook events:"
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:18 ../templates/default/stripe_form_checkout.tpl:18
+msgid "Predefined amounts cannot be loaded, that is not a critical error."
+msgstr ""
+
+#: ../templates/default/stripe_form_checkout.tpl:47
+msgid "Expiration"
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:28
+msgid "Enter payment reason"
+msgstr ""
+
+#: ../templates/default/stripe_form_checkout.tpl:162
+msgid "Payment successful"
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:50
+msgid "Payment reason:"
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:6 ../templates/default/stripe_form_checkout.tpl:6
+msgid "<strong>Payment coult not work</strong>: An error occured (that has been logged) while loading Stripe preferences from database.<br/>Please report the issue to the staff."
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:86
+msgid "Error: no predefined amounts found."
+msgstr ""
+
+#: ../_routes.php:112
+msgid "Stripe preferences has been saved."
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:48
+msgid "Enter here the currency used to capture payments."
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:55
+msgid "No predefined amounts have been configured yet."
+msgstr ""
+
+#: ../_routes.php:139 ../_routes.php:173
+#: ../_routes.php:209 ../templates/default/stripe_form_checkout.tpl:24
+msgid "Stripe payment"
+msgstr ""
+
+#: ../templates/default/stripe_form_amount.tpl:61
+msgid "WARNING: If you enter an amount below, make sure that it is not lower than the amount of the option you've selected."
+msgstr ""
+

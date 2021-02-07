@@ -1,0 +1,458 @@
+# Header entry was created by Lokalize.
+#
+# , 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2021-02-07 18:07+0100\n"
+"Last-Translator: Johan Cwiklinski <johan@x-tnd.be>\n"
+"Language-Team: French <kde-i18n-doc@kde.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../templates/default/stripe_preferences.tpl:15
+msgid "Stripe public key:"
+msgstr "Clé publique Stripe&nbsp;:"
+
+#: ../_routes.php:59
+msgid "Stripe Settings"
+msgstr "Préférences Stripe"
+
+#: ../templates/default/stripe_preferences.tpl:25
+msgid "Stripe Webhook URL:"
+msgstr "Webhook Stripe&nbsp;:"
+
+#: ../templates/default/stripe_preferences.tpl:20
+msgid "Stripe secret key:"
+msgstr "Clé secrète Stripe&nbsp;:"
+
+#: ../_routes.php:118
+msgid "An error occured saving stripe preferences :("
+msgstr ""
+"Une erreur est survenue lors de l'enregistrement des préférences stripe :("
+
+#: ../templates/default/stripe_history.tpl:60
+msgid "Payment intent"
+msgstr "Transaction"
+
+#: ../templates/default/stripe_history.tpl:75
+msgid "No request or unable to read request"
+msgstr "Pas de requête ou impossible de lire la requête"
+
+#: ../templates/default/stripe_form_checkout.tpl:51
+msgid "CVC"
+msgstr "CVC"
+
+#: ../templates/default/stripe_history.tpl:91
+msgid "Request"
+msgstr "Requête"
+
+#: ../templates/default/stripe_form_amount.tpl:12
+#: ../templates/default/stripe_form_checkout.tpl:12
+msgid ""
+"Stripe keys has not been defined. Please ask an administrator to add it from "
+"plugin preferences."
+msgstr ""
+"Les clés Stripe n'ont pas été configurées. Veuillez demander à un "
+"administrateur de les ajouter à partir des préférences du plugin."
+
+#: ../templates/default/menu.tpl:1
+msgid "Stripe"
+msgstr "Stripe"
+
+#: ../templates/default/stripe_preferences.tpl:47
+msgid "Currency for payments:"
+msgstr "Devise pour les paiements&nbsp;:"
+
+#: ../templates/default/stripe_form_amount.tpl:107
+msgid ""
+"The amount you've entered is lower than the minimum amount for the selected "
+"option.\\nPlease choose another option or change the amount."
+msgstr ""
+"Le montant que vous avez entré est inférieur au montant minimum de l'option "
+"sélectionnée.\\nVeuillez choisir une autre option ou entrer un nouveau "
+"montant."
+
+#: ../templates/default/stripe_history.tpl:114
+msgid "Show/hide full request"
+msgstr "Afficher/Masquer la requête complète"
+
+#: ../templates/default/stripe_preferences.tpl:12
+msgid "Stripe preferences"
+msgstr "Préférences Stripe"
+
+#: ../templates/default/stripe_form_amount.tpl:104
+msgid "Please enter an amount."
+msgstr "Veuillez entrer un montant."
+
+#: ../templates/default/stripe_history.tpl:57
+msgid "duplicate"
+msgstr "doublon"
+
+#: ../templates/default/public_menu.tpl:4 ../templates/default/menu.tpl:3
+msgid "Payment form"
+msgstr "Formulaire de paiement"
+
+#: ../templates/default/stripe_preferences.tpl:16
+msgid "Enter here your Stripe public key."
+msgstr "Renseignez ici votre clé publique Stripe."
+
+#: ../templates/default/stripe_preferences.tpl:39
+msgid "Enter here the country of your Stripe account."
+msgstr "Renseignez ici le pays de votre compte Stripe."
+
+#: ../templates/default/stripe_form_amount.tpl:30
+msgid "Payment reason"
+msgstr "Motif de paiement"
+
+#: ../templates/default/stripe_preferences.tpl:38
+msgid "Country of your Stripe account:"
+msgstr "Pays du compte Stripe&nbsp;:"
+
+#: ../templates/default/menu.tpl:5
+msgid "Stripe History"
+msgstr "Historique Stripe"
+
+#: ../templates/default/stripe_form_checkout.tpl:55
+msgid "Pay"
+msgstr "Payer"
+
+#: ../templates/default/stripe_form_amount.tpl:32
+msgid "Select an payment reason"
+msgstr "Sélectionnez un motif de paiement"
+
+#: ../templates/default/stripe_preferences.tpl:34
+msgid "Enter here your Stripe webhook secret."
+msgstr "Renseignez ici la clé secrète de votre webhook."
+
+#: ../templates/default/stripe_preferences.tpl:33
+msgid "Stripe webhook secret:"
+msgstr "Clé secrète du webhook&nbsp;:"
+
+#: ../templates/default/stripe_preferences.tpl:21
+msgid "Enter here your Stripe secret key."
+msgstr "Renseignez ici votre clé secrète Stripe."
+
+#: ../templates/default/stripe_form_checkout.tpl:43
+msgid "Card number"
+msgstr "Numéro de carte"
+
+#: ../templates/default/stripe_preferences.tpl:29
+msgid "Stripe Webhook events:"
+msgstr "Événements webhook à configurer&nbsp;:"
+
+#: ../templates/default/stripe_form_amount.tpl:18
+#: ../templates/default/stripe_form_checkout.tpl:18
+msgid "Predefined amounts cannot be loaded, that is not a critical error."
+msgstr ""
+"Les montants prédéfinis n'ont pas pu être chargés, cette erreur n'est pas "
+"crtitique."
+
+#: ../templates/default/stripe_form_checkout.tpl:47
+msgid "Expiration"
+msgstr "Date d'expiration"
+
+#: ../templates/default/stripe_form_amount.tpl:28
+msgid "Enter payment reason"
+msgstr "Entrez un motif de paiement"
+
+#: ../templates/default/stripe_form_checkout.tpl:162
+msgid "Payment successful"
+msgstr "Paiement réussi"
+
+#: ../templates/default/stripe_form_amount.tpl:50
+msgid "Payment reason:"
+msgstr "Motif de paiement&nbsp;:"
+
+#: ../templates/default/stripe_form_amount.tpl:6
+#: ../templates/default/stripe_form_checkout.tpl:6
+msgid ""
+"<strong>Payment coult not work</strong>: An error occured (that has been "
+"logged) while loading Stripe preferences from database.<br/>Please report "
+"the issue to the staff."
+msgstr ""
+"<strong>Le paiement ne peut fonctionner</strong> : une erreur (qui a été "
+"enregistrée) est survenue lors du chargement des préférences Stripe depuis "
+"la base de données.<br/>Merci de rapporter ce problème aux membres du bureau."
+
+#: ../templates/default/stripe_preferences.tpl:86
+msgid "Error: no predefined amounts found."
+msgstr "Erreur : aucun montant prédéfini trouvé."
+
+#: ../_routes.php:112
+msgid "Stripe preferences has been saved."
+msgstr "Les préférences Stripe ont été sauvegardées."
+
+#: ../templates/default/stripe_preferences.tpl:48
+msgid "Enter here the currency used to capture payments."
+msgstr "Renseignez ici la devise utilisée pour les paiements."
+
+#: ../templates/default/stripe_form_amount.tpl:55
+msgid "No predefined amounts have been configured yet."
+msgstr "Aucun montant prédéfini n'a encore été configuré."
+
+#: ../_routes.php:139 ../_routes.php:173 ../_routes.php:209
+#: ../templates/default/stripe_form_checkout.tpl:24
+msgid "Stripe payment"
+msgstr "Paiement Stripe"
+
+#: ../templates/default/stripe_form_amount.tpl:61
+msgid ""
+"WARNING: If you enter an amount below, make sure that it is not lower than "
+"the amount of the option you've selected."
+msgstr ""
+"ATTENTION : si vous entrez un montant ci-dessous, assurez-vous qu'il ne soit "
+"pas inférieur au montant de l'option que vous avez sélectionnée."
+
+#~ msgid ""
+#~ "Enter here the currency used to capture payments. You must enter your "
+#~ "public key and currency first."
+#~ msgstr "Renseignez la devise dans laquelle les paiements seront effectués."
+
+#~ msgid "Your payment has been aborted!"
+#~ msgstr "Votre paiement a été annulé !"
+
+#~ msgid "Stripe payment success"
+#~ msgstr "Paiement Stripe effectué"
+
+#~ msgid "Your payment has been proceeded!"
+#~ msgstr "Votre paiement a été effectué !"
+
+#~ msgid "Stripe identifier:"
+#~ msgstr "Identifiant Stripe&nbsp;:"
+
+#~ msgid ""
+#~ "Enter here one of your Stripe ID or email adress associated within your "
+#~ "stripe account."
+#~ msgstr ""
+#~ "Entrez ici votre identifiant Stripe ou une adresse email associée à votre "
+#~ "compte stripe."
+
+#~ msgid "Your stripe payment was successful. Some details are shown below:"
+#~ msgstr ""
+#~ "Votre paiement stripe a été effectué avec succès. Quelques détails "
+#~ "concernant la transaction sont affichés ci-dessous :"
+
+#~ msgid ""
+#~ "Your stripe payment was successful. You may receive a mail from stripe "
+#~ "with details."
+#~ msgstr ""
+#~ "Votre paiement stripe a été effectué avec succès. Vous devriez recevoir "
+#~ "un courriel de stripe en contenant les détails."
+
+#~ msgid ""
+#~ "Stripe id has not been defined. Please ask an administrator to add it "
+#~ "from plugin preferences."
+#~ msgstr ""
+#~ "L'identifiant Stripe n'a pas été renseigné. Veuillez demander à un "
+#~ "administrateur de l'ajouter dans les préférences du plugin."
+
+#~ msgid "Go back to %s's website to complete your inscription."
+#~ msgstr "Retour au site de %s pour compléter votre inscription."
+
+#~ msgid "Save"
+#~ msgstr "Sauvegarder"
+
+#~ msgid "red"
+#~ msgstr "rouge"
+
+#~ msgid "Amount"
+#~ msgstr "Montant"
+
+#~ msgid "Descendant"
+#~ msgstr "Décroissant"
+
+#~ msgid "Payment status"
+#~ msgstr "État du paiement"
+
+#~ msgid "Pages:"
+#~ msgstr "Pages&nbsp;:"
+
+#~ msgid "You have to select an option"
+#~ msgstr "Vous devez sélectionner une option"
+
+#~ msgid "Label"
+#~ msgstr "Étiquette"
+
+#~ msgid "Subject"
+#~ msgstr "Sujet"
+
+#~ msgid "logs are empty"
+#~ msgstr "l'historique est vide"
+
+#~ msgid "Change"
+#~ msgstr "Modifier"
+
+#~ msgid "NB : The mandatory fields are in"
+#~ msgstr "NB : Les champs requis sont en"
+
+#~ msgid "Ascendent"
+#~ msgstr "Croissant"
+
+#~ msgid "Stripe Preferences"
+#~ msgstr "Préférences Stripe"
+
+#~ msgid "- ERROR -"
+#~ msgstr "- ERREUR -"
+
+#~ msgid "Payment date"
+#~ msgstr "Date de paiement"
+
+#~ msgid "Inactive"
+#~ msgstr "Inactif"
+
+#~ msgid "Records per page:"
+#~ msgstr "Enregistrements par page&nbsp;:"
+
+#~ msgid "Cotisation type"
+#~ msgstr "Type de cotisation"
+
+#~ msgid "Name"
+#~ msgstr "Nom"
+
+#~ msgid "annual fee"
+#~ msgstr "Cotisation annuelle"
+
+#~ msgid "Our apologies for the annoyance :("
+#~ msgstr "Toutes nos excuses pour le désagrément :("
+
+#~ msgid "Validate"
+#~ msgstr "Valider"
+
+#~ msgid "Date"
+#~ msgstr "Date"
+
+#~ msgid "- WARNING -"
+#~ msgstr "- ATTENTION -"
+
+#~ msgid "Payment type"
+#~ msgstr "Type de paiement"
+
+#~ msgid "donation in money"
+#~ msgstr "donation pécuniaire"
+
+#~ msgid ""
+#~ "Select an option below, then click 'Payment' to proceed.<br/>Once your "
+#~ "paiment validated, an entry will be automatically added in the "
+#~ "contributions table and staff members will receive a notification mail."
+#~ msgstr ""
+#~ "Choisissez une option ci-dessous, puis cliquez sur 'Paiement' pour "
+#~ "continuer.<br/> Une fois que votre paiement aura été validé, une entrée "
+#~ "sera automatiquement générée dans la table des contributions et les "
+#~ "membres du bureau recevront un message de notification."
+
+#~ msgid "Payment"
+#~ msgstr "Paiement"
+
+#~ msgid "fullcard"
+#~ msgstr "fullcard"
+
+#~ msgid "Society"
+#~ msgstr "Société"
+
+#~ msgid "Zip Code"
+#~ msgstr "Code postal"
+
+#~ msgid "Email adress"
+#~ msgstr "Courriel"
+
+#~ msgid "At "
+#~ msgstr "Fait à "
+
+#~ msgid "Active member"
+#~ msgstr "Membre actif"
+
+#~ msgid "Miss"
+#~ msgstr "Mlle"
+
+#~ msgid "Address"
+#~ msgstr "Adresse"
+
+#~ msgid "Mister"
+#~ msgstr "Monsieur"
+
+#~ msgid "Adherent file card"
+#~ msgstr "Fiche adhérent"
+
+#~ msgid "Signature"
+#~ msgstr "Signature"
+
+#~ msgid "Empty card"
+#~ msgstr "Carte vide"
+
+#~ msgid "City"
+#~ msgstr "Ville"
+
+#~ msgid "** Galette identifier, if applicable"
+#~ msgstr "** Identifiant Galette, si applicable"
+
+#~ msgid "Benefactor member"
+#~ msgstr "Membre bienfaiteur"
+
+#~ msgid "%membername: PDF member card"
+#~ msgstr "%membername: Fiche PDF"
+
+#~ msgid "Username"
+#~ msgstr "Identifiant"
+
+#~ msgid ""
+#~ "The minimum contribution for each type of membership are defined on the "
+#~ "website of the association. The amount of donations are free to be dcided "
+#~ "by the generous donor."
+#~ msgstr ""
+#~ "Les cotisations minimales pour chacun des types d'adhésions sont fixées "
+#~ "sur le site web de l'association. Le montant des dons est quant à lui "
+#~ "laissé à l'entière appréciation des généreux donateurs."
+
+#~ msgid ""
+#~ "Hereby, I agree to comply to %s association's statutes and its rules."
+#~ msgstr ""
+#~ "Par la présente, je m'engage à respecter les statuts ainsi que le "
+#~ "règlement intérieur de l'association %s."
+
+#~ msgid "Required membership:"
+#~ msgstr "Adhésion souhaitée :"
+
+#~ msgid "Mrs"
+#~ msgstr "Mme"
+
+#~ msgid "PDF member card"
+#~ msgstr "Fiche adhérent PDF"
+
+#~ msgid ""
+#~ "Complete the following form and send it with your funds, in order to "
+#~ "complete your subscription."
+#~ msgstr ""
+#~ "Remplissez le formulaire suivant et joignez le lors de l'envoi de votre "
+#~ "règlement, pour compléter votre inscription."
+
+#~ msgid "Full card"
+#~ msgstr "Fiche Adhérent"
+
+#~ msgid "First name"
+#~ msgstr "Prénom"
+
+#~ msgid "Politeness"
+#~ msgstr "Civilité"
+
+#~ msgid "Country"
+#~ msgstr "Pays"
+
+#~ msgid "* Company names for compagnies"
+#~ msgstr "* Raison sociale pour les sociéétés"
+
+#~ msgid "Generates an empty member card you can print for events, for example"
+#~ msgstr ""
+#~ "Génère une fiche adhérent vierge que vous pourrez imprimer pour des "
+#~ "évènements, par exemple"
+
+#~ msgid "Donation"
+#~ msgstr "Don"
+
+#~ msgid "On            /            /            "
+#~ msgstr "Le            /            /            "
