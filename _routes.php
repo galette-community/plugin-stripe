@@ -35,6 +35,7 @@ use Analog\Analog;
 use GaletteStripe\Stripe;
 use GaletteStripe\StripeHistory;
 use Galette\Entity\Contribution;
+use Galette\Entity\ContributionsTypes;
 use Galette\Filters\HistoryList;
 use Galette\Entity\PaymentType;
 use Galette\Entity\Adherent;
@@ -274,7 +275,6 @@ $this->post(
 
             $ph = new StripeHistory($this->zdb, $this->login, $this->preferences);
             $ph->add($post);
-            $ph->setState(StripeHistory::STATE_DONE);
 
             // are we working on a real contribution?
             $real_contrib = false;
@@ -303,6 +303,12 @@ $this->post(
                     'adh'           => $post['data']['object']['metadata']['adherent_id'],
                     'payment_type'  => PaymentType::CREDITCARD
                 );
+                $form_fields = [
+                    ContributionsTypes::PK  => $post['data']['object']['metadata']['contrib_id'],
+                    Adherent::PK            => $post['data']['object']['metadata']['adherent_id'],
+                    'type_paiement_cotis'   => PaymentType::CREDITCARD,
+                    'montant_cotis'         => $post['data']['object']['amount'] / 100, // Stripe handles cents
+                ];
                 if ($this->preferences->pref_membership_ext != '') {
                     $args['ext'] = $this->preferences->pref_membership_ext;
                 }
@@ -320,6 +326,7 @@ $this->post(
                                 Analog::ERROR
                             );
                             echo 'An eror occured checking overlaping fees :(';
+                            $ph->setState(StripeHistory::STATE_ERROR);
                             return $response->withStatus(500);
                         } else {
                             // method directly return error message
@@ -328,12 +335,27 @@ $this->post(
                                 Analog::ERROR
                             );
                             echo 'Error while calculating overlaping fees from stripe payment: ' . $overlap;
+                            $ph->setState(StripeHistory::STATE_ERROR);
                             return $response->withStatus(500);
                         }
                     }
                 }
 
                 if ($real_contrib) {
+
+                    // Check contribution to set $contrib->errors to []
+                    $valid = $contrib->check($form_fields, [], []);
+                    if ($valid !== true) {
+                        Analog::log(
+                            'An error occurred while storing a new contribution from Stripe payment:' .
+                            implode("\n   ", $valid),
+                            Analog::ERROR
+                        );
+                        $ph->setState(StripeHistory::STATE_ERROR);
+                        echo 'An error occurred while storing a new contribution from Stripe payment';
+                        return $response->withStatus(500, 'Internal error');
+                    }
+
                     $store = $contrib->store();
                     if ($store === true) {
                         // contribution has been stored :)
@@ -342,6 +364,7 @@ $this->post(
                             Analog::INFO
                         );
                         echo 'Stripe payment has been successfully registered as a contribution';
+                        $ph->setState(StripeHistory::STATE_DONE);
                         return $response->withStatus(200);
                     } else {
                         // something went wrong :'(
@@ -350,6 +373,7 @@ $this->post(
                             Analog::ERROR
                         );
                         echo 'An error occured while storing a new contribution from Stripe payment';
+                        $ph->setState(StripeHistory::STATE_ERROR);
                         return $response->withStatus(500);
                     }
                 }
@@ -359,6 +383,7 @@ $this->post(
                     Analog::WARNING
                 );
                 echo 'A stripe payment notification has been received, but the Adherent ID is not found!';
+                $ph->setState(StripeHistory::STATE_ERROR);
                 return $response->withStatus(403);
             }
         } else {
@@ -367,6 +392,7 @@ $this->post(
                 Analog::ERROR
             );
             echo 'Stripe notify URL call without required arguments!';
+            $ph->setState(StripeHistory::STATE_ERROR);
             return $response->withStatus(403);
         }
     }

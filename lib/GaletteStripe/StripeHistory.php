@@ -98,7 +98,7 @@ class StripeHistory extends History
                 'amount'        => $request['data']['object']['amount'] / 100, // Stripe handles cent
                 'comment'       => $request['data']['object']['description'],
                 'metadata'      => serialize($request['data']['object']['metadata']),
-                'state'         => self::STATE_DONE
+                'state'         => self::STATE_NONE
             );
 
             $insert = $this->zdb->insert($this->getTableName());
