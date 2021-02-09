@@ -298,53 +298,27 @@ $this->post(
                 * If no member id is provided, we only send to post contribution
                 * script, Galette does not handle anonymous contributions
                 */
-                $args = array(
+                $contrib_args = [
                     'type'          => $post['data']['object']['metadata']['contrib_id'],
                     'adh'           => $post['data']['object']['metadata']['adherent_id'],
                     'payment_type'  => PaymentType::CREDITCARD
-                );
-                $form_fields = [
+                ];
+                $check_contrib_args = [
                     ContributionsTypes::PK  => $post['data']['object']['metadata']['contrib_id'],
                     Adherent::PK            => $post['data']['object']['metadata']['adherent_id'],
                     'type_paiement_cotis'   => PaymentType::CREDITCARD,
                     'montant_cotis'         => $post['data']['object']['amount'] / 100, // Stripe handles cents
                 ];
                 if ($this->preferences->pref_membership_ext != '') {
-                    $args['ext'] = $this->preferences->pref_membership_ext;
+                    $contrib_args['ext'] = $this->preferences->pref_membership_ext;
                 }
-                $contrib = new Contribution($this->zdb, $this->login, $args);
-                $contrib->amount = $post['data']['object']['amount'] / 100; // Stripe handles cents
+                $contrib = new Contribution($this->zdb, $this->login, $contrib_args);
 
                 // all goes well, we can proceed
-                if ($contrib->isCotis() && $real_contrib) {
-                    // Check that membership fees does not overlap
-                    $overlap = $contrib->checkOverlap();
-                    if ($overlap !== true) {
-                        if ($overlap === false) {
-                            Analog::log(
-                                'An eror occured checking overlaping fees :(',
-                                Analog::ERROR
-                            );
-                            echo 'An eror occured checking overlaping fees :(';
-                            $ph->setState(StripeHistory::STATE_ERROR);
-                            return $response->withStatus(500);
-                        } else {
-                            // method directly return error message
-                            Analog::log(
-                                'Error while calculating overlaping fees from stripe payment: ' . $overlap,
-                                Analog::ERROR
-                            );
-                            echo 'Error while calculating overlaping fees from stripe payment: ' . $overlap;
-                            $ph->setState(StripeHistory::STATE_ERROR);
-                            return $response->withStatus(500);
-                        }
-                    }
-                }
-
                 if ($real_contrib) {
 
-                    // Check contribution to set $contrib->errors to []
-                    $valid = $contrib->check($form_fields, [], []);
+                    // Check contribution to set $contrib->errors to [] and handle contribution overlap
+                    $valid = $contrib->check($check_contrib_args, [], []);
                     if ($valid !== true) {
                         Analog::log(
                             'An error occurred while storing a new contribution from Stripe payment:' .
@@ -353,7 +327,7 @@ $this->post(
                         );
                         $ph->setState(StripeHistory::STATE_ERROR);
                         echo 'An error occurred while storing a new contribution from Stripe payment';
-                        return $response->withStatus(500, 'Internal error');
+                        return $response->withStatus(500);
                     }
 
                     $store = $contrib->store();
