@@ -39,7 +39,7 @@ Voici la liste des paramètres :
       <td>Détermine les devises disponibles et les frais (intra ou extra européens)</td>
     </tr>
     <tr>
-      <td><tt>Devis pour les paiements</tt></td>
+      <td><tt>Devise pour les paiements</tt></td>
       <td>Dans quelle devise le plugin doit facturer les paiements</td>
       <td>N'empêche pas de payer dans une autre devise, Stripe fait la conversion pour les cartes associés à des comptes dans d'autres devises. Certaines frais peuvent par contre s'appliquer dans ce cas.</td>
     </tr>

@@ -49,7 +49,7 @@ Rendez-vous dans l'interface de Stripe, sous le menu **Développeurs** puis **We
 
 L'événement à envoyer est `payment_intent.succeeded`. Les autres événements se sont pas traités par le plugin.
 
-Cette URL doit être publiquement accessible pour que le webhook fonctionnent.
+Cette URL doit être publiquement accessible pour que les webhooks fonctionnent.
 
 ![Créer Webhook](images/stripe_webhook_config.png)
 
@@ -57,15 +57,17 @@ Cette URL doit être publiquement accessible pour que le webhook fonctionnent.
 
 ### Récupérez le secret du Webhook dans Stripe
 
-Stripe utilise le secret du webhook pour signer la requête envoyée au webhook via une fonction HMAC SHA-256. Le plugin vérifie la signature de la requête avant tout traitement du webhook.
+Stripe utilise le secret du webhook pour signer la requête envoyée via une fonction HMAC SHA-256. Le plugin vérifie la signature de la requête avant tout traitement du webhook.
 
 Cliquez sur le webhook dans la liste, puis récupérez le secret du webhook en cliquant sur "Révéler".
 
 ![Secret du Webhook](images/stripe_webhook_secret.png)
 
+**Celui-ci est différent de votre clé secrète et se trouve dans les détails du webhook, pas dans "Clé API"**.
+
 ### Renseignez le secret du webhook dans Galette
 
-Allez sur la page **Préférences" du plugin et renseignez le secret du webhook.
+Allez sur la page **Préférences** du plugin et renseignez le secret du webhook.
 
 ![Menu du plugin](images/galette_menu.png)
 
@@ -75,7 +77,7 @@ Allez sur la page **Préférences" du plugin et renseignez le secret du webhook.
 
 Comme pour le plugin Paypal pour Galette, le prix des contributions est paramétrable dans les **Préférences** du plugin.
 
-Chaque contribution peut étendre l'adhésion ou non, consultez les paramètres de Galette sous **Types de contributions** pour régler l'extension ou non de l'ahdésion selon les contributions.
+Chaque contribution peut étendre l'adhésion ou non, consultez les paramètres de Galette sous **Types de contributions** pour régler l'extension ou non de l'adhésion selon les contributions.
 
 Une contribution marquée "inactif"" ne sera pas proposée au paiement.
 
