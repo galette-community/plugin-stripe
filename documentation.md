@@ -35,6 +35,8 @@ Créez ensuite une clé secrète limitée, ou utilisez la clé secrète principa
 
 ![Version de développement](images/stripe_menu_test_mode.png)
 
+En mode Test, les cartes à utiliser sont : https://stripe.com/docs/testing#cards . **N'utilisez pas de CB réelle en mode Test**, c'est interdit par les CGU de Stripe, et la carte pourrait être débitée pour de vrai.
+
 ### Renseignez les clés dans Galette
 
 Allez sur la page **Préférences** du plugin et renseignez vos clés publique et secrète.
