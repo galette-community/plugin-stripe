@@ -2,7 +2,7 @@
 msgid "Stripe public key:"
 msgstr "Stripe public key:"
 
-#: ../_routes.php:59
+#: ../_routes.php:60
 msgid "Stripe Settings"
 msgstr "Stripe Settings"
 
@@ -14,10 +14,11 @@ msgstr "Stripe Webhook URL:"
 msgid "Stripe secret key:"
 msgstr "Stripe secret key:"
 
-#: ../_routes.php:118
+#: ../_routes.php:119
 msgid "An error occured saving stripe preferences :("
 msgstr "An error occured saving stripe preferences :("
 
+#: ../templates/default/stripe_history.tpl:33
 #: ../templates/default/stripe_history.tpl:60
 msgid "Payment intent"
 msgstr "Payment intent"
@@ -83,9 +84,9 @@ msgstr "Payment form"
 msgid "Enter here your Stripe public key."
 msgstr "Enter here your Stripe public key."
 
-#: ../templates/default/stripe_preferences.tpl:39
-msgid "Enter here the country of your Stripe account."
-msgstr "Enter here the country of your Stripe account."
+#: ../templates/default/stripe_preferences.tpl:21
+msgid "Enter here your Stripe secret key."
+msgstr "Enter here your Stripe secret key."
 
 #: ../templates/default/stripe_form_amount.tpl:30
 msgid "Payment reason"
@@ -115,13 +116,17 @@ msgstr "Enter here your Stripe webhook secret."
 msgid "Stripe webhook secret:"
 msgstr "Stripe webhook secret:"
 
-#: ../templates/default/stripe_preferences.tpl:21
-msgid "Enter here your Stripe secret key."
-msgstr "Enter here your Stripe secret key."
+#: ../templates/default/menu.tpl:1
+msgid "Payment"
+msgstr "Payment"
 
 #: ../templates/default/stripe_form_checkout.tpl:43
 msgid "Card number"
 msgstr "Card number"
+
+#: ../templates/default/stripe_preferences.tpl:39
+msgid "Enter here the country of your Stripe account."
+msgstr "Enter here the country of your Stripe account."
 
 #: ../templates/default/stripe_preferences.tpl:29
 msgid "Stripe Webhook events:"
@@ -163,7 +168,7 @@ msgstr ""
 msgid "Error: no predefined amounts found."
 msgstr "Error: no predefined amounts found."
 
-#: ../_routes.php:112
+#: ../_routes.php:113
 msgid "Stripe preferences has been saved."
 msgstr "Stripe preferences has been saved."
 
@@ -175,7 +180,7 @@ msgstr "Enter here the currency used to capture payments."
 msgid "No predefined amounts have been configured yet."
 msgstr "No predefined amounts have been configured yet."
 
-#: ../_routes.php:139 ../_routes.php:173 ../_routes.php:209
+#: ../_routes.php:140 ../_routes.php:174 ../_routes.php:210
 #: ../templates/default/stripe_form_checkout.tpl:24
 msgid "Stripe payment"
 msgstr "Stripe payment"

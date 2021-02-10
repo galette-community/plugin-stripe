@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-02-07 18:07+0100\n"
+"PO-Revision-Date: 2021-02-10 21:40+0100\n"
 "Last-Translator: Johan Cwiklinski <johan@x-tnd.be>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "Stripe public key:"
 msgstr "Clé publique Stripe&nbsp;:"
 
-#: ../_routes.php:59
+#: ../_routes.php:60
 msgid "Stripe Settings"
 msgstr "Préférences Stripe"
 
@@ -31,11 +31,12 @@ msgstr "Webhook Stripe&nbsp;:"
 msgid "Stripe secret key:"
 msgstr "Clé secrète Stripe&nbsp;:"
 
-#: ../_routes.php:118
+#: ../_routes.php:119
 msgid "An error occured saving stripe preferences :("
 msgstr ""
 "Une erreur est survenue lors de l'enregistrement des préférences stripe :("
 
+#: ../templates/default/stripe_history.tpl:33
 #: ../templates/default/stripe_history.tpl:60
 msgid "Payment intent"
 msgstr "Transaction"
@@ -102,9 +103,9 @@ msgstr "Formulaire de paiement"
 msgid "Enter here your Stripe public key."
 msgstr "Renseignez ici votre clé publique Stripe."
 
-#: ../templates/default/stripe_preferences.tpl:39
-msgid "Enter here the country of your Stripe account."
-msgstr "Renseignez ici le pays de votre compte Stripe."
+#: ../templates/default/stripe_preferences.tpl:21
+msgid "Enter here your Stripe secret key."
+msgstr "Renseignez ici votre clé secrète Stripe."
 
 #: ../templates/default/stripe_form_amount.tpl:30
 msgid "Payment reason"
@@ -134,13 +135,17 @@ msgstr "Renseignez ici la clé secrète de votre webhook."
 msgid "Stripe webhook secret:"
 msgstr "Clé secrète du webhook&nbsp;:"
 
-#: ../templates/default/stripe_preferences.tpl:21
-msgid "Enter here your Stripe secret key."
-msgstr "Renseignez ici votre clé secrète Stripe."
+#: ../templates/default/menu.tpl:1
+msgid "Payment"
+msgstr "Paiement"
 
 #: ../templates/default/stripe_form_checkout.tpl:43
 msgid "Card number"
 msgstr "Numéro de carte"
+
+#: ../templates/default/stripe_preferences.tpl:39
+msgid "Enter here the country of your Stripe account."
+msgstr "Renseignez ici le pays de votre compte Stripe."
 
 #: ../templates/default/stripe_preferences.tpl:29
 msgid "Stripe Webhook events:"
@@ -184,7 +189,7 @@ msgstr ""
 msgid "Error: no predefined amounts found."
 msgstr "Erreur : aucun montant prédéfini trouvé."
 
-#: ../_routes.php:112
+#: ../_routes.php:113
 msgid "Stripe preferences has been saved."
 msgstr "Les préférences Stripe ont été sauvegardées."
 
@@ -196,7 +201,7 @@ msgstr "Renseignez ici la devise utilisée pour les paiements."
 msgid "No predefined amounts have been configured yet."
 msgstr "Aucun montant prédéfini n'a encore été configuré."
 
-#: ../_routes.php:139 ../_routes.php:173 ../_routes.php:209
+#: ../_routes.php:140 ../_routes.php:174 ../_routes.php:210
 #: ../templates/default/stripe_form_checkout.tpl:24
 msgid "Stripe payment"
 msgstr "Paiement Stripe"
@@ -345,9 +350,6 @@ msgstr ""
 #~ "continuer.<br/> Une fois que votre paiement aura été validé, une entrée "
 #~ "sera automatiquement générée dans la table des contributions et les "
 #~ "membres du bureau recevront un message de notification."
-
-#~ msgid "Payment"
-#~ msgstr "Paiement"
 
 #~ msgid "fullcard"
 #~ msgstr "fullcard"

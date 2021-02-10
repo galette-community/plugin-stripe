@@ -2,7 +2,7 @@
 msgid "Stripe public key:"
 msgstr ""
 
-#: ../_routes.php:59
+#: ../_routes.php:60
 msgid "Stripe Settings"
 msgstr ""
 
@@ -14,11 +14,11 @@ msgstr ""
 msgid "Stripe secret key:"
 msgstr ""
 
-#: ../_routes.php:118
+#: ../_routes.php:119
 msgid "An error occured saving stripe preferences :("
 msgstr ""
 
-#: ../templates/default/stripe_history.tpl:60
+#: ../templates/default/stripe_history.tpl:33 ../templates/default/stripe_history.tpl:60
 msgid "Payment intent"
 msgstr ""
 
@@ -74,8 +74,8 @@ msgstr ""
 msgid "Enter here your Stripe public key."
 msgstr ""
 
-#: ../templates/default/stripe_preferences.tpl:39
-msgid "Enter here the country of your Stripe account."
+#: ../templates/default/stripe_preferences.tpl:21
+msgid "Enter here your Stripe secret key."
 msgstr ""
 
 #: ../templates/default/stripe_form_amount.tpl:30
@@ -106,12 +106,16 @@ msgstr ""
 msgid "Stripe webhook secret:"
 msgstr ""
 
-#: ../templates/default/stripe_preferences.tpl:21
-msgid "Enter here your Stripe secret key."
+#: ../templates/default/menu.tpl:1
+msgid "Payment"
 msgstr ""
 
 #: ../templates/default/stripe_form_checkout.tpl:43
 msgid "Card number"
+msgstr ""
+
+#: ../templates/default/stripe_preferences.tpl:39
+msgid "Enter here the country of your Stripe account."
 msgstr ""
 
 #: ../templates/default/stripe_preferences.tpl:29
@@ -146,7 +150,7 @@ msgstr ""
 msgid "Error: no predefined amounts found."
 msgstr ""
 
-#: ../_routes.php:112
+#: ../_routes.php:113
 msgid "Stripe preferences has been saved."
 msgstr ""
 
@@ -158,8 +162,8 @@ msgstr ""
 msgid "No predefined amounts have been configured yet."
 msgstr ""
 
-#: ../_routes.php:139 ../_routes.php:173
-#: ../_routes.php:209 ../templates/default/stripe_form_checkout.tpl:24
+#: ../_routes.php:140 ../_routes.php:174
+#: ../_routes.php:210 ../templates/default/stripe_form_checkout.tpl:24
 msgid "Stripe payment"
 msgstr ""
 
