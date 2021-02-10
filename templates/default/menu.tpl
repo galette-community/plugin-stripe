@@ -1,4 +1,4 @@
-        <h1 class="nojs">{_T string="Stripe" domain="stripe"}</h1>
+        <h1 class="nojs">{if $login->isAdmin() or $login->isStaff()}{_T string="Stripe" domain="stripe"}{else}{_T string="Payment" domain="stripe"}{/if}</h1>
         <ul>
             <li{if $cur_route eq "stripe_form_amount" or $cur_route eq "stripe_form_checkout"} class="selected"{/if}><a href="{path_for name="stripe_form_amount"}">{_T string="Payment form" domain="stripe"}</a></li>
 {if $login->isAdmin() or $login->isStaff()}
