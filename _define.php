@@ -46,3 +46,7 @@ $this->register(
         'filter_stripe_history'     => 'staff'
     ]
 );
+
+$this->setCsrfExclusions([
+    '/stripe_webhook/',
+]);
