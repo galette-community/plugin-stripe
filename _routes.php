@@ -167,7 +167,6 @@ $this->post(
         $stripe_amounts = $stripe->getAmounts($this->login);
 
         if ($amount < $stripe_amounts[$item_number]['amount']) {
-
             $params = [
                 'stripe'        => $stripe,
                 'amounts'        => $stripe->getAmounts($this->login),
@@ -183,9 +182,7 @@ $this->post(
                 $params
             );
             return $response;
-
         } else {
-
             if ($this->login->isLogged() && !$this->login->isSuperAdmin()) {
                 $adherent->load($this->login->id);
                 $metadata['adherent_name'] = Adherent::getSName($this->zdb, $this->login->id);
@@ -219,9 +216,7 @@ $this->post(
                 $params
             );
             return $response;
-
         }
-
     }
 )->setName('stripe_form_checkout');
 
@@ -272,7 +267,6 @@ $this->post(
 
         // Process payload
         if (isset($post['type']) && $post['type'] == 'payment_intent.succeeded') {
-
             $ph = new StripeHistory($this->zdb, $this->login, $this->preferences);
             $ph->add($post);
 
@@ -373,7 +367,7 @@ $this->post(
 )->setName('stripe_webhook');
 
 $this->get(
-    '/logs[/{option:|order|reset}/{value}]',
+    '/logs[/{option:|order|reset|page}/{value}]',
     function ($request, $response, $args) use ($module, $module_id) {
         $stripe_history = new StripeHistory($this->zdb, $this->login, $this->preferences);
 
