@@ -35,7 +35,7 @@ $this->register(
     'Galette Stripe',        //Name
     'Stripe integration',    //Short description
     'Mathieu PELLEGRIN',     //Author
-    '0.0.2' ,                //Version
+    '0.0.3',                //Version
     '0.9.4.2',               //Galette compatible version
     'stripe',                //routing name and translation domain
     '2021-02-07',            //Release date

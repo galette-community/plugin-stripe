@@ -58,7 +58,7 @@ class StripeHistory extends History
 
     public const STATE_NONE = 0;
     public const STATE_PROCESSED = 1;
-    public const STATE_DONE = 2;
+    //public const STATE_DONE = 2;
     public const STATE_ERROR = 3;
     public const STATE_INCOMPLETE = 4;
     public const STATE_ALREADYDONE = 5;
@@ -94,7 +94,7 @@ class StripeHistory extends History
         try {
             $values = array(
                 'history_date'  => date('Y-m-d H:i:s'),
-                'intent_id'     => $request['data']['object']['id'],
+                'intent_id'     => $request['type'] . ' '.$request['data']['object']['id'],
                 'amount'        => $request['data']['object']['amount'] / 100, // Stripe handles cent
                 'comment'       => $request['data']['object']['description'],
                 'metadata'      => serialize($request['data']['object']['metadata']),
@@ -104,7 +104,7 @@ class StripeHistory extends History
             $insert = $this->zdb->insert($this->getTableName());
             $insert->values($values);
             $this->zdb->execute($insert);
-            //$this->id = $this->zdb->getLastGeneratedValue($this);
+            $this->id = (int) $this->zdb->driver->getLastGeneratedValue();
 
             Analog::log(
                 'An entry has been added in stripe history',
@@ -226,11 +226,11 @@ class StripeHistory extends History
      *
      * @return boolean
      */
-    public function isProcessed(string $sign): bool
+    public function isProcessed($request): bool
     {
         $select = $this->zdb->select($this->getTableName());
         $select->where([
-            'signature' => $sign,
+            'intent_id' => $request['type'] . ' '.$request['data']['object']['id'],
             'state'     => self::STATE_PROCESSED
         ]);
         $results = $this->zdb->execute($select);

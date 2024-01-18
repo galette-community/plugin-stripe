@@ -265,8 +265,26 @@ $this->post(
             }
         }
 
+        Analog::log("Stripe webhook request: ".var_export($post, true), Analog::DEBUG);
+        
         // Process payload
-        if (isset($post['type']) && $post['type'] == 'payment_intent.succeeded') {
+        
+        if (isset($post['type']) &&
+            ($post['type'] == 'payment_intent.succeeded' || $post['type'] == 'invoice.payment_succeeded')) {
+            
+            //We accept subscription invoice (annual or monthly) ; https://stripe.com/docs/billing/subscriptions/overview
+            //Todo : rewrite a more cleaner
+            if ($post['type'] == 'invoice.payment_succeeded') {
+                $post['data']['object']['metadata'] = array_merge($post['data']['object']['metadata'], $post['data']['object']['lines']['data'][0]['metadata']);
+                $post['data']['object']['amount_received'] = $post['data']['object']['amount_paid'];
+                $post['data']['object']['amount'] = $post['data']['object']['amount_due'];
+                $post['data']['object']['description'] = $post['data']['object']['lines']['data'][0]['metadata']['item_name'];
+                
+                if ($post['data']['object']['status'] == 'paid') {
+                    $post['data']['object']['status'] = 'succeeded';
+                }
+            }
+
             $ph = new StripeHistory($this->zdb, $this->login, $this->preferences);
             $ph->add($post);
 
@@ -281,6 +299,16 @@ $this->post(
                 $real_contrib = true;
             }
 
+            if ($ph->isProcessed($post)) {
+                Analog::log(
+                    'A stripe payment notification has been received, but it is already processed!',
+                    Analog::WARNING
+                );
+                $ph->setState(StripeHistory::STATE_ALREADYDONE);
+                echo 'A stripe payment notification has been received, but it is already processed!';
+                return $response->withStatus(200);
+            }
+  
             // we'll now try to add the relevant cotisation
             if ($post['data']['object']['status'] == 'succeeded') {
                 /**
@@ -332,7 +360,7 @@ $this->post(
                             Analog::INFO
                         );
                         echo 'Stripe payment has been successfully registered as a contribution';
-                        $ph->setState(StripeHistory::STATE_DONE);
+                        $ph->setState(StripeHistory::STATE_PROCESSED);
                         return $response->withStatus(200);
                     } else {
                         // something went wrong :'(
@@ -360,7 +388,6 @@ $this->post(
                 Analog::ERROR
             );
             echo 'Stripe notify URL call without required arguments!';
-            $ph->setState(StripeHistory::STATE_ERROR);
             return $response->withStatus(403);
         }
     }
