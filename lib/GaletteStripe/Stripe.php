@@ -158,6 +158,7 @@ class Stripe
 
         try {
             $results = $this->zdb->selectAll(STRIPE_PREFIX . self::TABLE);
+            $results = $results->toArray();
 
             //check if all types currently exists in stripe table
             if (count($results) != count($this->prices)) {
@@ -174,9 +175,10 @@ class Stripe
                 if (count($results) > 0) {
                     //for each entry in types, we want to get the associated amount
                     foreach ($results as $stripe) {
+                        $stripe=(object)$stripe;
                         if ($stripe->id_type_cotis == $k) {
                             $_found = true;
-                            $this->prices[$k]['amount'] = (double)$stripe->amount;
+                            $this->prices[$k]['amount'] = (float) $stripe->amount;
                             break;
                         }
                     }
@@ -345,7 +347,7 @@ class Stripe
             foreach ($this->prices as $k => $v) {
                 $stmt->execute(
                     array(
-                        'amount'    => (float)$v['amount'],
+                        'amount'    => (float) $v['amount'],
                         'where1'        => $k
                     )
                 );
@@ -410,7 +412,8 @@ class Stripe
      *
      * @return string
      */
-    function createPaymentIntent($metadata, $amount, $methods = ['card']) {
+    public function createPaymentIntent($metadata, $amount, $methods = ['card'])
+    {
         $data = [
             'amount' => $amount * 100, // Stripe needs integer cents as amount
             'currency' => $this->getCurrency(),

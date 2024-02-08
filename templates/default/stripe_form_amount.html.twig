@@ -1,0 +1,98 @@
+{% extends '@PluginGaletteStripe/stripe_form_base.html.twig' %}
+
+
+{% block content %}
+
+	<form action="" method="post" id="stripeForm" class="ui form">
+		<div class="ui top attached accordion-styled header">
+			{% if amounts|length == 0 %}
+				{{ _T("Enter payment reason", "stripe") }}
+			{% elseif amounts|length == 1%}
+				{{ _T("Payment reason", "stripe") }}
+			{% elseif amounts|length > 1 %}
+				{{ _T("Select an payment reason", "stripe") }}
+			{% endif %}
+		</div>
+		<div class="ui bottom attached accordion-styled segment">
+			<div class="active content field">
+				<div class="field inline">
+					{% if stripe.areAmountsLoaded() %}
+						{% if amounts|length > 0 %}
+							<input type="hidden" name="item_name" id="item_name" value="{% if login.isLogged() %}{{ _T("annual fee") }}{% else %}{{ _T("donation in money") }}{% endif %}"/>
+							{% for k, amount in amounts %}
+								{% if loop.index0 != 0 %}<br/>
+								{% endif %}
+								<input type="radio" name="item_number" id="in{{ k }}" value="{{ k }}" {% if loop.index0 == 0 %} checked="checked" {% endif %}/>
+								<label for="in{{ k }}">
+									<span id="in{{ k }}_name">{{ amount['name'] }}</span>
+									{% if amount['amount'] > 0 %}
+										(<span id="in{{ k }}_amount">{{ amount['amount']|number_format(2, ',', ' ') }}</span>
+										€)
+										{# TODO: parametize currency #}
+									{% endif %}
+								</label>
+							{% endfor %}
+						{% else %}
+							<label for="item_name">{{ _T("Payment reason:", "stripe") }}</label>
+							<input type="text" name="item_name" id="item_name" value="{% if login.isLogged() %}{{ _T("annual fee") }}{% else %}{{ _T("donation in money") }}{% endif %}"/>
+						{% endif %}
+					{% else %}
+						{{ _T("No predefined amounts have been configured yet.", "stripe") }}
+					{% endif %}
+				</div>
+
+				{% include "components/forms/text.html.twig" with {
+                        id: 'amount',
+                        value: amounts|length > 0 ? amounts|first.amount : 20,
+                        label: _T("Amount"),
+                        required: true
+                    } %}
+			</div>
+		</div>
+
+		<div class="ui basic center aligned fitted segment">
+			<button type="submit" name="valid" class="action ui labeled icon primary button">
+				<i class="stripe icon"></i>
+				{{ _T("Pay with stripe") }}
+			</button>
+			{% include "components/forms/csrf.html.twig" %}
+		</div>
+	</form>
+{% endblock %}
+
+{% block javascripts %}
+{% if stripe.isLoaded() and stripe.getPubKey() != null and stripe.getPrivKey() != null and stripe.areAmountsLoaded() %}
+	<script type="text/javascript">
+		$(function() {
+				        $('input[name="item_number"]').change(function(){
+				            var _amount = parseFloat($('#' + this.id + '_amount').text());
+				            var _name = $('#' + this.id + '_name').text();
+				            $('#item_name').val(_name);
+				            if ( _amount != '' && !isNaN(_amount) ) {
+				                $('#amount').val(_amount);
+				            }
+				        });
+				    {% if amounts|length > 0 %}
+				        $('#stripeform').submit(function(e) {
+				            var _checked = $('input:checked');
+				            if (_checked.length == 0 ) {
+				                alert("{{ _T("You have to select an option") }}");
+				                return false;
+				            } else {
+				                var _current_amount = parseFloat($('#amount').val());
+				                var _amount = parseFloat($('#' + _checked[0].id + '_amount').text());
+				                if ( isNaN(_current_amount) ) {
+				                    alert("{{ _T("Please enter an amount.", "stripe")|e('js') }}");
+				                    return false;
+				                } else if ( !isNaN(_amount) && _current_amount < _amount ) {
+				                    alert("{{ _T("The amount you've entered is lower than the minimum amount for the selected option.\nPlease choose another option or change the amount.", "stripe")|e('js') }}");
+				                    return false;
+				                }
+				            }
+				            return true;
+				        });
+				    {% endif %}
+				    });
+				</script>
+				    {% endif %}
+				{% endblock %}

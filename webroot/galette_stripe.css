@@ -1,10 +1,14 @@
+#stripeForm {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+
 .stripeprefs{
     text-align: center;
 }
 
-#stripe{
-    text-align: center;
-}
+
 
 .img-dup {
     float: right;
