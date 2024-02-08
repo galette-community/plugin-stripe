@@ -5,7 +5,7 @@
 /**
  * Configuration file for Stripe plugin
  *
- * Copyright © 2021 The Galette Team
+ * Copyright © 2024 The Galette Team
  *
  * This file is part of Galette (http://galette.tuxfamily.org).
  *
@@ -25,8 +25,8 @@
  * @category  Plugins
  * @package   GaletteStripe
  *
- * @author    Mathieu PELLEGRIN <dev@pingveno.net>
- * @copyright 2021 The Galette Team
+ * @author    Mathieu PELLEGRIN <dev@pingveno.net>; manuelh78 <manuelh78dev@ik.me>
+ * @copyright 2024 The Galette Team
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL License 3.0 or (at your option) any later version
  * @link      http://galette.tuxfamily.org
  */
@@ -34,7 +34,7 @@
 $this->register(
     'Galette Stripe',        //Name
     'Stripe integration',    //Short description
-    'Mathieu PELLEGRIN',     //Author
+    'Mathieu PELLEGRIN, manuelh78dev@ik.me',     //Author
     '0.0.4',                //Version
     '1.1.0.0',               //Galette compatible version
     'stripe',                //routing name and translation domain
