@@ -1,0 +1,116 @@
+{#
+/**
+ * Copyright © 2003-2024 The Galette Team
+ *
+ * This file is part of Galette (https://galette.eu).
+ *
+ * Galette is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Galette is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Galette. If not, see <http://www.gnu.org/licenses/>.
+ */
+#}
+{% extends 'elements/list.html.twig' %}
+
+{% set nb = logs|length %}
+{% set filters = stripe_history.filters %}
+
+{% set form = {
+    'order': {
+        'name': "stripe_history"
+    }
+} %}
+
+{% block infoline %}
+    {% set infoline = {
+        'label': _Tn("%count entry", "%count entries", nb)|replace({"%count": nb}),
+        'route': {
+            'name': 'filter_stripe_history'
+        }
+    } %}
+    {{ parent() }}
+{% endblock %}
+
+{% block header %}
+    {% set columns = [
+        {'label': '#'}, 
+        {'label': _T("Date"), 'order': constant("Galette\\Filters\\HistoryList::ORDERBY_DATE")},
+        {'label': _T("Name")},
+        {'label': _T("Subject")},
+        {'label': _T("Amount")}
+    ] %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% for log in logs %}
+        <tr class="{% if (loop.index0 % 2) == 0 %}even{% else %}odd{% endif %}">
+            <td class="center" data-scope="row">
+                {{ loop.index }}
+                {#<span class="row-title">
+                    {{ _T("History entry %id")|replace({'%id': loop.index}) }}
+                </span>#}
+            </td>
+            <td class="nowrap" data-col-label="{{ _T("Data") }}">
+                {% if log.duplicate is defined %}<img class="img-dup" src="{{ url_for("plugin_res", {"plugin": module_id, "path": "images/warning.png"}) }}" alt="{{ _T("duplicate", "stripe") }}"/>{% endif %}
+                {{ log.history_date|date(_T("Y-m-d H:i:s")) }}
+            </td>
+            <td data-col-label="{{ _T("Name") }}">
+        {% if log.metadata is iterable %}
+            {% if log.metadata.custom is defined %}
+                <a href="{{ url_for("member", {"id": log.metadata.custom}) }}">
+            {% endif %}
+                {{ log.metadata.adherent_name }} 
+            {% if log.metadata.custom is defined%}
+                </a>
+            {% endif %}
+        {% else %}
+                {{ _T("No request or unable to read request", "stripe") }}
+        {% endif %}
+            </td>
+            <td data-col-label="{{ _T("Subject") }}">
+        {% if log.metadata is iterable %}
+                {{ log.metadata.item_name }}
+        {% endif %}
+            </td>
+            <td data-col-label="{{ _T("Amount") }}">
+                {{ log.amount }}
+            </td>
+            <td class="nowrap info"></td>
+        </tr>
+        <tr class="request "> {# class="request {{ loop.index is odd ? 'odd' : 'even' }}"> #}
+            <th colspan="2">{{ _T("Request", "stripe") }}</th>
+            <td colspan="4">
+                {{ log.intent_id }}
+                <pre>{{ log.raw_request }}</pre>
+            </td>
+
+        </tr>
+    {% else %}
+        <tr><td colspan="6" class="emptylist">{{ _T("logs are empty") }}</td></tr>
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+        <script type="text/javascript">
+            $('#nbshow').change(function() {
+                this.form.submit();
+            });
+
+            $(function() {
+                var _elt = $('<i class="circular small inverted primary link icon info tooltip reqhide" data-html="{{ _T("Show/hide full request", "stripe")|e('js') }}"></i>');
+                $('.request').hide().prev('tr').find('td.info').prepend(_elt);
+                $('.reqhide').click(function() {
+                    $(this).parents('tr').next('.request').toggle();
+                });
+            });
+        </script>
+{% endblock %}

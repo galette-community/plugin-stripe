@@ -22,8 +22,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Galette. If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Plugins
- * @package   GaletteStripe
+ * @category Plugins
+ * @package  GaletteStripe
  *
  * @author    Mathieu PELLEGRIN <dev@pingveno.net>
  * @copyright 2021 The Galette Team
@@ -35,10 +35,10 @@ $this->register(
     'Galette Stripe',        //Name
     'Stripe integration',    //Short description
     'Mathieu PELLEGRIN',     //Author
-    '0.0.3',                //Version
-    '0.9.4.2',               //Galette compatible version
+    '0.0.4',                //Version
+    '1.1.0.0',               //Galette compatible version
     'stripe',                //routing name and translation domain
-    '2021-02-07',            //Release date
+    '2024-02-08',            //Release date
     [   //Permissions needed
         'stripe_preferences'        => 'staff',
         'store_stripe_preferences'  => 'staff',
@@ -47,6 +47,8 @@ $this->register(
     ]
 );
 
-$this->setCsrfExclusions([
+$this->setCsrfExclusions(
+    [
     '/stripe_webhook/',
-]);
+    ]
+);
