@@ -1,0 +1,27 @@
+{% extends 'page.html.twig' %}
+
+{% block content %}
+
+	{% if not stripe.isLoaded() %}
+		<div id="errorbox">
+			<h1>{{ _T("- ERROR -", "stripe") }}</h1>
+			<p>{{ _T("<strong>Payment coult not work</strong>: An error occured (that has been logged) while loading Stripe preferences from database.<br/>Please report the issue to the staff." , "stripe") }}</p>
+			<p>{{ _T("Our apologies for the annoyance :(", "stripe") }}</p>
+		</div>
+	{% elseif stripe.getPubKey() is null or stripe.getPrivKey() is null %}
+		<div id="errorbox">
+			<h1>{{ _T("- ERROR -", "stripe") }}</h1>
+			<p>{{ _T("Stripe keys has not been defined. Please ask an administrator to add it from plugin preferences." , "stripe") }}</p>
+		</div>
+	{% else %}
+		{% if not stripe.areAmountsLoaded() %}
+			<div id="warningbox">
+				<h1>{{ _T("- WARNING -", "stripe") }}</h1>
+				<p>{{ _T("Predefined amounts cannot be loaded, that is not a critical error.", "stripe") }}</p>
+			</div>
+		{% endif %}
+
+
+		{{parent()}}
+	{% endif %}
+{% endblock %}

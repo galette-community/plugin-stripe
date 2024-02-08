@@ -17,7 +17,7 @@ msgstr ""
 
 #: ../templates/default/stripe_preferences.tpl:15
 msgid "Stripe public key:"
-msgstr "Clé publique Stripe&nbsp;:"
+msgstr "Clé publique Stripe :"
 
 #: ../_routes.php:60
 msgid "Stripe Settings"
@@ -25,11 +25,11 @@ msgstr "Préférences Stripe"
 
 #: ../templates/default/stripe_preferences.tpl:25
 msgid "Stripe Webhook URL:"
-msgstr "Webhook Stripe&nbsp;:"
+msgstr "Webhook Stripe :"
 
 #: ../templates/default/stripe_preferences.tpl:20
 msgid "Stripe secret key:"
-msgstr "Clé secrète Stripe&nbsp;:"
+msgstr "Clé secrète Stripe :"
 
 #: ../_routes.php:119
 msgid "An error occured saving stripe preferences :("
@@ -68,7 +68,7 @@ msgstr "Stripe"
 
 #: ../templates/default/stripe_preferences.tpl:47
 msgid "Currency for payments:"
-msgstr "Devise pour les paiements&nbsp;:"
+msgstr "Devise pour les paiements :"
 
 #: ../templates/default/stripe_form_amount.tpl:107
 msgid ""
@@ -113,7 +113,7 @@ msgstr "Motif de paiement"
 
 #: ../templates/default/stripe_preferences.tpl:38
 msgid "Country of your Stripe account:"
-msgstr "Pays du compte Stripe&nbsp;:"
+msgstr "Pays du compte Stripe :"
 
 #: ../templates/default/menu.tpl:5
 msgid "Stripe History"
@@ -133,7 +133,7 @@ msgstr "Renseignez ici la clé secrète de votre webhook."
 
 #: ../templates/default/stripe_preferences.tpl:33
 msgid "Stripe webhook secret:"
-msgstr "Clé secrète du webhook&nbsp;:"
+msgstr "Clé secrète du webhook :"
 
 #: ../templates/default/menu.tpl:1
 msgid "Payment"
@@ -149,7 +149,7 @@ msgstr "Renseignez ici le pays de votre compte Stripe."
 
 #: ../templates/default/stripe_preferences.tpl:29
 msgid "Stripe Webhook events:"
-msgstr "Événements webhook à configurer&nbsp;:"
+msgstr "Événements webhook à configurer :"
 
 #: ../templates/default/stripe_form_amount.tpl:18
 #: ../templates/default/stripe_form_checkout.tpl:18
@@ -172,7 +172,7 @@ msgstr "Paiement réussi"
 
 #: ../templates/default/stripe_form_amount.tpl:50
 msgid "Payment reason:"
-msgstr "Motif de paiement&nbsp;:"
+msgstr "Motif de paiement :"
 
 #: ../templates/default/stripe_form_amount.tpl:6
 #: ../templates/default/stripe_form_checkout.tpl:6
@@ -214,247 +214,247 @@ msgstr ""
 "ATTENTION : si vous entrez un montant ci-dessous, assurez-vous qu'il ne soit "
 "pas inférieur au montant de l'option que vous avez sélectionnée."
 
-#~ msgid ""
-#~ "Enter here the currency used to capture payments. You must enter your "
-#~ "public key and currency first."
-#~ msgstr "Renseignez la devise dans laquelle les paiements seront effectués."
+msgid ""
+"Enter here the currency used to capture payments. You must enter your "
+"public key and currency first."
+msgstr "Renseignez la devise dans laquelle les paiements seront effectués."
 
-#~ msgid "Your payment has been aborted!"
-#~ msgstr "Votre paiement a été annulé !"
+msgid "Your payment has been aborted!"
+msgstr "Votre paiement a été annulé !"
 
-#~ msgid "Stripe payment success"
-#~ msgstr "Paiement Stripe effectué"
+msgid "Stripe payment success"
+msgstr "Paiement Stripe effectué"
 
-#~ msgid "Your payment has been proceeded!"
-#~ msgstr "Votre paiement a été effectué !"
+msgid "Your payment has been proceeded!"
+msgstr "Votre paiement a été effectué !"
 
-#~ msgid "Stripe identifier:"
-#~ msgstr "Identifiant Stripe&nbsp;:"
+msgid "Stripe identifier:"
+msgstr "Identifiant Stripe :"
 
-#~ msgid ""
-#~ "Enter here one of your Stripe ID or email adress associated within your "
-#~ "stripe account."
-#~ msgstr ""
-#~ "Entrez ici votre identifiant Stripe ou une adresse email associée à votre "
-#~ "compte stripe."
+msgid ""
+"Enter here one of your Stripe ID or email adress associated within your "
+"stripe account."
+msgstr ""
+"Entrez ici votre identifiant Stripe ou une adresse email associée à votre "
+"compte stripe."
 
-#~ msgid "Your stripe payment was successful. Some details are shown below:"
-#~ msgstr ""
-#~ "Votre paiement stripe a été effectué avec succès. Quelques détails "
-#~ "concernant la transaction sont affichés ci-dessous :"
+msgid "Your stripe payment was successful. Some details are shown below:"
+msgstr ""
+"Votre paiement stripe a été effectué avec succès. Quelques détails "
+"concernant la transaction sont affichés ci-dessous :"
 
-#~ msgid ""
-#~ "Your stripe payment was successful. You may receive a mail from stripe "
-#~ "with details."
-#~ msgstr ""
-#~ "Votre paiement stripe a été effectué avec succès. Vous devriez recevoir "
-#~ "un courriel de stripe en contenant les détails."
+msgid ""
+"Your stripe payment was successful. You may receive a mail from stripe "
+"with details."
+msgstr ""
+"Votre paiement stripe a été effectué avec succès. Vous devriez recevoir "
+"un courriel de stripe en contenant les détails."
 
-#~ msgid ""
-#~ "Stripe id has not been defined. Please ask an administrator to add it "
-#~ "from plugin preferences."
-#~ msgstr ""
-#~ "L'identifiant Stripe n'a pas été renseigné. Veuillez demander à un "
-#~ "administrateur de l'ajouter dans les préférences du plugin."
+msgid ""
+"Stripe id has not been defined. Please ask an administrator to add it "
+"from plugin preferences."
+msgstr ""
+"L'identifiant Stripe n'a pas été renseigné. Veuillez demander à un "
+"administrateur de l'ajouter dans les préférences du plugin."
 
-#~ msgid "Go back to %s's website to complete your inscription."
-#~ msgstr "Retour au site de %s pour compléter votre inscription."
+msgid "Go back to %s's website to complete your inscription."
+msgstr "Retour au site de %s pour compléter votre inscription."
 
-#~ msgid "Save"
-#~ msgstr "Sauvegarder"
+msgid "Save"
+msgstr "Sauvegarder"
 
-#~ msgid "red"
-#~ msgstr "rouge"
+msgid "red"
+msgstr "rouge"
 
-#~ msgid "Amount"
-#~ msgstr "Montant"
+msgid "Amount"
+msgstr "Montant"
 
-#~ msgid "Descendant"
-#~ msgstr "Décroissant"
+msgid "Descendant"
+msgstr "Décroissant"
 
-#~ msgid "Payment status"
-#~ msgstr "État du paiement"
+msgid "Payment status"
+msgstr "État du paiement"
 
-#~ msgid "Pages:"
-#~ msgstr "Pages&nbsp;:"
+msgid "Pages:"
+msgstr "Pages :"
 
-#~ msgid "You have to select an option"
-#~ msgstr "Vous devez sélectionner une option"
+msgid "You have to select an option"
+msgstr "Vous devez sélectionner une option"
 
-#~ msgid "Label"
-#~ msgstr "Étiquette"
+msgid "Label"
+msgstr "Étiquette"
 
-#~ msgid "Subject"
-#~ msgstr "Sujet"
+msgid "Subject"
+msgstr "Sujet"
 
-#~ msgid "logs are empty"
-#~ msgstr "l'historique est vide"
+msgid "logs are empty"
+msgstr "l'historique est vide"
 
-#~ msgid "Change"
-#~ msgstr "Modifier"
+msgid "Change"
+msgstr "Modifier"
 
-#~ msgid "NB : The mandatory fields are in"
-#~ msgstr "NB : Les champs requis sont en"
+msgid "NB : The mandatory fields are in"
+msgstr "NB : Les champs requis sont en"
 
-#~ msgid "Ascendent"
-#~ msgstr "Croissant"
+msgid "Ascendent"
+msgstr "Croissant"
 
-#~ msgid "Stripe Preferences"
-#~ msgstr "Préférences Stripe"
+msgid "Stripe Preferences"
+msgstr "Préférences Stripe"
 
-#~ msgid "- ERROR -"
-#~ msgstr "- ERREUR -"
+msgid "- ERROR -"
+msgstr "- ERREUR -"
 
-#~ msgid "Payment date"
-#~ msgstr "Date de paiement"
+msgid "Payment date"
+msgstr "Date de paiement"
 
-#~ msgid "Inactive"
-#~ msgstr "Inactif"
+msgid "Inactive"
+msgstr "Inactif"
 
-#~ msgid "Records per page:"
-#~ msgstr "Enregistrements par page&nbsp;:"
+msgid "Records per page:"
+msgstr "Enregistrements par page :"
 
-#~ msgid "Cotisation type"
-#~ msgstr "Type de cotisation"
+msgid "Cotisation type"
+msgstr "Type de cotisation"
 
-#~ msgid "Name"
-#~ msgstr "Nom"
+msgid "Name"
+msgstr "Nom"
 
-#~ msgid "annual fee"
-#~ msgstr "Cotisation annuelle"
+msgid "annual fee"
+msgstr "Cotisation annuelle"
 
-#~ msgid "Our apologies for the annoyance :("
-#~ msgstr "Toutes nos excuses pour le désagrément :("
+msgid "Our apologies for the annoyance :("
+msgstr "Toutes nos excuses pour le désagrément :("
 
-#~ msgid "Validate"
-#~ msgstr "Valider"
+msgid "Validate"
+msgstr "Valider"
 
-#~ msgid "Date"
-#~ msgstr "Date"
+msgid "Date"
+msgstr "Date"
 
-#~ msgid "- WARNING -"
-#~ msgstr "- ATTENTION -"
+msgid "- WARNING -"
+msgstr "- ATTENTION -"
 
-#~ msgid "Payment type"
-#~ msgstr "Type de paiement"
+msgid "Payment type"
+msgstr "Type de paiement"
 
-#~ msgid "donation in money"
-#~ msgstr "donation pécuniaire"
+msgid "donation in money"
+msgstr "donation pécuniaire"
 
-#~ msgid ""
-#~ "Select an option below, then click 'Payment' to proceed.<br/>Once your "
-#~ "paiment validated, an entry will be automatically added in the "
-#~ "contributions table and staff members will receive a notification mail."
-#~ msgstr ""
-#~ "Choisissez une option ci-dessous, puis cliquez sur 'Paiement' pour "
-#~ "continuer.<br/> Une fois que votre paiement aura été validé, une entrée "
-#~ "sera automatiquement générée dans la table des contributions et les "
-#~ "membres du bureau recevront un message de notification."
+msgid ""
+"Select an option below, then click 'Payment' to proceed.<br/>Once your "
+"paiment validated, an entry will be automatically added in the "
+"contributions table and staff members will receive a notification mail."
+msgstr ""
+"Choisissez une option ci-dessous, puis cliquez sur 'Paiement' pour "
+"continuer.<br/> Une fois que votre paiement aura été validé, une entrée "
+"sera automatiquement générée dans la table des contributions et les "
+"membres du bureau recevront un message de notification."
 
-#~ msgid "fullcard"
-#~ msgstr "fullcard"
+msgid "fullcard"
+msgstr "fullcard"
 
-#~ msgid "Society"
-#~ msgstr "Société"
+msgid "Society"
+msgstr "Société"
 
-#~ msgid "Zip Code"
-#~ msgstr "Code postal"
+msgid "Zip Code"
+msgstr "Code postal"
 
-#~ msgid "Email adress"
-#~ msgstr "Courriel"
+msgid "Email adress"
+msgstr "Courriel"
 
-#~ msgid "At "
-#~ msgstr "Fait à "
+msgid "At "
+msgstr "Fait à "
 
-#~ msgid "Active member"
-#~ msgstr "Membre actif"
+msgid "Active member"
+msgstr "Membre actif"
 
-#~ msgid "Miss"
-#~ msgstr "Mlle"
+msgid "Miss"
+msgstr "Mlle"
 
-#~ msgid "Address"
-#~ msgstr "Adresse"
+msgid "Address"
+msgstr "Adresse"
 
-#~ msgid "Mister"
-#~ msgstr "Monsieur"
+msgid "Mister"
+msgstr "Monsieur"
 
-#~ msgid "Adherent file card"
-#~ msgstr "Fiche adhérent"
+msgid "Adherent file card"
+msgstr "Fiche adhérent"
 
-#~ msgid "Signature"
-#~ msgstr "Signature"
+msgid "Signature"
+msgstr "Signature"
 
-#~ msgid "Empty card"
-#~ msgstr "Carte vide"
+msgid "Empty card"
+msgstr "Carte vide"
 
-#~ msgid "City"
-#~ msgstr "Ville"
+msgid "City"
+msgstr "Ville"
 
-#~ msgid "** Galette identifier, if applicable"
-#~ msgstr "** Identifiant Galette, si applicable"
+msgid "** Galette identifier, if applicable"
+msgstr "** Identifiant Galette, si applicable"
 
-#~ msgid "Benefactor member"
-#~ msgstr "Membre bienfaiteur"
+msgid "Benefactor member"
+msgstr "Membre bienfaiteur"
 
-#~ msgid "%membername: PDF member card"
-#~ msgstr "%membername: Fiche PDF"
+msgid "%membername: PDF member card"
+msgstr "%membername: Fiche PDF"
 
-#~ msgid "Username"
-#~ msgstr "Identifiant"
+msgid "Username"
+msgstr "Identifiant"
 
-#~ msgid ""
-#~ "The minimum contribution for each type of membership are defined on the "
-#~ "website of the association. The amount of donations are free to be dcided "
-#~ "by the generous donor."
-#~ msgstr ""
-#~ "Les cotisations minimales pour chacun des types d'adhésions sont fixées "
-#~ "sur le site web de l'association. Le montant des dons est quant à lui "
-#~ "laissé à l'entière appréciation des généreux donateurs."
+msgid ""
+"The minimum contribution for each type of membership are defined on the "
+"website of the association. The amount of donations are free to be dcided "
+"by the generous donor."
+msgstr ""
+"Les cotisations minimales pour chacun des types d'adhésions sont fixées "
+"sur le site web de l'association. Le montant des dons est quant à lui "
+"laissé à l'entière appréciation des généreux donateurs."
 
-#~ msgid ""
-#~ "Hereby, I agree to comply to %s association's statutes and its rules."
-#~ msgstr ""
-#~ "Par la présente, je m'engage à respecter les statuts ainsi que le "
-#~ "règlement intérieur de l'association %s."
+msgid ""
+"Hereby, I agree to comply to %s association's statutes and its rules."
+msgstr ""
+"Par la présente, je m'engage à respecter les statuts ainsi que le "
+"règlement intérieur de l'association %s."
 
-#~ msgid "Required membership:"
-#~ msgstr "Adhésion souhaitée :"
+msgid "Required membership:"
+msgstr "Adhésion souhaitée :"
 
-#~ msgid "Mrs"
-#~ msgstr "Mme"
+msgid "Mrs"
+msgstr "Mme"
 
-#~ msgid "PDF member card"
-#~ msgstr "Fiche adhérent PDF"
+msgid "PDF member card"
+msgstr "Fiche adhérent PDF"
 
-#~ msgid ""
-#~ "Complete the following form and send it with your funds, in order to "
-#~ "complete your subscription."
-#~ msgstr ""
-#~ "Remplissez le formulaire suivant et joignez le lors de l'envoi de votre "
-#~ "règlement, pour compléter votre inscription."
+msgid ""
+"Complete the following form and send it with your funds, in order to "
+"complete your subscription."
+msgstr ""
+"Remplissez le formulaire suivant et joignez le lors de l'envoi de votre "
+"règlement, pour compléter votre inscription."
 
-#~ msgid "Full card"
-#~ msgstr "Fiche Adhérent"
+msgid "Full card"
+msgstr "Fiche Adhérent"
 
-#~ msgid "First name"
-#~ msgstr "Prénom"
+msgid "First name"
+msgstr "Prénom"
 
-#~ msgid "Politeness"
-#~ msgstr "Civilité"
+msgid "Politeness"
+msgstr "Civilité"
 
-#~ msgid "Country"
-#~ msgstr "Pays"
+msgid "Country"
+msgstr "Pays"
 
-#~ msgid "* Company names for compagnies"
-#~ msgstr "* Raison sociale pour les sociéétés"
+msgid "* Company names for compagnies"
+msgstr "* Raison sociale pour les sociéétés"
 
-#~ msgid "Generates an empty member card you can print for events, for example"
-#~ msgstr ""
-#~ "Génère une fiche adhérent vierge que vous pourrez imprimer pour des "
-#~ "évènements, par exemple"
+msgid "Generates an empty member card you can print for events, for example"
+msgstr ""
+"Génère une fiche adhérent vierge que vous pourrez imprimer pour des "
+"évènements, par exemple"
 
-#~ msgid "Donation"
-#~ msgstr "Don"
+msgid "Donation"
+msgstr "Don"
 
-#~ msgid "On            /            /            "
-#~ msgstr "Le            /            /            "
+msgid "On            /            /            "
+msgstr "Le            /            /            "
