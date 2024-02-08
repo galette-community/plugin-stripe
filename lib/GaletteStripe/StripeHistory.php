@@ -5,7 +5,7 @@
 /**
  * Stripe history management
  *
- * Copyright © 2021 The Galette Team
+ * Copyright © 2024 The Galette Team
  *
  * This file is part of Galette (http://galette.tuxfamily.org).
  *
@@ -22,10 +22,10 @@
  * You should have received a copy of the GNU General Public License
  * along with Galette. If not, see <http://www.gnu.org/licenses/>.
  *
- * @category  Classes
- * @package   GaletteStripe
+ * @category Classes
+ * @package  GaletteStripe
  *
- * @author    Mathieu PELLEGRIN <dev@pingveno.net>
+ * @author    Mathieu PELLEGRIN <dev@pingveno.net>, manuelh78 <manuelh78dev@ik.me>
  * @copyright 2021 The Galette Team
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL License 3.0 or (at your option) any later version
  * @link      http://galette.tuxfamily.org
@@ -47,7 +47,7 @@ use Galette\Filters\HistoryList;
  * @name      StripeHistory
  * @package   GaletteStripe
  * @author    Mathieu PELLEGRIN <dev@pingveno.net>
- * @copyright 2021 The Galette Team
+ * @copyright 2024 The Galette Team
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL License 3.0 or (at your option) any later version
  * @link      http://galette.tuxfamily.org
  */
@@ -88,13 +88,14 @@ class StripeHistory extends History
      *
      * @return bool true if entry was successfully added, false otherwise
      */
-    public function add($action, $argument = '', $query = '')
+    //public function add($action, $argument = '', $query = '')
+    public function add(array|string $action, string $argument = '', string $query = ''): bool
     {
         $request = $action;
         try {
             $values = array(
                 'history_date'  => date('Y-m-d H:i:s'),
-                'intent_id'     => $request['type'] . ' '.$request['data']['object']['id'],
+                'intent_id'     => $request['type'] . ' ' . $request['data']['object']['id'],
                 'amount'        => $request['data']['object']['amount'] / 100, // Stripe handles cent
                 'comment'       => $request['data']['object']['description'],
                 'metadata'      => serialize($request['data']['object']['metadata']),
@@ -128,7 +129,7 @@ class StripeHistory extends History
      *
      * @return string
      */
-    protected function getTableName($prefixed = false)
+    protected function getTableName($prefixed = false):string
     {
         if ($prefixed === true) {
             return PREFIX_DB . STRIPE_PREFIX . self::TABLE;
@@ -142,7 +143,7 @@ class StripeHistory extends History
      *
      * @return string
      */
-    protected function getPk()
+    protected function getPk():string
     {
         return self::PK;
     }
@@ -206,14 +207,14 @@ class StripeHistory extends History
      *
      * @return string SQL ORDER clause
      */
-    protected function buildOrderClause()
+    protected function buildOrderClause(): array
     {
         $order = array();
 
         switch ($this->filters->orderby) {
-            case HistoryList::ORDERBY_DATE:
-                $order[] = 'history_date ' . $this->filters->ordered;
-                break;
+        case HistoryList::ORDERBY_DATE:
+            $order[] = 'history_date ' . $this->filters->ordered;
+            break;
         }
 
         return $order;
@@ -229,10 +230,12 @@ class StripeHistory extends History
     public function isProcessed($request): bool
     {
         $select = $this->zdb->select($this->getTableName());
-        $select->where([
-            'intent_id' => $request['type'] . ' '.$request['data']['object']['id'],
+        $select->where(
+            [
+            'intent_id' => $request['type'] . ' ' . $request['data']['object']['id'],
             'state'     => self::STATE_PROCESSED
-        ]);
+            ]
+        );
         $results = $this->zdb->execute($select);
 
         return (count($results) > 0);

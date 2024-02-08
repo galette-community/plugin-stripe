@@ -105,31 +105,31 @@ class Stripe
 
             foreach ($results as $row) {
                 switch ($row->nom_pref) {
-                    case 'stripe_pubkey':
-                        $this->pubkey = $row->val_pref;
-                        break;
-                    case 'stripe_privkey':
-                        $this->privkey = $row->val_pref;
-                        break;
-                    case 'stripe_webhook_secret':
-                        $this->webhook_secret = $row->val_pref;
-                        break;
-                    case 'stripe_country':
-                        $this->country = $row->val_pref;
-                        break;
-                    case 'stripe_currency':
-                        $this->currency = $row->val_pref;
-                        break;
-                    case 'stripe_inactives':
-                        $this->inactives = explode(',', $row->val_pref);
-                        break;
-                    default:
-                        //we've got a preference not intended
-                        Analog::log(
-                            '[' . get_class($this) . '] unknown preference `' .
-                            $row->nom_pref . '` in the database.',
-                            Analog::WARNING
-                        );
+                case 'stripe_pubkey':
+                    $this->pubkey = $row->val_pref;
+                    break;
+                case 'stripe_privkey':
+                    $this->privkey = $row->val_pref;
+                    break;
+                case 'stripe_webhook_secret':
+                    $this->webhook_secret = $row->val_pref;
+                    break;
+                case 'stripe_country':
+                    $this->country = $row->val_pref;
+                    break;
+                case 'stripe_currency':
+                    $this->currency = $row->val_pref;
+                    break;
+                case 'stripe_inactives':
+                    $this->inactives = explode(',', $row->val_pref);
+                    break;
+                default:
+                    //we've got a preference not intended
+                    Analog::log(
+                        '[' . get_class($this) . '] unknown preference `' .
+                        $row->nom_pref . '` in the database.',
+                        Analog::WARNING
+                    );
                 }
             }
             $this->loaded = true;
@@ -158,6 +158,7 @@ class Stripe
 
         try {
             $results = $this->zdb->selectAll(STRIPE_PREFIX . self::TABLE);
+            $results = $results->toArray();
 
             //check if all types currently exists in stripe table
             if (count($results) != count($this->prices)) {
@@ -174,9 +175,10 @@ class Stripe
                 if (count($results) > 0) {
                     //for each entry in types, we want to get the associated amount
                     foreach ($results as $stripe) {
+                        $stripe=(object)$stripe;
                         if ($stripe->id_type_cotis == $k) {
                             $_found = true;
-                            $this->prices[$k]['amount'] = (double)$stripe->amount;
+                            $this->prices[$k]['amount'] = (float) $stripe->amount;
                             break;
                         }
                     }
@@ -345,7 +347,7 @@ class Stripe
             foreach ($this->prices as $k => $v) {
                 $stmt->execute(
                     array(
-                        'amount'    => (float)$v['amount'],
+                        'amount'    => (float) $v['amount'],
                         'where1'        => $k
                     )
                 );
@@ -367,12 +369,12 @@ class Stripe
     }
 
     /**
-    * Add missing types in stripe table
-    *
-    * @param Array $queries Array of items to insert
-    *
-    * @return true on success, false on failure
-    */
+     * Add missing types in stripe table
+     *
+     * @param Array $queries Array of items to insert
+     *
+     * @return true on success, false on failure
+     */
     private function newEntries($queries)
     {
         try {
@@ -410,7 +412,8 @@ class Stripe
      *
      * @return string
      */
-    function createPaymentIntent($metadata, $amount, $methods = ['card']) {
+    public function createPaymentIntent($metadata, $amount, $methods = ['card'])
+    {
         $data = [
             'amount' => $amount * 100, // Stripe needs integer cents as amount
             'currency' => $this->getCurrency(),

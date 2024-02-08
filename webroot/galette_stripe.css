@@ -1,10 +1,14 @@
+#stripeForm {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+
 .stripeprefs{
     text-align: center;
 }
 
-#stripe{
-    text-align: center;
-}
+
 
 .img-dup {
     float: right;
@@ -80,4 +84,8 @@
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+
+.odd, .odd td:hover{
+    background-color: #faffc3 !important;
 }
