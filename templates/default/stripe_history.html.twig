@@ -41,8 +41,14 @@
 
 {% block header %}
     {% set columns = [
-        {'label': '#'}, 
-        {'label': _T("Date"), 'order': constant("Galette\\Filters\\HistoryList::ORDERBY_DATE")},
+        {
+            'label': '#',
+            'collapse': true
+        },
+        {
+            'label': _T("Date"), 'order': constant("Galette\\Filters\\HistoryList::ORDERBY_DATE"),
+            'collapse': true
+        },
         {'label': _T("Name")},
         {'label': _T("Subject")},
         {'label': _T("Amount")}
@@ -52,14 +58,14 @@
 
 {% block body %}
     {% for log in logs %}
-        <tr class="{% if (loop.index0 % 2) == 0 %}even{% else %}odd{% endif %}">
-            <td class="center" data-scope="row">
+        <tr class="{{ loop.index is odd ? 'odd' : 'even' }}">
+            <td class="center collapsing" data-scope="row">
                 {{ loop.index }}
                 {#<span class="row-title">
                     {{ _T("History entry %id")|replace({'%id': loop.index}) }}
                 </span>#}
             </td>
-            <td class="nowrap" data-col-label="{{ _T("Data") }}">
+            <td class="collapsing" data-col-label="{{ _T("Date") }}">
                 {% if log.duplicate is defined %}<img class="img-dup" src="{{ url_for("plugin_res", {"plugin": module_id, "path": "images/warning.png"}) }}" alt="{{ _T("duplicate", "stripe") }}"/>{% endif %}
                 {{ log.history_date|date(_T("Y-m-d H:i:s")) }}
             </td>
@@ -84,7 +90,7 @@
             <td data-col-label="{{ _T("Amount") }}">
                 {{ log.amount }}
             </td>
-            <td class="nowrap info"></td>
+            <td class="info"></td>
         </tr>
         <tr class="request "> {# class="request {{ loop.index is odd ? 'odd' : 'even' }}"> #}
             <th colspan="2">{{ _T("Request", "stripe") }}</th>

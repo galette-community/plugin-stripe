@@ -19,19 +19,20 @@
 					{% if stripe.areAmountsLoaded() %}
 						{% if amounts|length > 0 %}
 							<input type="hidden" name="item_name" id="item_name" value="{% if login.isLogged() %}{{ _T("annual fee") }}{% else %}{{ _T("donation in money") }}{% endif %}"/>
-							{% for k, amount in amounts %}
-								{% if loop.index0 != 0 %}<br/>
-								{% endif %}
-								<input type="radio" name="item_number" id="in{{ k }}" value="{{ k }}" {% if loop.index0 == 0 %} checked="checked" {% endif %}/>
-								<label for="in{{ k }}">
-									<span id="in{{ k }}_name">{{ amount['name'] }}</span>
-									{% if amount['amount'] > 0 %}
-										(<span id="in{{ k }}_amount">{{ amount['amount']|number_format(2, ',', ' ') }}</span>
-										€)
-										{# TODO: parametize currency #}
-									{% endif %}
-								</label>
-							{% endfor %}
+							<div class="grouped fields">
+								{% for k, amount in amounts %}
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="item_number" id="in{{ k }}" value="{{ k }}"{% if loop.index0 == 0 %} checked="checked"{% endif %}/>
+											<label for="in{{ k }}"><span id="in{{ k }}_name">{{ amount['name'] }}</span>
+												{% if amount['amount'] > 0 %}
+													(<span id="in{{ k }}_amount">{{ amount['amount']|number_format(2, ',', ' ') }}</span> €){# TODO: parametize currency #}
+												{% endif %}
+											</label>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
 						{% else %}
 							<label for="item_name">{{ _T("Payment reason:", "stripe") }}</label>
 							<input type="text" name="item_name" id="item_name" value="{% if login.isLogged() %}{{ _T("annual fee") }}{% else %}{{ _T("donation in money") }}{% endif %}"/>
