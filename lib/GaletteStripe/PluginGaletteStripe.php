@@ -16,15 +16,15 @@ class PluginGaletteStripe extends GalettePlugin
     public static function getMenusContents(): array
     {
         /**
- * @var Login $login 
-*/
+         * @var Login $login
+         */
         global $login;
         $content = [
             'title' => _T("Stripe", "stripe"),
             'icon' => 'stripe'
         ];
         $content['items'] = [];
-        
+
         if ($login->isAdmin() || $login->isStaff()) {
 
             $content['items'] = [
@@ -87,6 +87,16 @@ class PluginGaletteStripe extends GalettePlugin
      * @return array<int, string|array<string,mixed>>
      */
     public static function getDashboardsContents(): array
+    {
+        return [];
+    }
+
+    /**
+     * Get current logged-in user dashboards contents
+     *
+     * @return array<int, string|array<string,mixed>>
+     */
+    public static function getMyDashboardsContents(): array
     {
         return [];
     }
