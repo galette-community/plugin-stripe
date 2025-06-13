@@ -36,7 +36,7 @@ $this->register(
     'Stripe integration',    //Short description
     'Mathieu PELLEGRIN',     //Author
     '0.0.4',                //Version
-    '1.1.0.0',               //Galette compatible version
+    '1.2.0',               //Galette compatible version
     'stripe',                //routing name and translation domain
     '2024-02-08',            //Release date
     [   //Permissions needed
