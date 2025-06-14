@@ -1,27 +1,41 @@
-{% extends 'page.html.twig' %}
+{% extends not login.isLogged() ? "public_page.html.twig" : "page.html.twig" %}
 
 {% block content %}
-
-	{% if not stripe.isLoaded() %}
-		<div id="errorbox">
-			<h1>{{ _T("- ERROR -", "stripe") }}</h1>
-			<p>{{ _T("<strong>Payment coult not work</strong>: An error occured (that has been logged) while loading Stripe preferences from database.<br/>Please report the issue to the staff." , "stripe") }}</p>
-			<p>{{ _T("Our apologies for the annoyance :(", "stripe") }}</p>
-		</div>
-	{% elseif stripe.getPubKey() is null or stripe.getPrivKey() is null %}
-		<div id="errorbox">
-			<h1>{{ _T("- ERROR -", "stripe") }}</h1>
-			<p>{{ _T("Stripe keys has not been defined. Please ask an administrator to add it from plugin preferences." , "stripe") }}</p>
-		</div>
-	{% else %}
-		{% if not stripe.areAmountsLoaded() %}
-			<div id="warningbox">
-				<h1>{{ _T("- WARNING -", "stripe") }}</h1>
-				<p>{{ _T("Predefined amounts cannot be loaded, that is not a critical error.", "stripe") }}</p>
-			</div>
-		{% endif %}
-
-
-		{{parent()}}
-	{% endif %}
+    {% if not stripe.isLoaded() %}
+        <div class="ui error icon visible message">
+            <i class="exclamation circle icon" aria-hidden="true"></i>
+            <div class="content">
+                <div class="header">
+                    {{ _T("Payment could not work", "stripe") }}
+                </div>
+                <p>
+                    {{ _T("An error occured (that has been logged) while loading Stripe preferences from database." , "stripe") }}<br/>
+                    {{ _T("Please report the issue to the staff." , "stripe") }}<br/>
+                    {{ _T("Our apologies for the annoyance :(", "stripe") }}
+                </p>
+            </div>
+        </div>
+    {% endif %}
+    {% if stripe.getPubKey() is null or stripe.getPrivKey() is null %}
+        <div class="ui error icon visible message">
+            <i class="exclamation circle icon" aria-hidden="true"></i>
+            <div class="content">
+                <div class="header">
+                    {{ _T("Stripe keys have not been defined", "stripe") }}
+                </div>
+                <p>{{ _T("Please ask an administrator to define them in the plugin's preferences." , "stripe") }}</p>
+            </div>
+        </div>
+    {% endif %}
+    {% if not stripe.areAmountsLoaded() %}
+        <div class="ui warning icon visible message">
+            <i class="exclamation triangle icon" aria-hidden="true"></i>
+            <div class="content">
+                <div class="header">
+                    {{ _T("Predefined amounts cannot be loaded", "stripe") }}
+                </div>
+                <p>{{ _T("That is not a critical error.", "stripe") }}</p>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

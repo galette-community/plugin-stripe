@@ -42,19 +42,6 @@ class PluginGaletteStripe extends GalettePlugin
                 ]
             ];
         }
-        if (STRIPE_ENABLE_FORM_IN_MENU) {
-            $content['items'] = array_merge(
-                [
-                [
-                    'label' => _T("Payment form", "stripe"),
-                    'route' => [
-                        'name' => 'stripe_form'
-                    ],
-                    'icon' => 'stripe'
-                ]
-                ], $content['items']
-            );
-        }
 
         $menus['plugin_stripe'] = $content;
         return $menus;
@@ -67,10 +54,7 @@ class PluginGaletteStripe extends GalettePlugin
      */
     public static function getPublicMenusItemsList(): array
     {
-        //TODO:: Paiement stripe impossible sans information sur le client (nom prénom, email) ?
-        return [];
-
-        /*return [
+        return [
             [
                 'label' => _T("Payment form", "stripe"),
                 'route' => [
@@ -78,7 +62,7 @@ class PluginGaletteStripe extends GalettePlugin
                 ],
                 'icon' => 'stripe'
             ]
-        ];*/
+        ];
     }
 
     /**
