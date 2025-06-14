@@ -1,3 +1,8 @@
+em[data-emoji=":stripe:"]::before,
+em[data-emoji="stripe"]::before {
+    background-image: url(./images/stripe.svg);
+}
+
 .img-dup {
     float: right;
 }

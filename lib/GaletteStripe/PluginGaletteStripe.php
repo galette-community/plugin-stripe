@@ -88,7 +88,22 @@ class PluginGaletteStripe extends GalettePlugin
      */
     public static function getDashboardsContents(): array
     {
-        return [];
+        /** @var Login $login */
+        global $login;
+        /** @var Preferences $preferences */
+        global $preferences;
+        $contents = [];
+
+        if ($preferences->showPublicPages($login)) {
+            $contents[] = [
+                'label' => _T("Payment form", "stripe"),
+                'route' => [
+                    'name' => 'stripe_form'
+                ],
+                'icon' => 'stripe'
+            ];
+        }
+        return $contents;
     }
 
     /**
