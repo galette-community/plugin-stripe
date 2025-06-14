@@ -32,5 +32,3 @@
  */
 
 define('STRIPE_PREFIX', 'stripe_');
-
-define('STRIPE_ENABLE_FORM_IN_MENU', true);

@@ -39,12 +39,11 @@ class StripeController extends AbstractPluginController
         $amounts = $stripe->getAllAmounts();
         $countries = $stripe->getAllCountries();
         $currencies = $stripe->getAllCurrencies();
-        $current_url = $this->preferences->getURL();
 
         $params = [
             'page_title'    => _T('Stripe Settings', 'stripe'),
             'stripe'        => $stripe,
-            'webhook_url'   => 'plugins/' . $current_url . $this->module_info['module']['route'] . '/webhook',
+            'webhook_url'   => $this->preferences->getURL() . $this->routeparser->urlFor('stripe_webhook'),
             'amounts'       => $amounts,
             'countries'     => $countries,
             'currencies'    => $currencies,
@@ -169,19 +168,30 @@ class StripeController extends AbstractPluginController
             return $response;
         } else {
             $metadata = [];
+
             if ($this->login->isLogged() && !$this->login->isSuperAdmin()) {
                 $adherent->load($this->login->id);
-                $metadata['adherent_name'] = Adherent::getSName($this->zdb, $this->login->id);
-                $metadata['adherent_company'] = $adherent->_company_name;
-                $metadata['adherent_address_1'] = $adherent->getAddress();
-                //$metadata['adherent_address_2'] = $adherent->getAddressContinuation();
-                $metadata['adherent_zip'] = $adherent->getZipcode();
-                $metadata['adherent_town'] = $adherent->getTown();
-                $metadata['adherent_country'] = $adherent->getCountry();
-                $metadata['adherent_email'] = $adherent->getEmail();
                 $metadata['adherent_id'] = $this->login->id;
-                $metadata['contrib_id'] = $item_number;
+                $metadata['billing_name'] = Adherent::getSName($this->zdb, $this->login->id);
+                $metadata['billing_email'] = $adherent->getEmail();
+                $metadata['billing_company'] = $adherent->_company_name;
+                $metadata['billing_address'] = $adherent->getAddress();
+                $metadata['billing_zip'] = $adherent->getZipcode();
+                $metadata['billing_town'] = $adherent->getTown();
+                $metadata['billing_country'] = $adherent->getCountry();
             }
+
+            if (!$this->login->isLogged()) {
+                $metadata['billing_name'] = $stripe_request['billing_firstname'] . ' ' . $stripe_request['billing_lastname'];
+                $metadata['billing_email'] = $stripe_request['billing_email'];
+                $metadata['billing_company'] = $stripe_request['billing_company'];
+                $metadata['billing_address'] = $stripe_request['billing_address'];
+                $metadata['billing_zip'] = $stripe_request['billing_zip'];
+                $metadata['billing_town'] = $stripe_request['billing_town'];
+                $metadata['billing_country'] = $stripe_request['billing_country'];
+            }
+
+            $metadata['contrib_id'] = $item_number;
 
             $client_secret = $stripe->createPaymentIntent($metadata, $amount);
 
@@ -255,7 +265,7 @@ class StripeController extends AbstractPluginController
 
         // Process payload
 
-        if (isset($post['type']) 
+        if (isset($post['type'])
             && ($post['type'] == 'payment_intent.succeeded' || $post['type'] == 'invoice.payment_succeeded')
         ) {
 
