@@ -1,9 +1,6 @@
-{% extends '@PluginGaletteStripe/stripe_form_base.html.twig' %}
+{% extends not login.isLogged() ? "public_page.html.twig" : "page.html.twig" %}
 
 {% block content %}
-
-    {{parent()}}
-
     <form action="" method="post" id="payment-form" class="ui form">
         <div class="ui segment">
             <div class="ui inverted secondary big segment">

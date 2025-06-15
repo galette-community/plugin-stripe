@@ -126,6 +126,28 @@ class StripeController extends AbstractPluginController
             'current_url'   => rtrim($current_url, '/'),
         ];
 
+        if (!$stripe->isLoaded()) {
+            $this->flash->addMessageNow(
+                'error',
+                _T("<strong>Payment could not work</strong>: An error occurred (that has been logged) while loading Stripe preferences from the database.<br/>Please report the issue to the staff.", "stripe") .
+                '<br/>' . _T("Our apologies for the annoyance :(", "stripe")
+            );
+        }
+
+        if ($stripe->getPubKey() == null || $stripe->getPrivKey() == null) {
+            $this->flash->addMessageNow(
+                'error',
+                _T("Stripe keys have not been defined. Please ask an administrator to add them in the plugin's preferences.", "stripe")
+            );
+        }
+
+        if (!$stripe->areAmountsLoaded()) {
+            $this->flash->addMessageNow(
+                'warning',
+                _T("Predefined amounts cannot be loaded, that is not a critical error.", "stripe")
+            );
+        }
+
         // display page
         $this->view->render(
             $response,
