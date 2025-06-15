@@ -1,9 +1,6 @@
-{% extends '@PluginGaletteStripe/stripe_form_base.html.twig' %}
+{% extends not login.isLogged() ? "public_page.html.twig" : "page.html.twig" %}
 
 {% block content %}
-
-    {{parent()}}
-
     {% if stripe.isLoaded() and stripe.getPubKey() != null and stripe.getPrivKey() != null %}
         <form action="" method="post" id="stripeForm" class="ui form">
             <div class="ui top attached accordion-styled header">
