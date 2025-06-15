@@ -74,8 +74,8 @@
             {% if log.metadata.custom is defined %}
                 <a href="{{ url_for("member", {"id": log.metadata.custom}) }}">
             {% endif %}
-                {{ log.metadata.adherent_name }} 
-            {% if log.metadata.custom is defined%}
+                {{ log.metadata.adherent_name }}
+            {% if log.metadata.custom is defined %}
                 </a>
             {% endif %}
         {% else %}
