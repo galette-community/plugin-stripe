@@ -10,102 +10,96 @@
                         {{ _T("Cannot load the preferences", "stripe") }}
                     </div>
                     <p>
-                        {{ _T("An error occured while loading the preferences from database.", "stripe") }}<br/>
+                        {{ _T("An error occured while loading the preferences from the database.", "stripe") }}<br/>
                         {{ _T("Please, check if the plugin's database has been properly initialized.", "stripe") }}
                     </p>
                 </div>
             </div>
         {% endif %}
-        <div class="ui styled fluid accordion field">
-            <div class="active title">
-                <i class="icon dropdown"></i>
-                {{ _T("Stripe preferences", "stripe") }}
-            </div>
-            <div class="active content">
-                {%if login.isAdmin() %}
-                    <div class="inline field">
-                        <label>{{ _T("Stripe Webhook URL:", "stripe") }}</label>
-                        <code>{{ webhook_url }}</code>
-                    </div>
-                    <div class="inline field">
-                        <label>{{ _T("Stripe Webhook events:", "stripe") }}</label>
-                        <code>payment_intent.succeeded</code> {{ _T("and") }} <code>invoice.payment_succeeded</code>
-                    </div>
+        <div class="ui segment">
+            {%if login.isAdmin() %}
+                <div class="inline field">
+                    <label>{{ _T("Stripe Webhook URL:", "stripe") }}</label>
+                    <code>{{ webhook_url }}</code>
+                </div>
+                <div class="inline field">
+                    <label>{{ _T("Stripe Webhook events:", "stripe") }}</label>
+                    <code>payment_intent.succeeded</code> {{ _T("and") }} <code>invoice.payment_succeeded</code>
+                </div>
 
-                    {% include "components/forms/text.html.twig" with {
-                        id: 'stripe_pubkey',
-                        value: stripe.getPubKey(),
-                        label: _T("Stripe public key:", "stripe") ,
-                        required: true,
-                        tip: _T("Enter here your Stripe public key.", "stripe")
-                    } %}
+                {% include "components/forms/text.html.twig" with {
+                    id: 'stripe_pubkey',
+                    value: stripe.getPubKey(),
+                    label: _T("Stripe public key:", "stripe") ,
+                    required: true,
+                    tip: _T("Enter here your Stripe public key.", "stripe")
+                } %}
 
-                    {% include "components/forms/text.html.twig" with {
-                        id: 'stripe_privkey',
-                        value: stripe.getPrivKey(),
-                        label: _T("Stripe secret key:", "stripe") ,
-                        required: true,
-                        tip: _T("Enter here your Stripe secret key.", "stripe")
-                    } %}
+                {% include "components/forms/text.html.twig" with {
+                    id: 'stripe_privkey',
+                    value: stripe.getPrivKey(),
+                    label: _T("Stripe secret key:", "stripe") ,
+                    required: true,
+                    tip: _T("Enter here your Stripe secret key.", "stripe")
+                } %}
 
-                    {% include "components/forms/text.html.twig" with {
-                        id: 'stripe_webhook_secret',
-                        value: stripe.getWebhookSecret(),
-                        label: _T("Stripe webhook secret:", "stripe") ,
-                        required: true,
-                        tip: _T("Enter here your Stripe webhook secret.", "stripe")
-                    } %}
+                {% include "components/forms/text.html.twig" with {
+                    id: 'stripe_webhook_secret',
+                    value: stripe.getWebhookSecret(),
+                    label: _T("Stripe webhook secret:", "stripe") ,
+                    required: true,
+                    tip: _T("Enter here your Stripe webhook secret.", "stripe")
+                } %}
 
-                    {% include "components/forms/select.html.twig" with {
-                        id: 'stripe_country',
-                        value: stripe.getCountry(),
-                        values: countries,
-                        label: _T("Country of your Stripe account:", "stripe") ,
-                        required: true,
-                        tip: _T("Enter here the country of your Stripe account.", "stripe")
-                    } %}
+                {% include "components/forms/select.html.twig" with {
+                    id: 'stripe_country',
+                    value: stripe.getCountry(),
+                    values: countries,
+                    label: _T("Country of your Stripe account:", "stripe") ,
+                    required: true,
+                    tip: _T("Enter here the country of your Stripe account.", "stripe")
+                } %}
 
-                    {% include "components/forms/select.html.twig" with {
-                        id: 'stripe_currency',
-                        value: stripe.getCurrency(),
-                        values: currencies,
-                        label: _T("Currency for payments:", "stripe") ,
-                        required: true,
-                        tip: _T("Enter here the currency used to capture payments.", "stripe")
-                    } %}
-                {% endif %}
-                {% if stripe.areAmountsLoaded() and amounts|length > 0 %}
-                    <table class="listing ui celled striped table">
-                        <thead>
+                {% include "components/forms/select.html.twig" with {
+                    id: 'stripe_currency',
+                    value: stripe.getCurrency(),
+                    values: currencies,
+                    label: _T("Currency for payments:", "stripe") ,
+                    required: true,
+                    tip: _T("Enter here the currency used to capture payments.", "stripe")
+                } %}
+            {% endif %}
+            {% if stripe.areAmountsLoaded() and amounts|length > 0 %}
+                <table class="listing ui celled striped table">
+                    <thead>
+                        <tr>
+                            <th class="listing">{{ _T("Contribution type")}}</th>
+                            <th class="listing">{{ _T("Amount")}}</th>
+                            <th class="listing collapsing">{{ _T("Inactive")}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for k, amount in amounts %}
                             <tr>
-                                <th class="listing">{{ _T("Contribution type")}}</th>
-                                <th class="listing">{{ _T("Amount")}}</th>
-                                <th class="listing collapsing">{{ _T("Inactive")}}</th>
+                                <td>
+                                    <input type="hidden" name="amount_id[]" id="amount_id_{{ k }}" value="{{ k }}"/>
+                                    <label for="amount_{{ k }}">{{ amount['name'] }}</label>
+                                </td>
+                                <td>
+                                    <input type="text" name="amounts[]" id="amount_{{ k }}" value="{{ amount['amount']|number_format(2, ',', '') }}"/>
+                                </td>
+                                <td class="collapsing">
+                                     <div class="ui right aligned toggle checkbox">
+                                        <input type="checkbox" name="inactives[]" id="inactives_{{ k }}" {% if stripe.isInactive(k) %} checked="checked" {% endif %} value="{{ k }}"/>
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% for k, amount in amounts %}
-                                <tr>
-                                    <td>
-                                        <input type="hidden" name="amount_id[]" id="amount_id_{{ k }}" value="{{ k }}"/>
-                                        <label for="amount_{{ k }}">{{ amount['name'] }}</label>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="amounts[]" id="amount_{{ k }}" value="{{ amount['amount']|number_format(2, ',', '') }}"/>
-                                    </td>
-                                    <td class="collapsing">
-                                         <div class="ui right aligned toggle checkbox">
-                                            <input type="checkbox" name="inactives[]" id="inactives_{{ k }}" {% if stripe.isInactive(k) %} checked="checked" {% endif %} value="{{ k }}"/>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <p>{{ _T("Error: no predefined amounts found.", "stripe") }}</p>
-                {% endif %}
-            </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>{{ _T("Error: no predefined amounts found.", "stripe") }}</p>
+            {% endif %}
         </div>
 
         <div class="ui basic center aligned segment">
