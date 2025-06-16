@@ -457,7 +457,7 @@ class StripeController extends AbstractPluginController
             return $response->withStatus(200);
         } else {
             Analog::log(
-                'Stripe notify URL call without required arguments!',
+                'Webhook called without required arguments!',
                 Analog::ERROR
             );
             return $response->withStatus(500, 'Missing required arguments');
@@ -540,18 +540,16 @@ class StripeController extends AbstractPluginController
      *
      * @return Response
      */
-    public function filters(Request $request, Response $response): Response
+    public function filter(Request $request, Response $response): Response
     {
         $post = $request->getParsedBody();
 
         //reset history
-        $filters = [];
-        if (isset($post['reset'])) {
+        $filters = $this->session->filter_stripe_history ?? new HistoryList();
+        if (isset($post['reset']) && isset($post['nbshow'])) {
         } else {
             //number of rows to show
-            if (isset($post['nbshow'])) {
-                $filters['show'] = $post['nbshow'];
-            }
+            $filters->show = $post['nbshow'];
         }
 
         $this->session->filter_stripe_history = $filters;
