@@ -1,13 +1,9 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
 /**
- * Stripe history management
+ * Copyright © 2003-2025 The Galette Team
  *
- * Copyright © 2024 The Galette Team
- *
- * This file is part of Galette (http://galette.tuxfamily.org).
+ * This file is part of Galette (https://galette.eu).
  *
  * Galette is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,15 +17,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Galette. If not, see <http://www.gnu.org/licenses/>.
- *
- * @category Classes
- * @package  GaletteStripe
- *
- * @author    Mathieu PELLEGRIN <dev@pingveno.net>, manuelh78 <manuelh78dev@ik.me>
- * @copyright 2021 The Galette Team
- * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL License 3.0 or (at your option) any later version
- * @link      http://galette.tuxfamily.org
  */
+
+declare(strict_types=1);
 
 namespace GaletteStripe;
 
@@ -43,13 +33,9 @@ use Galette\Filters\HistoryList;
 /**
  * This class stores and serve the Stripe History.
  *
- * @category  Classes
- * @name      StripeHistory
- * @package   GaletteStripe
- * @author    Mathieu PELLEGRIN <dev@pingveno.net>
- * @copyright 2024 The Galette Team
- * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL License 3.0 or (at your option) any later version
- * @link      http://galette.tuxfamily.org
+ * @author Johan Cwiklinski <johan@x-tnd.be>
+ * @author Mathieu PELLEGRIN <dev@pingveno.net>
+ * @author manuelh78 <manuelh78dev@ik.me>
  */
 class StripeHistory extends History
 {
@@ -63,7 +49,7 @@ class StripeHistory extends History
     public const STATE_INCOMPLETE = 4;
     public const STATE_ALREADYDONE = 5;
 
-    private $id;
+    private int $id;
 
     /**
      * Default constructor.
@@ -73,7 +59,7 @@ class StripeHistory extends History
      * @param Preferences $preferences Preferences
      * @param HistoryList $filters     Filtering
      */
-    public function __construct(Db $zdb, Login $login, Preferences $preferences, $filters = null)
+    public function __construct(Db $zdb, Login $login, Preferences $preferences, HistoryList $filters = null)
     {
         $this->with_lists = false;
         parent::__construct($zdb, $login, $preferences, $filters);
@@ -82,25 +68,24 @@ class StripeHistory extends History
     /**
      * Add a new entry
      *
-     * @param string $action   the action to log
-     * @param string $argument the argument
-     * @param string $query    the query (if relevant)
+     * @param array|string $action   the action to log
+     * @param string       $argument the argument
+     * @param string       $query    the query (if relevant)
      *
-     * @return bool true if entry was successfully added, false otherwise
+     * @return boolean true if entry was successfully added, false otherwise
      */
-    //public function add($action, $argument = '', $query = '')
     public function add(array|string $action, string $argument = '', string $query = ''): bool
     {
         $request = $action;
         try {
-            $values = array(
+            $values = [
                 'history_date'  => date('Y-m-d H:i:s'),
                 'intent_id'     => $request['type'] . ' ' . $request['data']['object']['id'],
                 'amount'        => $request['data']['object']['amount'] / 100, // Stripe handles cent
                 'comment'       => $request['data']['object']['description'],
                 'metadata'      => serialize($request['data']['object']['metadata']),
                 'state'         => self::STATE_NONE
-            );
+            ];
 
             $insert = $this->zdb->insert($this->getTableName());
             $insert->values($values);
@@ -129,7 +114,7 @@ class StripeHistory extends History
      *
      * @return string
      */
-    protected function getTableName($prefixed = false):string
+    protected function getTableName(bool $prefixed = false): string
     {
         if ($prefixed === true) {
             return PREFIX_DB . STRIPE_PREFIX . self::TABLE;
@@ -143,7 +128,7 @@ class StripeHistory extends History
      *
      * @return string
      */
-    protected function getPk():string
+    protected function getPk(): string
     {
         return self::PK;
     }
@@ -153,11 +138,11 @@ class StripeHistory extends History
      *
      * @return array
      */
-    public function getStripeHistory()
+    public function getStripeHistory(): array
     {
         $orig = $this->getHistory();
-        $new = array();
-        $dedup = array();
+        $new = [];
+        $dedup = [];
         if (count($orig) > 0) {
             foreach ($orig as $o) {
                 try {
@@ -205,7 +190,7 @@ class StripeHistory extends History
     /**
      * Builds the order clause
      *
-     * @return string SQL ORDER clause
+     * @return array SQL ORDER clause
      */
     protected function buildOrderClause(): array
     {
@@ -221,17 +206,17 @@ class StripeHistory extends History
     /**
      * Is payment already processed?
      *
-     * @param string $sign Verify sign stripe parameter
+     * @param array $request Verify sign stripe parameter
      *
      * @return boolean
      */
-    public function isProcessed($request): bool
+    public function isProcessed(array $request): bool
     {
         $select = $this->zdb->select($this->getTableName());
         $select->where(
             [
-            'intent_id' => $request['type'] . ' ' . $request['data']['object']['id'],
-            'state'     => self::STATE_PROCESSED
+                'intent_id' => $request['type'] . ' ' . $request['data']['object']['id'],
+                'state'     => self::STATE_PROCESSED
             ]
         );
         $results = $this->zdb->execute($select);

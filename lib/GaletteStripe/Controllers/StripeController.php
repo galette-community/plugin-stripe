@@ -1,5 +1,26 @@
 <?php
 
+/**
+ * Copyright © 2003-2025 The Galette Team
+ *
+ * This file is part of Galette (https://galette.eu).
+ *
+ * Galette is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Galette is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Galette. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+declare(strict_types=1);
+
 namespace GaletteStripe\Controllers;
 
 use Analog\Analog;
@@ -16,7 +37,11 @@ use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
 /**
- * Stripe controller
+ * Galette Stripe plugin controller
+ *
+ * @author Johan Cwiklinski <johan@x-tnd.be>
+ * @author Mathieu PELLEGRIN <dev@pingveno.net>
+ * @author manuelh78 <manuelh78dev@ik.me>
  */
 
 class StripeController extends AbstractPluginController
@@ -27,7 +52,15 @@ class StripeController extends AbstractPluginController
     #[Inject("Plugin Galette Stripe")]
     protected array $module_info;
 
-    public function preferences($request, $response)
+    /**
+     * Preferences
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function preferences(Request $request, Response $response): Response
     {
         if ($this->session->stripe !== null) {
             $stripe = $this->session->stripe;
@@ -58,9 +91,15 @@ class StripeController extends AbstractPluginController
         return $response;
     }
 
-
-
-    public function storePreferences($request, $response)
+    /**
+     * Store Preferences
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function storePreferences(Request $request, Response $response): Response
     {
         $post = $request->getParsedBody();
         $stripe = new Stripe($this->zdb);
@@ -75,7 +114,7 @@ class StripeController extends AbstractPluginController
             if (isset($post['stripe_webhook_secret']) && $this->login->isAdmin()) {
                 $stripe->setWebhookSecret($post['stripe_webhook_secret']);
             }
-            if (isset($post['amount_id']) && isset($post['amounts'])) {
+            if (isset($post['amount_id'])) {
                 $stripe->setPrices($post['amount_id'], $post['amounts']);
             }
             if (isset($post['stripe_country']) && $this->login->isAdmin()) {
@@ -110,9 +149,15 @@ class StripeController extends AbstractPluginController
             ->withHeader('Location', $this->routeparser->urlFor('stripe_preferences'));
     }
 
-
-
-    public function form($request, $response)
+    /**
+     * Main form
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function form(Request $request, Response $response): Response
     {
         $stripe = new Stripe($this->zdb);
 
@@ -157,9 +202,15 @@ class StripeController extends AbstractPluginController
         return $response;
     }
 
-
-
-    public function formCheckout($request, $response)
+    /**
+     * Checkout form
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function formCheckout(Request $request, Response $response): Response
     {
         $stripe_request = $request->getParsedBody();
         $stripe = new Stripe($this->zdb);
@@ -196,7 +247,7 @@ class StripeController extends AbstractPluginController
                 $metadata['adherent_id'] = $this->login->id;
                 $metadata['billing_name'] = Adherent::getSName($this->zdb, $this->login->id);
                 $metadata['billing_email'] = $adherent->getEmail();
-                $metadata['billing_company'] = $adherent->_company_name;
+                $metadata['billing_company'] = $adherent->company_name;
                 $metadata['billing_address'] = $adherent->getAddress();
                 $metadata['billing_zip'] = $adherent->getZipcode();
                 $metadata['billing_town'] = $adherent->getTown();
@@ -237,9 +288,15 @@ class StripeController extends AbstractPluginController
         }
     }
 
-
-
-    public function webhook($request, $response)
+    /**
+     * Webhook
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function webhook(Request $request, Response $response): Response
     {
         $post = $request->getParsedBody();
         $body = $request->getBody();
@@ -261,7 +318,7 @@ class StripeController extends AbstractPluginController
                 }
             }
 
-            if (abs(time() - $sig_timestamp) > 5) {
+            if (abs(time() - $sig_timestamp) > 5) { //@phpstan-ignore-line
                 Analog::log(
                     'Stripe signature delayed for too many seconds!',
                     Analog::ERROR
@@ -286,11 +343,10 @@ class StripeController extends AbstractPluginController
         Analog::log("Stripe webhook request: " . var_export($post, true), Analog::DEBUG);
 
         // Process payload
-
-        if (isset($post['type'])
+        if (
+            isset($post['type'])
             && ($post['type'] == 'payment_intent.succeeded' || $post['type'] == 'invoice.payment_succeeded')
         ) {
-
             //We accept subscription invoice (annual or monthly) ; https://stripe.com/docs/billing/subscriptions/overview
             //Todo : rewrite a more cleaner
             if ($post['type'] == 'invoice.payment_succeeded') {
@@ -309,7 +365,8 @@ class StripeController extends AbstractPluginController
 
             // are we working on a real contribution?
             $real_contrib = false;
-            if (isset($post['data']['object']['metadata']['adherent_id'])
+            if (
+                isset($post['data']['object']['metadata']['adherent_id'])
                 && is_numeric($post['data']['object']['metadata']['adherent_id'])
                 && $post['data']['object']['status'] == 'succeeded'
                 && $post['data']['object']['amount_received'] == $post['data']['object']['amount']
@@ -323,8 +380,6 @@ class StripeController extends AbstractPluginController
                     Analog::WARNING
                 );
                 $ph->setState(StripeHistory::STATE_ALREADYDONE);
-                echo 'A stripe payment notification has been received, but it is already processed!';
-                return $response->withStatus(200);
             }
 
             // we'll now try to add the relevant cotisation
@@ -349,14 +404,13 @@ class StripeController extends AbstractPluginController
                     'type_paiement_cotis'   => PaymentType::CREDITCARD,
                     'montant_cotis'         => $post['data']['object']['amount'] / 100, // Stripe handles cents
                 ];
-                if ($this->preferences->pref_membership_ext != '') {
+                if ($this->preferences->pref_membership_ext != '') { //@phpstan-ignore-line
                     $contrib_args['ext'] = $this->preferences->pref_membership_ext;
                 }
                 $contrib = new Contribution($this->zdb, $this->login, $contrib_args);
 
                 // all goes well, we can proceed
                 if ($real_contrib) {
-
                     // Check contribution to set $contrib->errors to [] and handle contribution overlap
                     $valid = $contrib->check($check_contrib_args, [], []);
                     if ($valid !== true) {
@@ -366,8 +420,7 @@ class StripeController extends AbstractPluginController
                             Analog::ERROR
                         );
                         $ph->setState(StripeHistory::STATE_ERROR);
-                        echo 'An error occurred while storing a new contribution from Stripe payment';
-                        return $response->withStatus(500);
+                        return $response->withStatus(500, 'Internal error');
                     }
 
                     $store = $contrib->store();
@@ -377,43 +430,47 @@ class StripeController extends AbstractPluginController
                             'Stripe payment has been successfully registered as a contribution',
                             Analog::INFO
                         );
-                        echo 'Stripe payment has been successfully registered as a contribution';
                         $ph->setState(StripeHistory::STATE_PROCESSED);
-                        return $response->withStatus(200);
                     } else {
                         // something went wrong :'(
                         Analog::log(
                             'An error occured while storing a new contribution from Stripe payment',
                             Analog::ERROR
                         );
-                        echo 'An error occured while storing a new contribution from Stripe payment';
                         $ph->setState(StripeHistory::STATE_ERROR);
-                        return $response->withStatus(500);
+                        return $response->withStatus(500, 'Internal error');
                     }
+                    return $response->withStatus(200);
                 }
             } else {
                 Analog::log(
-                    'A stripe payment notification has been received, but the Adherent ID is not found!',
+                    'A stripe payment notification has been received, but is not completed!',
                     Analog::WARNING
                 );
-                echo 'A stripe payment notification has been received, but the Adherent ID is not found!';
-                $ph->setState(StripeHistory::STATE_ERROR);
-                return $response->withStatus(403);
+                $ph->setState(StripeHistory::STATE_INCOMPLETE);
+                return $response->withStatus(500, 'Internal error');
             }
+            return $response->withStatus(200);
         } else {
             Analog::log(
                 'Stripe notify URL call without required arguments!',
                 Analog::ERROR
             );
-            echo 'Stripe notify URL call without required arguments!';
-            return $response->withStatus(403);
+            return $response->withStatus(500, 'Missing required arguments');
         }
     }
 
-
-
-    //'/logs[/{option:|order|reset|page}/{value}]',
-    public function history($request, $response, string $option = null, string|int $value = null)
+    /**
+     * Logs page
+     *
+     * @param Request         $request  PSR Request
+     * @param Response        $response PSR Response
+     * @param string|null     $option   Either order, reset or page
+     * @param string|int|null $value    Option value
+     *
+     * @return Response
+     */
+    public function history(Request $request, Response $response, string $option = null, string|int $value = null): Response
     {
         $stripe_history = new StripeHistory($this->zdb, $this->login, $this->preferences);
 
@@ -435,15 +492,15 @@ class StripeController extends AbstractPluginController
 
         if ($option !== null) {
             switch ($option) {
-            case 'page':
-                $filters->current_page = (int) $value;
-                break;
-            case 'order':
-                $filters->orderby = $value;
-                break;
-            case 'reset':
-                $filters = new HistoryList();
-                break;
+                case 'page':
+                    $filters->current_page = (int) $value;
+                    break;
+                case 'order':
+                    $filters->orderby = $value;
+                    break;
+                case 'reset':
+                    $filters = new HistoryList();
+                    break;
             }
         }
         $this->session->filter_stripe_history = $filters;
@@ -471,9 +528,15 @@ class StripeController extends AbstractPluginController
         return $response;
     }
 
-
-    //history filtering
-    public function filters($request, $response)
+    /**
+     * Filter
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function filters(Request $request, Response $response): Response
     {
         $post = $request->getParsedBody();
 
@@ -491,6 +554,6 @@ class StripeController extends AbstractPluginController
 
         return $response
             ->withStatus(301)
-            ->withHeader('Location', $this->router->pathFor('stripe_history'));
+            ->withHeader('Location', $this->routeparser->urlFor('stripe_history'));
     }
 }

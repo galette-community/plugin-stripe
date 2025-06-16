@@ -1,17 +1,9 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
 /**
- * Stripe Galette plugin
+ * Copyright © 2003-2025 The Galette Team
  *
- * This page can be loaded directly, or via ajax.
- * Via ajax, we do not have a full html page, but only
- * that will be displayed using javascript on another page
- *
- * Copyright © 2011-2014 The Galette Team
- *
- * This file is part of Galette (http://galette.tuxfamily.org).
+ * This file is part of Galette (https://galette.eu).
  *
  * Galette is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,14 +17,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Galette. If not, see <http://www.gnu.org/licenses/>.
- *
- * @category  Classes
- * @package   GaletteStripe
- * @author    Mathieu PELLEGRIN <dev@pingveno.net>
- * @copyright 2011-2014 The Galette Team
- * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL License 3.0 or (at your option) any later version
- * @link      http://galette.tuxfamily.org
  */
+
+declare(strict_types=1);
 
 namespace GaletteStripe;
 
@@ -44,13 +31,9 @@ use Galette\Entity\ContributionsTypes;
 /**
  * Preferences for stripe
  *
- * @category  Classes
- * @name      Stripe
- * @package   GaletteStripe
- * @author    Mathieu PELLEGRIN <dev@pingveno.net>
- * @copyright 2011-2014 The Galette Team
- * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL License 3.0 or (at your option) any later version
- * @link      http://galette.tuxfamily.org
+ * @author Johan Cwiklinski <johan@x-tnd.be>
+ * @author Mathieu PELLEGRIN <dev@pingveno.net>
+ * @author manuelh78 <manuelh78dev@ik.me>
  */
 
 class Stripe
@@ -62,18 +45,20 @@ class Stripe
     public const PAYMENT_PENDING = 'Pending';
     public const PAYMENT_COMPLETE = 'Complete';
 
-    private $zdb;
+    private Db $zdb;
 
-    private $prices = array();
-    private $pubkey = null;
-    private $privkey = null;
-    private $webhook_secret = null;
-    private $country = null;
-    private $currency = null;
-    private $inactives = array();
+    /** @var array<int, array<string,mixed>> */
+    private array $prices;
+    private ?string $pubkey;
+    private ?string $privkey;
+    private ?string $webhook_secret;
+    private ?string $country;
+    private ?string $currency;
+    /** @var array<int, string> */
+    private array $inactives;
 
-    private $loaded = false;
-    private $amounts_loaded = false;
+    private bool $loaded;
+    private bool $amounts_loaded = false;
 
     /**
      * Default constructor
@@ -84,8 +69,8 @@ class Stripe
     {
         $this->zdb = $zdb;
         $this->loaded = false;
-        $this->prices = array();
-        $this->inactives = array();
+        $this->prices = [];
+        $this->inactives = [];
         $this->pubkey = null;
         $this->privkey = null;
         $this->country = null;
@@ -98,42 +83,43 @@ class Stripe
      *
      * @return void
      */
-    public function load()
+    public function load(): void
     {
         try {
             $results = $this->zdb->selectAll(STRIPE_PREFIX . self::PREFS_TABLE);
 
+            /** @var \ArrayObject<string, mixed> $row */
             foreach ($results as $row) {
                 switch ($row->nom_pref) {
-                case 'stripe_pubkey':
-                    $this->pubkey = $row->val_pref;
-                    break;
-                case 'stripe_privkey':
-                    $this->privkey = $row->val_pref;
-                    break;
-                case 'stripe_webhook_secret':
-                    $this->webhook_secret = $row->val_pref;
-                    break;
-                case 'stripe_country':
-                    $this->country = $row->val_pref;
-                    break;
-                case 'stripe_currency':
-                    $this->currency = $row->val_pref;
-                    break;
-                case 'stripe_inactives':
-                    $this->inactives = explode(',', $row->val_pref);
-                    break;
-                default:
-                    //we've got a preference not intended
-                    Analog::log(
-                        '[' . get_class($this) . '] unknown preference `' .
-                        $row->nom_pref . '` in the database.',
-                        Analog::WARNING
-                    );
+                    case 'stripe_pubkey':
+                        $this->pubkey = $row->val_pref;
+                        break;
+                    case 'stripe_privkey':
+                        $this->privkey = $row->val_pref;
+                        break;
+                    case 'stripe_webhook_secret':
+                        $this->webhook_secret = $row->val_pref;
+                        break;
+                    case 'stripe_country':
+                        $this->country = $row->val_pref;
+                        break;
+                    case 'stripe_currency':
+                        $this->currency = $row->val_pref;
+                        break;
+                    case 'stripe_inactives':
+                        $this->inactives = explode(',', $row->val_pref);
+                        break;
+                    default:
+                        //we've got a preference not intended
+                        Analog::log(
+                            '[' . get_class($this) . '] unknown preference `' .
+                            $row->nom_pref . '` in the database.',
+                            Analog::WARNING
+                        );
                 }
             }
             $this->loaded = true;
-            return $this->loadAmounts();
+            $this->loadAmounts();
         } catch (\Exception $e) {
             Analog::log(
                 '[' . get_class($this) . '] Cannot load stripe preferences |' .
@@ -141,7 +127,6 @@ class Stripe
                 Analog::ERROR
             );
             //consider plugin is not loaded when missing the main preferences
-            //(that includes stripe id)
             $this->loaded = false;
         }
     }
@@ -151,7 +136,7 @@ class Stripe
      *
      * @return void
      */
-    private function loadAmounts()
+    private function loadAmounts(): void
     {
         $ct = new ContributionsTypes($this->zdb);
         $this->prices = $ct->getCompleteList();
@@ -169,16 +154,16 @@ class Stripe
                 );
             }
 
-            $queries = array();
+            $queries = [];
             foreach ($this->prices as $k => $v) {
                 $_found = false;
                 if (count($results) > 0) {
                     //for each entry in types, we want to get the associated amount
                     foreach ($results as $stripe) {
-                        $stripe=(object)$stripe;
+                        $stripe = (object)$stripe;
                         if ($stripe->id_type_cotis == $k) {
                             $_found = true;
-                            $this->prices[$k]['amount'] = (float) $stripe->amount;
+                            $this->prices[$k]['amount'] = (float)$stripe->amount;
                             break;
                         }
                     }
@@ -190,10 +175,10 @@ class Stripe
                         Analog::INFO
                     );
                     $this->prices[$k]['amount'] = null;
-                    $queries[] = array(
-                          'id'   => $k,
+                    $queries[] = [
+                        'id'   => $k,
                         'amount' => null
-                    );
+                    ];
                 }
             }
             if (count($queries) > 0) {
@@ -215,97 +200,97 @@ class Stripe
     /**
      * Store values in the database
      *
-     * @return void
+     * @return bool
      */
-    public function store()
+    public function store(): bool
     {
         try {
             //store stripe pubkey
-            $values = array(
+            $values = [
                 'nom_pref' => 'stripe_pubkey',
                 'val_pref' => $this->pubkey
-            );
+            ];
             $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
             $update->set($values)
                 ->where(
-                    array(
+                    [
                         'nom_pref' => 'stripe_pubkey'
-                    )
+                    ]
                 );
 
             $edit = $this->zdb->execute($update);
 
             //store stripe privkey
-            $values = array(
+            $values = [
                 'nom_pref' => 'stripe_privkey',
                 'val_pref' => $this->privkey
-            );
+            ];
             $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
             $update->set($values)
                 ->where(
-                    array(
+                    [
                         'nom_pref' => 'stripe_privkey'
-                    )
+                    ]
                 );
 
             $edit = $this->zdb->execute($update);
 
             //store stripe webhook secret
-            $values = array(
+            $values = [
                 'nom_pref' => 'stripe_webhook_secret',
                 'val_pref' => $this->webhook_secret
-            );
+            ];
             $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
             $update->set($values)
                 ->where(
-                    array(
+                    [
                         'nom_pref' => 'stripe_webhook_secret'
-                    )
+                    ]
                 );
 
             $edit = $this->zdb->execute($update);
 
             //store stripe country
-            $values = array(
+            $values = [
                 'nom_pref' => 'stripe_country',
                 'val_pref' => $this->country
-            );
+            ];
             $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
             $update->set($values)
                 ->where(
-                    array(
+                    [
                         'nom_pref' => 'stripe_country'
-                    )
+                    ]
                 );
 
             $edit = $this->zdb->execute($update);
 
             //store stripe currency
-            $values = array(
+            $values = [
                 'nom_pref' => 'stripe_currency',
                 'val_pref' => $this->currency
-            );
+            ];
             $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
             $update->set($values)
                 ->where(
-                    array(
+                    [
                         'nom_pref' => 'stripe_currency'
-                    )
+                    ]
                 );
 
             $edit = $this->zdb->execute($update);
 
             //store inactives
-            $values = array(
+            $values = [
                 'nom_pref' => 'stripe_inactives',
                 'val_pref' => implode(',', $this->inactives)
-            );
+            ];
             $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
             $update->set($values)
                 ->where(
-                    array(
+                    [
                         'nom_pref' => 'stripe_inactives'
-                    )
+                    ]
                 );
 
             $edit = $this->zdb->execute($update);
@@ -332,24 +317,24 @@ class Stripe
      *
      * @return boolean
      */
-    public function storeAmounts()
+    public function storeAmounts(): bool
     {
         try {
             $update = $this->zdb->update(STRIPE_PREFIX . self::TABLE);
             $update->set(
-                array(
+                [
                     'amount'    => ':amount'
-                )
+                ]
             )->where->equalTo(self::PK, ':id');
 
             $stmt = $this->zdb->sql->prepareStatementForSqlObject($update);
 
             foreach ($this->prices as $k => $v) {
                 $stmt->execute(
-                    array(
-                        'amount'    => (float) $v['amount'],
-                        'where1'        => $k
-                    )
+                    [
+                        'amount'    => (float)$v['amount'],
+                        'where1'    => $k
+                    ]
                 );
             }
 
@@ -371,51 +356,53 @@ class Stripe
     /**
      * Add missing types in stripe table
      *
-     * @param Array $queries Array of items to insert
+     * @param array<int, array<string, mixed>> $queries Array of items to insert
      *
-     * @return true on success, false on failure
+     * @return void
      */
-    private function newEntries($queries)
+    private function newEntries(array $queries): void
     {
         try {
             $insert = $this->zdb->insert(STRIPE_PREFIX . self::TABLE);
             $insert->values(
-                array(
+                [
                     self::PK    => ':' . self::PK,
                     'amount'    => ':amount'
-                )
+                ]
             );
             $stmt = $this->zdb->sql->prepareStatementForSqlObject($insert);
 
             foreach ($queries as $q) {
                 $stmt->execute(
-                    array(
+                    [
                         self::PK    => $q['id'],
                         'amount'    => $q['amount']
-                    )
+                    ]
                 );
             }
-
-            return true;
         } catch (\Exception $e) {
             Analog::log(
                 'Unable to store missing types in stripe table.' .
+                //@phpstan-ignore-next-line
                 $stmt->getMessage() . '(' . $stmt->getDebugInfo() . ')',
                 Analog::WARNING
             );
-            return false;
         }
     }
 
     /**
      * Create payment intent
      *
-     * @return string
+     * @param array<string, mixed> $metadata Array of metadata to transmit with payment
+     * @param string               $amount   Amount of payment
+     * @param array<int, string>   $methods  Array of payment methods
+     *
+     * @return string|boolean
      */
-    public function createPaymentIntent($metadata, $amount, $methods = ['card'])
+    public function createPaymentIntent(array $metadata, string $amount, array $methods = ['card']): string|bool
     {
         $data = [
-            'amount' => $amount * 100, // Stripe needs integer cents as amount
+            'amount' => (float)$amount * 100, // Stripe needs integer cents as amount
             'currency' => $this->getCurrency(),
             'payment_method_types' => $methods,
             'metadata' => $metadata,
@@ -450,7 +437,7 @@ class Stripe
      *
      * @return string
      */
-    public function getPubKey()
+    public function getPubKey(): ?string
     {
         return $this->pubkey;
     }
@@ -460,7 +447,7 @@ class Stripe
      *
      * @return string
      */
-    public function getPrivKey()
+    public function getPrivKey(): ?string
     {
         return $this->privkey;
     }
@@ -470,7 +457,7 @@ class Stripe
      *
      * @return string
      */
-    public function getWebhookSecret()
+    public function getWebhookSecret(): ?string
     {
         return $this->webhook_secret;
     }
@@ -480,7 +467,7 @@ class Stripe
      *
      * @return string
      */
-    public function getCountry()
+    public function getCountry(): ?string
     {
         return $this->country;
     }
@@ -490,7 +477,7 @@ class Stripe
      *
      * @return string
      */
-    public function getCurrency()
+    public function getCurrency(): ?string
     {
         return $this->currency;
     }
@@ -500,14 +487,14 @@ class Stripe
      *
      * @param Login $login Login instance
      *
-     * @return array
+     * @return array<int, array<string,mixed>>
      */
-    public function getAmounts(Login $login)
+    public function getAmounts(Login $login): array
     {
-        $prices = array();
+        $prices = [];
         foreach ($this->prices as $k => $v) {
             if (!$this->isInactive($k)) {
-                if ($login->isLogged() || $v['extra'] == 0) {
+                if ($login->isLogged() || $v['extra'] == ContributionsTypes::DONATION_TYPE) {
                     $prices[$k] = $v;
                 }
             }
@@ -518,9 +505,9 @@ class Stripe
     /**
      * Get loaded amounts
      *
-     * @return array
+     * @return array<int, array<string,mixed>>
      */
-    public function getAllAmounts()
+    public function getAllAmounts(): array
     {
         return $this->prices;
     }
@@ -528,9 +515,9 @@ class Stripe
     /**
      * Get all countries
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getAllCountries()
+    public function getAllCountries(): array
     {
         $countries = [
             "DE" => _T("Germany"),
@@ -580,9 +567,9 @@ class Stripe
     /**
      * Get all currencies
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getAllCurrencies()
+    public function getAllCurrencies(): array
     {
         $currencies = [
             "eur" => _T("Euros"),
@@ -599,7 +586,7 @@ class Stripe
      *
      * @return boolean
      */
-    public function isLoaded()
+    public function isLoaded(): bool
     {
         return $this->loaded;
     }
@@ -609,7 +596,7 @@ class Stripe
      *
      * @return boolean
      */
-    public function areAmountsLoaded()
+    public function areAmountsLoaded(): bool
     {
         return $this->amounts_loaded;
     }
@@ -621,7 +608,7 @@ class Stripe
      *
      * @return void
      */
-    public function setPubKey($pubkey)
+    public function setPubKey(string $pubkey): void
     {
         $this->pubkey = $pubkey;
     }
@@ -633,7 +620,7 @@ class Stripe
      *
      * @return void
      */
-    public function setPrivKey($privkey)
+    public function setPrivKey(string $privkey): void
     {
         $this->privkey = $privkey;
     }
@@ -645,7 +632,7 @@ class Stripe
      *
      * @return void
      */
-    public function setWebhookSecret($secret)
+    public function setWebhookSecret(string $secret): void
     {
         $this->webhook_secret = $secret;
     }
@@ -657,7 +644,7 @@ class Stripe
      *
      * @return void
      */
-    public function setCountry($country)
+    public function setCountry(string $country): void
     {
         $this->country = $country;
     }
@@ -669,7 +656,7 @@ class Stripe
      *
      * @return void
      */
-    public function setCurrency($currency)
+    public function setCurrency(string $currency): void
     {
         $this->currency = $currency;
     }
@@ -677,12 +664,12 @@ class Stripe
     /**
      * Set new prices
      *
-     * @param array $ids     array of identifier
-     * @param array $amounts array of amounts
+     * @param array<int, string> $ids     array of identifier
+     * @param array<int, string> $amounts array of amounts
      *
      * @return void
      */
-    public function setPrices($ids, $amounts)
+    public function setPrices(array $ids, array $amounts): void
     {
         $this->prices = [];
         foreach ($ids as $k => $id) {
@@ -697,7 +684,7 @@ class Stripe
      *
      * @return boolean
      */
-    public function isInactive($id)
+    public function isInactive(int $id): bool
     {
         return in_array($id, $this->inactives);
     }
@@ -705,11 +692,11 @@ class Stripe
     /**
      * Set inactives types
      *
-     * @param array $inactives array of inactives types
+     * @param array<int, string> $inactives array of inactives types
      *
      * @return void
      */
-    public function setInactives($inactives)
+    public function setInactives(array $inactives): void
     {
         $this->inactives = $inactives;
     }
@@ -719,8 +706,8 @@ class Stripe
      *
      * @return void
      */
-    public function unsetInactives()
+    public function unsetInactives(): void
     {
-        $this->inactives = array();
+        $this->inactives = [];
     }
 }
