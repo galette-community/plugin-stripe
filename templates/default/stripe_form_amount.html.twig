@@ -124,6 +124,12 @@
                                     label: _T("Country", "stripe"),
                                     value: ''
                                 } %}
+                                {% include "components/forms/text.html.twig" with {
+                                    id: 'honeypot',
+                                    label: _T("URL", "stripe"),
+                                    value: '',
+                                    component_class: 'displaynone'
+                                } %}
                             </div>
                         </div>
                     </div>
