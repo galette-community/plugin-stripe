@@ -6,7 +6,7 @@ CREATE TABLE galette_stripe_types_cotisation_prices (
   id_type_cotis int(10) unsigned NOT NULL,
   amount double NULL,
   PRIMARY KEY (id_type_cotis),
-  CONSTRAINT galette_cotisation_price FOREIGN KEY (id_type_cotis) REFERENCES galette_types_cotisation (id_type_cotis) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT galette_stripe_cotisation_price FOREIGN KEY (id_type_cotis) REFERENCES galette_types_cotisation (id_type_cotis) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
