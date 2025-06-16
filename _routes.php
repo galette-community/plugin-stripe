@@ -1,13 +1,9 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
 /**
- * Stripe routes
+ * Copyright © 2003-2025 The Galette Team
  *
- * Copyright © 2021 The Galette Team
- *
- * This file is part of Galette (http://galette.tuxfamily.org).
+ * This file is part of Galette (https://galette.eu).
  *
  * Galette is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,15 +17,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Galette. If not, see <http://www.gnu.org/licenses/>.
- *
- * @category Plugins
- * @package  GaletteStripe
- *
- * @author    Mathieu PELLEGRIN <dev@pingveno.net>; manuelh78 <manuelh78dev@ik.me>
- * @copyright 2021 The Galette Team
- * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL License 3.0 or (at your option) any later version
- * @link      http://galette.tuxfamily.org
  */
+
+declare(strict_types=1);
+
 use GaletteStripe\Controllers\StripeController;
 
 //Constants and classes from plugin
