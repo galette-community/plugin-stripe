@@ -1,7 +1,7 @@
 --
 -- Table structure for table `galette_stripe_types_cotisation_prices`
 --
-
+DROP TABLE IF EXISTS galette_stripe_types_cotisation_prices;
 CREATE TABLE galette_stripe_types_cotisation_prices (
   id_type_cotis int(10) unsigned NOT NULL,
   amount double NULL,
@@ -12,7 +12,7 @@ CREATE TABLE galette_stripe_types_cotisation_prices (
 --
 -- Table structure for table `galette_stripe_history`
 --
-
+DROP TABLE IF EXISTS galette_stripe_history;
 CREATE TABLE galette_stripe_history (
   id_stripe int(11) NOT NULL auto_increment,
   history_date datetime NOT NULL,
@@ -27,14 +27,14 @@ CREATE TABLE galette_stripe_history (
 --
 -- Table structure for table `galette_stripe_preferences`
 --
-
+DROP TABLE IF EXISTS galette_stripe_preferences;
 CREATE TABLE galette_stripe_preferences (
   id_pref int(10) unsigned NOT NULL auto_increment,
   nom_pref varchar(100) NOT NULL default '',
   val_pref varchar(200) NOT NULL default '',
-  PRIMARY KEY  (id_pref),
-  UNIQUE KEY(nom_pref)
-) ENGINE=MyISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+  PRIMARY KEY (id_pref),
+  UNIQUE KEY (nom_pref)
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_pubkey', '');
 INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_privkey', '');
