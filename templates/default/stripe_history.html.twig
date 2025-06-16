@@ -79,7 +79,9 @@
             {% if log.metadata.custom is defined %}
                 <a href="{{ url_for("member", {"id": log.metadata.custom}) }}">
             {% endif %}
-                {{ log.metadata.adherent_name }}
+            {% if log.metadata.billing_name is defined %}
+                {{ log.metadata.billing_name }}
+            {% endif %}
             {% if log.metadata.custom is defined %}
                 </a>
             {% endif %}
@@ -89,7 +91,9 @@
             </td>
             <td data-col-label="{{ _T("Subject") }}">
         {% if log.metadata is iterable %}
+            {% if log.metadata.item_name is defined %}
                 {{ log.metadata.item_name }}
+            {% endif %}
         {% endif %}
             </td>
             <td data-col-label="{{ _T("Amount") }}">
