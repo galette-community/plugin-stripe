@@ -476,7 +476,7 @@ class StripeController extends AbstractPluginController
      *
      * @return Response
      */
-    public function history(Request $request, Response $response, string $option = null, string|int $value = null): Response
+    public function history(Request $request, Response $response, ?string $option = null, string|int|null $value = null): Response
     {
         $stripe_history = new StripeHistory($this->zdb, $this->login, $this->preferences);
 
