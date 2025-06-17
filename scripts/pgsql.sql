@@ -56,5 +56,5 @@ INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_pubk
 INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_privkey', '');
 INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_webhook_secret', '');
 INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_inactives', '4,6,7');
-INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_country', 'fr');
+INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_country', 'FR');
 INSERT INTO galette_stripe_preferences (nom_pref, val_pref) VALUES ('stripe_currency', 'eur');
