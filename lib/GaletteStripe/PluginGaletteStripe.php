@@ -3,7 +3,7 @@
 /**
  * Copyright © 2003-2025 The Galette Team
  *
- * This file is part of Galette (https://galette.eu).
+ * This file is part of Galette Stripe plugin (https://galette-community.github.io/plugin-stripe).
  *
  * Galette is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ use Galette\Core\GalettePlugin;
  * @author Johan Cwiklinski <johan@x-tnd.be>
  * @author Mathieu PELLEGRIN <dev@pingveno.net>
  * @author manuelh78 <manuelh78dev@ik.me>
+ * @author Guillaume AGNIERAY <dev@agnieray.net>
  */
 
 class PluginGaletteStripe extends GalettePlugin

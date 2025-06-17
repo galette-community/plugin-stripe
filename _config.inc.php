@@ -3,7 +3,7 @@
 /**
  * Copyright © 2003-2025 The Galette Team
  *
- * This file is part of Galette (https://galette.eu).
+ * This file is part of Galette Stripe plugin (https://galette-community.github.io/plugin-stripe).
  *
  * Galette is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,5 +20,11 @@
  */
 
 declare(strict_types=1);
+
+/**
+ * Configuration
+ *
+ * @author Mathieu PELLEGRIN <dev@pingveno.net>
+ */
 
 define('STRIPE_PREFIX', 'stripe_');

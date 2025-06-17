@@ -3,7 +3,7 @@
 /**
  * Copyright © 2003-2025 The Galette Team
  *
- * This file is part of Galette (https://galette.eu).
+ * This file is part of Galette Stripe plugin (https://galette-community.github.io/plugin-stripe).
  *
  * Galette is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,13 +22,13 @@
 declare(strict_types=1);
 
 $this->register(
-    'Galette Stripe',                 //Name
-    'Stripe integration',             //Short description
-    'Mathieu PELLEGRIN, manuelh78',   //Author
-    '0.0.4',                          //Version
-    '1.2.0',                          //Galette compatible version
-    'stripe',                         //routing name and translation domain
-    '2024-02-08',                     //Release date
+    'Galette Stripe',                                   //Name
+    'Stripe integration',                               //Short description
+    'Mathieu PELLEGRIN, manuelh78, Guillaume AGNIERAY', //Author
+    '0.0.5',                                            //Version
+    '1.2.0',                                            //Galette compatible version
+    'stripe',                                           //routing name and translation domain
+    '2024-02-08',                                       //Release date
     [   //Permissions needed
         'stripe_preferences'        => 'staff',
         'store_stripe_preferences'  => 'staff',
