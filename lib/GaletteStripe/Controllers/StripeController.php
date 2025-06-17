@@ -269,13 +269,14 @@ class StripeController extends AbstractPluginController
             }
 
             $metadata['contrib_id'] = $item_number;
+            $metadata['item_name'] = $stripe_amounts[$item_number]['name'];
 
             $client_secret = $stripe->createPaymentIntent($metadata, $amount);
 
             $params = [
                 'stripe'        => $stripe,
                 'amount'        => $amount * 100,
-                'item_name'     => $stripe_amounts[$item_number]['name'],
+                'item_name'     => $metadata['item_name'],
                 'client_secret' => $client_secret,
                 'page_title'    => _T('Stripe payment', 'stripe'),
                 'current_url'   => rtrim($current_url, '/'),
