@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * Copyright © 2003-2025 The Galette Team
+ *
+ * This file is part of Galette (https://galette.eu).
+ *
+ * Galette is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Galette is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Galette. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+namespace GaletteStripe\tests\units;
+
+use Galette\GaletteTestCase;
+
+/**
+ * Stripe tests
+ *
+ * @author Johan Cwiklinski <johan@x-tnd.be>
+ */
+class Stripe extends GaletteTestCase
+{
+    protected int $seed = 20240518135530;
+
+    /**
+     * Cleanup after each test method
+     *
+     * @return void
+     */
+    public function tearDown(): void
+    {
+        $delete = $this->zdb->delete(STRIPE_PREFIX . \GaletteStripe\Stripe::TABLE);
+        $this->zdb->execute($delete);
+        parent::tearDown();
+    }
+
+    /**
+     * Test empty
+     *
+     * @return void
+     */
+    public function testEmpty(): void
+    {
+        $stripe = new \GaletteStripe\Stripe($this->zdb);
+        $this->assertSame('', $stripe->getId());
+
+        $amounts = $stripe->getAmounts($this->login);
+        $this->assertCount(1, $amounts);
+
+        $ctype = new \Galette\Entity\ContributionsTypes($this->zdb);
+        $ctype_id = $ctype->getIdByLabel('donation in money');
+        $this->assertEquals(
+            [
+                $ctype_id => [
+                    'name' => 'donation in money',
+                    'amount' => null,
+                    'extra' => '0',
+                    'text_orig' => 'donation in money',
+                ]
+            ],
+            $amounts
+        );
+        $this->assertCount(7, $stripe->getAllAmounts());
+        $this->assertTrue($stripe->areAmountsLoaded());
+        $this->assertTrue($stripe->isLoaded());
+    }
+}
