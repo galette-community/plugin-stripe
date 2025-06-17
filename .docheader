@@ -1,7 +1,5 @@
-<?php
-
 /**
- * Copyright © 2003-2025 The Galette Team
+ * Copyright © 2003-%year% The Galette Team
  *
  * This file is part of Galette Stripe plugin (https://galette-community.github.io/plugin-stripe).
  *
@@ -18,15 +16,3 @@
  * You should have received a copy of the GNU General Public License
  * along with Galette. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/**
- * Bootstrap tests file for Galette Stripe plugin
- *
- * @author Johan Cwiklinski <johan@x-tnd.be>
- */
-
-define('GALETTE_PLUGINS_PATH', __DIR__ . '/../../');
-$basepath = '../../../galette/';
-
-include_once '../../../tests/TestsBootstrap.php';
-require_once __DIR__ . '/../_config.inc.php';
