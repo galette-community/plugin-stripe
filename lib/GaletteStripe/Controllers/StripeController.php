@@ -260,6 +260,7 @@ class StripeController extends AbstractPluginController
                     return $response->withStatus(403);
                 }
 
+                $metadata['adherent_id'] = '';
                 $metadata['billing_name'] = $stripe_request['billing_firstname'] . ' ' . $stripe_request['billing_lastname'];
                 $metadata['billing_email'] = $stripe_request['billing_email'];
                 $metadata['billing_company'] = $stripe_request['billing_company'];
