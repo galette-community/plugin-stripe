@@ -90,7 +90,8 @@
                                     value: '',
                                     required: true
                                 } %}
-                                {% include "components/forms/text.html.twig" with {
+                                {% include "components/forms/input.html.twig" with {
+                                    type: 'email',
                                     id: 'billing_email',
                                     label: _T("Email address", "stripe"),
                                     value: '',
