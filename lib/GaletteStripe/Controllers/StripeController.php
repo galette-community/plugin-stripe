@@ -302,8 +302,8 @@ class StripeController extends AbstractPluginController
      */
     public function webhook(Request $request, Response $response): Response
     {
-        $post = $request->getParsedBody();
         $body = $request->getBody();
+        $post = json_decode($body->getContents(), true);
         $stripe = new Stripe($this->zdb);
 
         // Check webhook signature
