@@ -3,7 +3,7 @@
 /**
  * Copyright © 2003-2025 The Galette Team
  *
- * This file is part of Galette (https://galette.eu).
+ * This file is part of Galette Stripe plugin (https://galette-community.github.io/plugin-stripe).
  *
  * Galette is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,10 +27,11 @@ use Galette\GaletteTestCase;
  * Stripe tests
  *
  * @author Johan Cwiklinski <johan@x-tnd.be>
+ * @author Guillaume AGNIERAY <dev@agnieray.net>
  */
 class Stripe extends GaletteTestCase
 {
-    protected int $seed = 20240518135530;
+    protected int $seed = 20250617153548;
 
     /**
      * Cleanup after each test method
@@ -52,7 +53,11 @@ class Stripe extends GaletteTestCase
     public function testEmpty(): void
     {
         $stripe = new \GaletteStripe\Stripe($this->zdb);
-        $this->assertSame('', $stripe->getId());
+        $this->assertSame('', $stripe->getPubKey());
+        $this->assertSame('', $stripe->getPrivKey());
+        $this->assertSame('', $stripe->getWebhookSecret());
+        $this->assertSame('FR', $stripe->getCountry());
+        $this->assertSame('eur', $stripe->getCurrency());
 
         $amounts = $stripe->getAmounts($this->login);
         $this->assertCount(1, $amounts);
