@@ -228,4 +228,4 @@ jobs:
         if: env.skip != 'true'
         run: |
           cd galette-core/galette/plugins/plugin-stripe
-          ../../vendor/bin/phpunit --test-suffix=.php --bootstrap tests/TestsBootstrap.php --no-coverage --process-isolation tests/GalettePaypal/
+          ../../vendor/bin/phpunit --test-suffix=.php --bootstrap tests/TestsBootstrap.php --no-coverage --process-isolation tests/GaletteStripe/
