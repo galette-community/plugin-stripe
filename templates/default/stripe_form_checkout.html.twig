@@ -77,7 +77,6 @@
                         <button type="submit" data-tid="elements.form.pay_button" class="ui primary fluid large button action">
                             {{ _T("Pay", "stripe") }}
                         </button>
-                        <div class="stripe-loader" style="display:none;">Loading...</div>
                     </div>
                 </div>
             </div>
@@ -88,12 +87,15 @@
 
 {% block javascripts %}
     {% if stripe.isLoaded() and stripe.getPubKey() != null and stripe.getPrivKey() != null and stripe.areAmountsLoaded() %}
-        <script src="https://js.stripe.com/v3/"></script>
+        <script src="https://js.stripe.com/v3/" defer></script>
         <script type="text/javascript">
-            $(function() {
-                var stripe = Stripe('{{ stripe.getPubKey() }}', {});
-
-                var elementStyles = {
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('payment-form');
+                const errorContainer = document.getElementById('error');
+                const errorMessage = '<div class="ui icon visible negative center aligned message"><div class="content"></div></div>';
+                const successContainer = document.getElementById('success');
+                const successMessage = '<div class="ui icon visible positive center aligned message"><div class="header"></div></div>';
+                const elementStyles = {
                     base: {
                         color: '#32325D',
                         fontWeight: 500,
@@ -116,38 +118,37 @@
                         },
                     },
                 };
-
-                var elementClasses = {
+                const elementClasses = {
                     focus: 'focused',
                     empty: 'empty',
                     invalid: 'invalid',
                 };
 
-                // Create button from Stripe Elements
-                var elements = stripe.elements();
+                let stripe = Stripe('{{ stripe.getPubKey() }}', {});
 
-                var cardNumber = elements.create('cardNumber', {
+                // Create the form from Stripe Elements
+                let elements = stripe.elements();
+
+                let cardNumber = elements.create('cardNumber', {
                     style: elementStyles,
                     classes: elementClasses,
                 });
                 cardNumber.mount('#stripe-card-number');
 
-                var cardExpiry = elements.create('cardExpiry', {
+                let cardExpiry = elements.create('cardExpiry', {
                     style: elementStyles,
                     classes: elementClasses,
                 });
                 cardExpiry.mount('#stripe-card-expiry');
 
-                var cardCvc = elements.create('cardCvc', {
+                let cardCvc = elements.create('cardCvc', {
                     style: elementStyles,
                     classes: elementClasses,
                 });
                 cardCvc.mount('#stripe-card-cvc');
 
-                var form = document.getElementById('payment-form');
-
-                // Create payment request
-                var paymentRequest = stripe.paymentRequest({
+                // Create the payment request
+                let paymentRequest = stripe.paymentRequest({
                     country: '{{ stripe.getCountry() }}',
                     currency: '{{ stripe.getCurrency() }}',
                     total: {
@@ -158,10 +159,14 @@
                     requestPayerEmail: true,
                 });
 
-                form.addEventListener('submit', function(ev) {
-                    ev.preventDefault();
-                    jQuery(this).find('button[type="submit"]').prop('disabled', true).addClass('loading');
-                    stripe.confirmCardPayment('{{ client_secret }}', {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    submitButton.disabled = true;
+                    submitButton.classList.add('loading');
+
+                    const paymentData = {
                         payment_method: {
                             card: cardNumber,
                             billing_details: {
@@ -169,22 +174,23 @@
                                 email: '{{ metadata.billing_email }}'
                             }
                         }
-                    }).then(function(result) {
-                        if (result.error !== undefined && result.error !== null && result.error !== '') {
-                            jQuery('#error').html('<div class="ui icon visible negative center aligned message"><div class="content"></div></div>');
-                            jQuery('#error .content').text(result.error.message);
-                            jQuery(form).find('button[type="submit"]').prop('disabled', false).removeClass('loading');
-                        } else {
-                            // The payment has been processed!
-                            if (result.paymentIntent.status === 'succeeded') {
-                                jQuery('#success').html('<div class="ui icon visible positive center aligned message"><div class="header"></div></div>');
-                                jQuery('#success .header').text('{{ _T("Payment successful", "stripe") }}');
-                                jQuery(form).find('#billing-details').remove();
-                            }
+                    };
+
+                    stripe.confirmCardPayment('{{ client_secret }}', paymentData).then(function(result) {
+                        if (result.error) {
+                            errorContainer.innerHTML= '';
+                            errorContainer.insertAdjacentHTML('afterbegin', errorMessage);
+                            errorContainer.children['0'].innerHTML = result.error.message;
+                            submitButton.disabled = false;
+                            submitButton.classList.remove('loading');
+                        } else if (result.paymentIntent.status === 'succeeded') {
+                            successContainer.innerHTML= '';
+                            successContainer.insertAdjacentHTML('afterbegin', successMessage);
+                            successContainer.children['0'].innerHTML = '{{ _T("Your payment was successful. You may receive a mail from Stripe with details.", "stripe") }}';
+                            document.getElementById('billing-details').remove();
                         }
                     });
                 });
-
             });
         </script>
     {% endif %}
