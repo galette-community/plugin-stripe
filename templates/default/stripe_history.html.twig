@@ -39,6 +39,7 @@
 {% endblock %}
 
 {% block header %}
+    {% set no_action = true %}
     {% set columns = [
         {
             'label': '#',
@@ -48,9 +49,19 @@
             'label': _T("Date"), 'order': constant("Galette\\Filters\\HistoryList::ORDERBY_DATE"),
             'collapse': true
         },
-        {'label': _T("Name")},
-        {'label': _T("Subject")},
-        {'label': _T("Amount")}
+        {
+            'label': _T("Name"),
+            'collapse': true
+        },
+        {
+            'label': _T("Subject"),
+            'collapse': true
+        },
+        {
+            'label': _T("Amount"),
+            'collapse': true
+        },
+        {'label': _T("Request", "stripe")}
     ] %}
     {{ parent() }}
 {% endblock %}
@@ -67,7 +78,7 @@
                     {{ _T("History entry %id")|replace({'%id': loop.index}) }}
                 </span>
             </td>
-            <td class="collapsing" data-col-label="{{ _T("Date") }}">
+            <td class="left collapsing" data-col-label="{{ _T("Date") }}">
                 {{ log.history_date|date(_T("Y-m-d H:i:s")) }}
                 {% if log.duplicate is defined %}
                     <i class="exclamation circle red icon tooltip" data-html="{{ _T("duplicate", "stripe") }}"></i>
@@ -76,7 +87,7 @@
                     </span>
                 {% endif %}
             </td>
-            <td data-col-label="{{ _T("Name") }}">
+            <td class="left collapsing" data-col-label="{{ _T("Name") }}">
         {% if log.metadata is iterable %}
             {% if log.metadata.adherent_id is defined and log.metadata.adherent_id != '' %}
                 <a href="{{ url_for("member", {"id": log.metadata.adherent_id}) }}">
@@ -91,7 +102,7 @@
                 {{ _T("No request or unable to read request", "stripe") }}
         {% endif %}
             </td>
-            <td data-col-label="{{ _T("Subject") }}">
+            <td class="left collapsing" data-col-label="{{ _T("Subject") }}">
         {% if log.metadata is iterable %}
             {% if log.metadata.item_name is defined %}
                 <span class="ui {{ payment_intent_color }} small label">{{ payment_intent[0] }}</span>
@@ -99,18 +110,20 @@
             {% endif %}
         {% endif %}
             </td>
-            <td data-col-label="{{ _T("Amount") }}">
+            <td class="right collapsing" data-col-label="{{ _T("Amount") }}">
                 {{ log.amount }}
             </td>
-            <td class="info"></td>
-        </tr>
-        <tr class="request">
-            <th colspan="2">{{ _T("Request", "stripe") }}</th>
-            <td colspan="4">
-                <code>{{ payment_intent[1] }}</code>
-                <pre>{{ log.raw_request }}</pre>
+            <td class="left" data-col-label="{{ _T("Request", "stripe") }}">
+                <details class="ui basic styled accordion">
+                    <summary class="title">
+                        <i class="caret down icon" aria-hidden="true"></i> {{ _T("Show/hide full request", "stripe") }}
+                    </summary>
+                    <div class="content">
+                        <code>{{ payment_intent[1] }}</code>
+                        <pre>{{ log.raw_request }}</pre>
+                    </div>
+                </details>
             </td>
-
         </tr>
     {% else %}
         <tr><td colspan="6" class="emptylist">{{ _T("logs are empty") }}</td></tr>
@@ -121,16 +134,6 @@
         <script type="text/javascript">
             $('#nbshow').change(function() {
                 this.form.submit();
-            });
-
-            $(function() {
-                var _elt = $('<a href="#" class="tooltip reqhide" data-html="{{ _T("Show/hide full request", "stripe")|e('js') }}"><i class="search plus grey icon"></i><span class="visually-hidden">{{ _T("Show/hide full request", "stripe")|e('js') }}</span></a>');
-                $('.request').hide().prev('tr').find('td.info').prepend(_elt);
-                $('.reqhide').click(function(event) {
-                    event.preventDefault();
-                    $(this).parents('tr').next('.request').toggle();
-                });
-                _bindFomanticComponents();
             });
         </script>
 {% endblock %}
