@@ -220,11 +220,11 @@ class StripeController extends AbstractPluginController
         $current_url = $this->preferences->getURL();
 
         // Check the amount
-        $item_number = $stripe_request['item_number'];
+        $item_id = $stripe_request['item_id'];
         $amount = $stripe_request['amount'];
         $stripe_amounts = $stripe->getAmounts($this->login);
 
-        if ($amount < $stripe_amounts[$item_number]['amount']) {
+        if ($amount < $stripe_amounts[$item_id]['amount']) {
             $params = [
                 'stripe'        => $stripe,
                 'amounts'        => $stripe->getAmounts($this->login),
@@ -245,7 +245,7 @@ class StripeController extends AbstractPluginController
 
             if ($this->login->isLogged() && !$this->login->isSuperAdmin()) {
                 $adherent->load($this->login->id);
-                $metadata['adherent_id'] = $this->login->id;
+                $metadata['member_id'] = $this->login->id;
                 $metadata['billing_name'] = Adherent::getSName($this->zdb, $this->login->id);
                 $metadata['billing_email'] = $adherent->getEmail();
                 $metadata['billing_company'] = $adherent->company_name;
@@ -260,7 +260,7 @@ class StripeController extends AbstractPluginController
                     return $response->withStatus(403);
                 }
 
-                $metadata['adherent_id'] = '';
+                $metadata['member_id'] = '';
                 $metadata['billing_name'] = $stripe_request['billing_firstname'] . ' ' . $stripe_request['billing_lastname'];
                 $metadata['billing_email'] = $stripe_request['billing_email'];
                 $metadata['billing_company'] = $stripe_request['billing_company'];
@@ -270,8 +270,8 @@ class StripeController extends AbstractPluginController
                 $metadata['billing_country'] = $stripe_request['billing_country'];
             }
 
-            $metadata['contrib_id'] = $item_number;
-            $metadata['item_name'] = $stripe_amounts[$item_number]['name'];
+            $metadata['item_id'] = $item_id;
+            $metadata['item_name'] = $stripe_amounts[$item_id]['name'];
 
             $client_secret = $stripe->createPaymentIntent($metadata, $amount);
 
@@ -373,8 +373,8 @@ class StripeController extends AbstractPluginController
             // are we working on a real contribution?
             $real_contrib = false;
             if (
-                isset($post['data']['object']['metadata']['adherent_id'])
-                && is_numeric($post['data']['object']['metadata']['adherent_id'])
+                isset($post['data']['object']['metadata']['member_id'])
+                && is_numeric($post['data']['object']['metadata']['member_id'])
                 && $post['data']['object']['status'] == 'succeeded'
                 && $post['data']['object']['amount_received'] == $post['data']['object']['amount']
             ) {
@@ -394,20 +394,20 @@ class StripeController extends AbstractPluginController
                 /**
                 * We will use the following parameters:
                 * - $post['data']['object']['amount']: the amount
-                * - $post['data']['object']['metadata']['adherent_id']: member id
-                * - $post['data']['object']['metadata']['contrib_id']: contribution type id
+                * - $post['data']['object']['metadata']['member_id']: member id
+                * - $post['data']['object']['metadata']['item_id']: contribution type id
                 *
                 * If no member id is provided, we only send to post contribution
                 * script, Galette does not handle anonymous contributions
                 */
                 $contrib_args = [
-                    'type'          => $post['data']['object']['metadata']['contrib_id'],
-                    'adh'           => $post['data']['object']['metadata']['adherent_id'],
+                    'type'          => $post['data']['object']['metadata']['item_id'],
+                    'adh'           => $post['data']['object']['metadata']['member_id'],
                     'payment_type'  => PaymentType::CREDITCARD
                 ];
                 $check_contrib_args = [
-                    ContributionsTypes::PK  => $post['data']['object']['metadata']['contrib_id'],
-                    Adherent::PK            => $post['data']['object']['metadata']['adherent_id'],
+                    ContributionsTypes::PK  => $post['data']['object']['metadata']['item_id'],
+                    Adherent::PK            => $post['data']['object']['metadata']['member_id'],
                     'type_paiement_cotis'   => PaymentType::CREDITCARD,
                     'montant_cotis'         => $post['data']['object']['amount'] / 100, // Stripe handles cents
                 ];
@@ -506,12 +506,14 @@ class StripeController extends AbstractPluginController
         //assign pagination variables to the template and add pagination links
         $stripe_history->setFilters($filters);
         $logs = $stripe_history->getStripeHistory();
+        $logs_count = $stripe_history->getCount();
         $filters->setViewPagination($this->routeparser, $this->view);
 
         $params = [
             'page_title'        => _T("Stripe History"),
             'stripe_history'    => $stripe_history,
             'logs'              => $logs,
+            'nb'                => $logs_count,
             'module_id'         => $this->getModuleId()
         ];
 
