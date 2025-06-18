@@ -31,7 +31,7 @@
 
 {% block infoline %}
     {% set infoline = {
-        'label': _Tn("%count entry", "%count entries", nb)|replace({"%count": nb}),
+        'label': _Tn("%1$s entry", "%1$s entries", nb)|format(nb),
         'route': {
             'name': 'filter_stripe_history'
         }
@@ -58,12 +58,15 @@
 
 {% block body %}
     {% for log in logs %}
-        <tr class="{{ loop.index is odd ? 'odd' : 'even' }}">
+        {% set payment_intent = log.intent_id|split(' ') %}
+        {% set payment_intent_color = payment_intent[0] == 'payment_intent.succeeded' ? 'green' : 'blue' %}
+
+        <tr>
             <td class="center collapsing" data-scope="row">
                 {{ loop.index }}
-                {#<span class="row-title">
+                <span class="visually-hidden">
                     {{ _T("History entry %id")|replace({'%id': loop.index}) }}
-                </span>#}
+                </span>
             </td>
             <td class="collapsing" data-col-label="{{ _T("Date") }}">
                 {{ log.history_date|date(_T("Y-m-d H:i:s")) }}
@@ -76,13 +79,13 @@
             </td>
             <td data-col-label="{{ _T("Name") }}">
         {% if log.metadata is iterable %}
-            {% if log.metadata.custom is defined %}
-                <a href="{{ url_for("member", {"id": log.metadata.custom}) }}">
+            {% if log.metadata.adherent_id is defined and log.metadata.adherent_id != '' %}
+                <a href="{{ url_for("member", {"id": log.metadata.adherent_id}) }}">
             {% endif %}
             {% if log.metadata.billing_name is defined %}
                 {{ log.metadata.billing_name }}
             {% endif %}
-            {% if log.metadata.custom is defined %}
+            {% if log.metadata.adherent_id is defined and log.metadata.adherent_id != '' %}
                 </a>
             {% endif %}
         {% else %}
@@ -92,7 +95,8 @@
             <td data-col-label="{{ _T("Subject") }}">
         {% if log.metadata is iterable %}
             {% if log.metadata.item_name is defined %}
-                {{ log.metadata.item_name }}
+                <span class="ui {{ payment_intent_color }} small label">{{ payment_intent[0] }}</span>
+                | {{ log.metadata.item_name }}
             {% endif %}
         {% endif %}
             </td>
@@ -101,10 +105,10 @@
             </td>
             <td class="info"></td>
         </tr>
-        <tr class="request "> {# class="request {{ loop.index is odd ? 'odd' : 'even' }}"> #}
+        <tr class="request">
             <th colspan="2">{{ _T("Request", "stripe") }}</th>
             <td colspan="4">
-                {{ log.intent_id }}
+                <code>{{ payment_intent[1] }}</code>
                 <pre>{{ log.raw_request }}</pre>
             </td>
 
@@ -121,11 +125,13 @@
             });
 
             $(function() {
-                var _elt = $('<i class="circular small inverted primary link icon info tooltip reqhide" data-html="{{ _T("Show/hide full request", "stripe")|e('js') }}"></i>');
+                var _elt = $('<a href="#" class="tooltip reqhide" data-html="{{ _T("Show/hide full request", "stripe")|e('js') }}"><i class="search plus grey icon"></i><span class="visually-hidden">{{ _T("Show/hide full request", "stripe")|e('js') }}</span></a>');
                 $('.request').hide().prev('tr').find('td.info').prepend(_elt);
-                $('.reqhide').click(function() {
+                $('.reqhide').click(function(event) {
+                    event.preventDefault();
                     $(this).parents('tr').next('.request').toggle();
                 });
+                _bindFomanticComponents();
             });
         </script>
 {% endblock %}
