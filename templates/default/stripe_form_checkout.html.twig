@@ -36,23 +36,23 @@
                         {{ _T("Billing details", "stripe") }}
                     </h2>
                     {% if metadata %}
-                        <strong>{{ metadata.billing_name }}</strong><br>
+                        <strong>{{ metadata.billing_name|e }}</strong><br>
                         {% if metadata.billing_company != '' %}
-                            {{ metadata.billing_company }}<br>
+                            {{ metadata.billing_company|e }}<br>
                         {% endif %}
                         {% if metadata.billing_address != '' %}
-                            {{ metadata.billing_address }}<br>
+                            {{ metadata.billing_address|e }}<br>
                         {% endif %}
                         {% if metadata.billing_zip != '' %}
-                            {{ metadata.billing_zip }}
+                            {{ metadata.billing_zip|e }}
                         {% endif %}
                         {% if metadata.billing_town != '' %}
-                            {{ metadata.billing_town }}<br>
+                            {{ metadata.billing_town|e }}<br>
                         {% endif %}
                         {% if metadata.billing_country != '' %}
-                            {{ metadata.billing_country }}
+                            {{ metadata.billing_country|e }}
                         {% endif %}
-                        {{ metadata.billing_email }}
+                        {{ metadata.billing_email|e }}
                     {% endif %}
                 </div>
                 <div class="column">
@@ -170,8 +170,8 @@
                         payment_method: {
                             card: cardNumber,
                             billing_details: {
-                                name: '{{ metadata.billing_name }}',
-                                email: '{{ metadata.billing_email }}'
+                                name: '{{ metadata.billing_name|e("js") }}',
+                                email: '{{ metadata.billing_email|e("js") }}'
                             }
                         }
                     };
