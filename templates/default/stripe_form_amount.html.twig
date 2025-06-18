@@ -42,7 +42,7 @@
                                     {% for k, amount in amounts %}
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="item_number" id="in{{ k }}" value="{{ k }}"{% if loop.index0 == 0 %} checked="checked"{% endif %}/>
+                                                <input type="radio" name="item_id" id="in{{ k }}" value="{{ k }}"{% if loop.index0 == 0 %} checked="checked"{% endif %}/>
                                                 <label for="in{{ k }}"><span id="in{{ k }}_name">{{ amount['name'] }}</span>
                                                     {% if amount['amount'] > 0 %}
                                                         (<span id="in{{ k }}_amount">{{ amount['amount']|number_format(2, ',', ' ') }}</span> €){# TODO: parametize currency #}
@@ -93,7 +93,7 @@
                                 {% include "components/forms/input.html.twig" with {
                                     type: 'email',
                                     id: 'billing_email',
-                                    label: _T("Email address", "stripe"),
+                                    label: _T("Email", "stripe"),
                                     value: '',
                                     required: true
                                 } %}
@@ -117,7 +117,7 @@
                                 } %}
                                 {% include "components/forms/text.html.twig" with {
                                     id: 'billing_town',
-                                    label: _T("Town", "stripe"),
+                                    label: _T("City", "stripe"),
                                     value: ''
                                 } %}
                                 {% include "components/forms/text.html.twig" with {
@@ -152,7 +152,7 @@
     {% if stripe.isLoaded() and stripe.getPubKey() != null and stripe.getPrivKey() != null and stripe.areAmountsLoaded() %}
         <script type="text/javascript">
             $(function() {
-                $('input[name="item_number"]').change(function(){
+                $('input[name="item_id"]').change(function(){
                     var _amount = parseFloat($('#' + this.id + '_amount').text());
                     var _name = $('#' + this.id + '_name').text();
                     $('#item_name').val(_name);
