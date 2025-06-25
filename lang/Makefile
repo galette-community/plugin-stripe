@@ -1,12 +1,14 @@
-INSTALLDIR = .
+INSTALLDIR = $(shell pwd)
 LANGUAGES = `find ./ -name "stripe_*.po" -print | sed 's|^\./stripe_\(.*\).po|\1|'`
 DOMAINS = stripe
 PHP_SOURCES = $(shell find ../ -maxdepth 1 -name \*.php) \
               $(shell find ../lib/GaletteStripe/ -name \*.php) \
-              $(shell find ../templates -name \*.tpl)
-
+              $(shell find ../tempcache -name \*.twig)
 
 all : extract mo
+
+twig :
+	cd ../../../../ && bin/console galette:twig-cache $(shell basename $(abspath $(CURDIR)/..)) && cd ${INSTALLDIR}
 
 po :
 	@echo "Generating PO files:"
@@ -39,9 +41,9 @@ mo :
 	  done \
 	done
 
-extract : ${PHP_SOURCES} Makefile xgettext.py
-	./xgettext.py ${PHP_SOURCES}
-	@echo "Generating en_US:"
+extract : twig ${PHP_SOURCES} Makefile
+	xgettext ${PHP_SOURCES} --keyword=_T:1,2t --keyword=__:1,2t --keyword=_Tn:1,2,4t --keyword=_Tx:1c,2,3t --keyword=_Tnx:1c,2,3,5t -L PHP --from-code=UTF-8 --add-comments=TRANS --force-po -o ${DOMAINS}.pot;
+	echo "Generating en_US:"
 	@for d in ${DOMAINS}; do \
-	  LANG=C msgen $$d.pot -o $${d}_en_US.po; \
+	  LANG=C msginit --no-translator -i $$d.pot --locale=en_US.utf8 -o $${d}_en_US.po; \
 	done
