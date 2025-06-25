@@ -27,10 +27,10 @@
                 <i class="exclamation circle icon" aria-hidden="true"></i>
                 <div class="content">
                     <div class="header">
-                        {{ _T("Cannot load the preferences", "stripe") }}
+                        {{ _T("Cannot load the settings", "stripe") }}
                     </div>
                     <p>
-                        {{ _T("An error occured while loading the preferences from the database.", "stripe") }}<br/>
+                        {{ _T("An error occured while loading the settings from the database.", "stripe") }}<br/>
                         {{ _T("Please, check if the plugin's database has been properly initialized.", "stripe") }}
                     </p>
                 </div>
@@ -39,18 +39,18 @@
         <div class="ui segment">
             {%if login.isAdmin() %}
                 <div class="inline field">
-                    <label>{{ _T("Stripe Webhook URL:", "stripe") }}</label>
+                    <label>{{ _T("Stripe webhook URL", "stripe") }} :</label>
                     <code>{{ webhook_url }}</code>
                 </div>
                 <div class="inline field">
-                    <label>{{ _T("Stripe Webhook events:", "stripe") }}</label>
+                    <label>{{ _T("Stripe webhook events", "stripe") }} :</label>
                     <code>payment_intent.succeeded</code> {{ _T("and") }} <code>invoice.payment_succeeded</code>
                 </div>
 
                 {% include "components/forms/text.html.twig" with {
                     id: 'stripe_pubkey',
                     value: stripe.getPubKey(),
-                    label: _T("Stripe public key:", "stripe"),
+                    label: _T("Stripe public key", "stripe"),
                     required: true,
                     tip: _T("Enter here your Stripe public key.", "stripe")
                 } %}
@@ -58,7 +58,7 @@
                 {% include "components/forms/text.html.twig" with {
                     id: 'stripe_privkey',
                     value: stripe.getPrivKey(),
-                    label: _T("Stripe secret key:", "stripe"),
+                    label: _T("Stripe secret key", "stripe"),
                     required: true,
                     tip: _T("Enter here your Stripe secret key.", "stripe")
                 } %}
@@ -66,7 +66,7 @@
                 {% include "components/forms/text.html.twig" with {
                     id: 'stripe_webhook_secret',
                     value: stripe.getWebhookSecret(),
-                    label: _T("Stripe webhook secret:", "stripe"),
+                    label: _T("Stripe webhook secret", "stripe"),
                     required: true,
                     tip: _T("Enter here your Stripe webhook secret.", "stripe")
                 } %}
@@ -75,7 +75,7 @@
                     id: 'stripe_country',
                     value: stripe.getCountry(),
                     values: countries,
-                    label: _T("Country of your Stripe account:", "stripe"),
+                    label: _T("Country of your Stripe account", "stripe"),
                     required: true,
                     tip: _T("Enter here the country of your Stripe account.", "stripe")
                 } %}
@@ -84,7 +84,7 @@
                     id: 'stripe_currency',
                     value: stripe.getCurrency(),
                     values: currencies,
-                    label: _T("Currency for payments:", "stripe"),
+                    label: _T("Currency for payments", "stripe"),
                     required: true,
                     tip: _T("Enter here the currency used to capture payments.", "stripe")
                 } %}

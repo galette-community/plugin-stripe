@@ -123,11 +123,11 @@ class Stripe
             $this->loadAmounts();
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot load stripe preferences |' .
+                '[' . get_class($this) . '] Cannot load stripe settings |' .
                 $e->getMessage(),
                 Analog::ERROR
             );
-            //consider plugin is not loaded when missing the main preferences
+            //consider plugin is not loaded when missing the main settings
             $this->loaded = false;
         }
     }
@@ -298,14 +298,14 @@ class Stripe
 
             Analog::log(
                 '[' . get_class($this) .
-                '] Stripe preferences were sucessfully stored',
+                '] Stripe settings were sucessfully stored',
                 Analog::INFO
             );
 
             return $this->storeAmounts();
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot store stripe preferences' .
+                '[' . get_class($this) . '] Cannot store stripe settings' .
                 '` | ' . $e->getMessage(),
                 Analog::ERROR
             );

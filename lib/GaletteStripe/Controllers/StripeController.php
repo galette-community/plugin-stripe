@@ -134,13 +134,13 @@ class StripeController extends AbstractPluginController
             if ($stored) {
                 $this->flash->addMessage(
                     'success_detected',
-                    _T('Stripe preferences has been saved.', 'stripe')
+                    _T('Stripe settings have been saved.', 'stripe')
                 );
             } else {
                 $this->session->stripe = $stripe;
                 $this->flash->addMessage(
                     'error_detected',
-                    _T('An error occured saving stripe preferences :(', 'stripe')
+                    _T('An error occured saving stripe settings :(', 'stripe')
                 );
             }
         }
@@ -175,7 +175,7 @@ class StripeController extends AbstractPluginController
         if (!$stripe->isLoaded()) {
             $this->flash->addMessageNow(
                 'error',
-                _T("<strong>Payment could not work</strong>: An error occurred (that has been logged) while loading Stripe preferences from the database.<br/>Please report the issue to the staff.", "stripe") .
+                _T("<strong>Payment could not work</strong>: An error occurred (that has been logged) while loading Stripe settings from the database.<br/>Please report the issue to the staff.", "stripe") .
                 '<br/>' . _T("Our apologies for the annoyance :(", "stripe")
             );
         }
@@ -183,7 +183,7 @@ class StripeController extends AbstractPluginController
         if ($stripe->getPubKey() == null || $stripe->getPrivKey() == null) {
             $this->flash->addMessageNow(
                 'error',
-                _T("Stripe keys have not been defined. Please ask an administrator to add them in the plugin's preferences.", "stripe")
+                _T("Stripe keys have not been defined. Please ask an administrator to add them in the plugin's settings.", "stripe")
             );
         }
 
@@ -229,7 +229,7 @@ class StripeController extends AbstractPluginController
                 'stripe'        => $stripe,
                 'amounts'        => $stripe->getAmounts($this->login),
                 'page_title'    => _T('Stripe payment', 'stripe'),
-                'message'       => _T('The amount you\'ve entered is lower than the minimum amount for the selected option.\\nPlease choose another option or change the amount.', 'stripe'),
+                'message'       => _T("The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.", "stripe"),
                 'current_url'   => rtrim($current_url, '/')
             ];
 
