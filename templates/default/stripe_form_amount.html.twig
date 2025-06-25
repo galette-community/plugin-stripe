@@ -53,7 +53,7 @@
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                <label for="item_name">{{ _T("Payment reason:", "stripe") }}</label>
+                                <label for="item_name">{{ _T("Payment reason", "stripe") }} :</label>
                                 <input type="text" name="item_name" id="item_name" value="{% if login.isLogged() %}{{ _T("annual fee") }}{% else %}{{ _T("donation in money") }}{% endif %}"/>
                             {% endif %}
                         {% else %}
@@ -161,10 +161,10 @@
                     }
                 });
                 {% if amounts|length > 0 %}
-                    $('#stripeform').submit(function(e) {
+                    $('#stripeForm').submit(function(e) {
                         var _checked = $('input:checked');
                         if (_checked.length == 0 ) {
-                            alert("{{ _T("You have to select an option") }}");
+                            alert("{{ _T("You have to select an option", "stripe") }}");
                             return false;
                         } else {
                             var _current_amount = parseFloat($('#amount').val());
@@ -173,7 +173,7 @@
                                 alert("{{ _T("Please enter an amount.", "stripe")|e('js') }}");
                                 return false;
                             } else if ( !isNaN(_amount) && _current_amount < _amount ) {
-                                alert("{{ _T("The amount you've entered is lower than the minimum amount for the selected option.\nPlease choose another option or change the amount.", "stripe")|e('js') }}");
+                                alert("{{ _T("The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.", "stripe")|e('js') }}");
                                 return false;
                             }
                         }

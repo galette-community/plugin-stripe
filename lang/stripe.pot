@@ -1,173 +1,250 @@
-#: ../templates/default/stripe_preferences.tpl:15
-msgid "Stripe public key:"
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
 msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-25 21:36+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
 
-#: ../_routes.php:60
+#: ../lib/GaletteStripe/Controllers/StripeController.php:78
 msgid "Stripe Settings"
 msgstr ""
 
-#: ../templates/default/stripe_preferences.tpl:25
-msgid "Stripe Webhook URL:"
+#: ../lib/GaletteStripe/Controllers/StripeController.php:137
+msgid "Stripe settings have been saved."
 msgstr ""
 
-#: ../templates/default/stripe_preferences.tpl:20
-msgid "Stripe secret key:"
+#: ../lib/GaletteStripe/Controllers/StripeController.php:143
+msgid "An error occured saving stripe settings :("
 msgstr ""
 
-#: ../_routes.php:119
-msgid "An error occured saving stripe preferences :("
-msgstr ""
-
-#: ../templates/default/stripe_history.tpl:33 ../templates/default/stripe_history.tpl:60
-msgid "Payment intent"
-msgstr ""
-
-#: ../templates/default/stripe_history.tpl:75
-msgid "No request or unable to read request"
-msgstr ""
-
-#: ../templates/default/stripe_form_checkout.tpl:51
-msgid "CVC"
-msgstr ""
-
-#: ../templates/default/stripe_history.tpl:91
-msgid "Request"
-msgstr ""
-
-#: ../templates/default/stripe_form_amount.tpl:12 ../templates/default/stripe_form_checkout.tpl:12
-msgid "Stripe keys has not been defined. Please ask an administrator to add it from plugin preferences."
-msgstr ""
-
-#: ../templates/default/menu.tpl:1
-msgid "Stripe"
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:47
-msgid "Currency for payments:"
-msgstr ""
-
-#: ../templates/default/stripe_form_amount.tpl:107
-msgid "The amount you've entered is lower than the minimum amount for the selected option.\\nPlease choose another option or change the amount."
-msgstr ""
-
-#: ../templates/default/stripe_history.tpl:114
-msgid "Show/hide full request"
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:12
-msgid "Stripe preferences"
-msgstr ""
-
-#: ../templates/default/stripe_form_amount.tpl:104
-msgid "Please enter an amount."
-msgstr ""
-
-#: ../templates/default/stripe_history.tpl:57
-msgid "duplicate"
-msgstr ""
-
-#: ../templates/default/public_menu.tpl:4 ../templates/default/menu.tpl:3
-msgid "Payment form"
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:16
-msgid "Enter here your Stripe public key."
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:21
-msgid "Enter here your Stripe secret key."
-msgstr ""
-
-#: ../templates/default/stripe_form_amount.tpl:30
-msgid "Payment reason"
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:38
-msgid "Country of your Stripe account:"
-msgstr ""
-
-#: ../templates/default/menu.tpl:5
-msgid "Stripe History"
-msgstr ""
-
-#: ../templates/default/stripe_form_checkout.tpl:55
-msgid "Pay"
-msgstr ""
-
-#: ../templates/default/stripe_form_amount.tpl:32
-msgid "Select an payment reason"
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:34
-msgid "Enter here your Stripe webhook secret."
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:33
-msgid "Stripe webhook secret:"
-msgstr ""
-
-#: ../templates/default/menu.tpl:1
-msgid "Payment"
-msgstr ""
-
-#: ../templates/default/stripe_form_checkout.tpl:43
-msgid "Card number"
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:39
-msgid "Enter here the country of your Stripe account."
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:29
-msgid "Stripe Webhook events:"
-msgstr ""
-
-#: ../templates/default/stripe_form_amount.tpl:18 ../templates/default/stripe_form_checkout.tpl:18
-msgid "Predefined amounts cannot be loaded, that is not a critical error."
-msgstr ""
-
-#: ../templates/default/stripe_form_checkout.tpl:47
-msgid "Expiration"
-msgstr ""
-
-#: ../templates/default/stripe_form_amount.tpl:28
-msgid "Enter payment reason"
-msgstr ""
-
-#: ../templates/default/stripe_form_checkout.tpl:162
-msgid "Payment successful"
-msgstr ""
-
-#: ../templates/default/stripe_form_amount.tpl:50
-msgid "Payment reason:"
-msgstr ""
-
-#: ../templates/default/stripe_form_amount.tpl:6 ../templates/default/stripe_form_checkout.tpl:6
-msgid "<strong>Payment coult not work</strong>: An error occured (that has been logged) while loading Stripe preferences from database.<br/>Please report the issue to the staff."
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:86
-msgid "Error: no predefined amounts found."
-msgstr ""
-
-#: ../_routes.php:113
-msgid "Stripe preferences has been saved."
-msgstr ""
-
-#: ../templates/default/stripe_preferences.tpl:48
-msgid "Enter here the currency used to capture payments."
-msgstr ""
-
-#: ../templates/default/stripe_form_amount.tpl:55
-msgid "No predefined amounts have been configured yet."
-msgstr ""
-
-#: ../_routes.php:140 ../_routes.php:174
-#: ../_routes.php:210 ../templates/default/stripe_form_checkout.tpl:24
+#: ../lib/GaletteStripe/Controllers/StripeController.php:170
+#: ../lib/GaletteStripe/Controllers/StripeController.php:231
+#: ../lib/GaletteStripe/Controllers/StripeController.php:283
 msgid "Stripe payment"
 msgstr ""
 
-#: ../templates/default/stripe_form_amount.tpl:61
-msgid "WARNING: If you enter an amount below, make sure that it is not lower than the amount of the option you've selected."
+#: ../lib/GaletteStripe/Controllers/StripeController.php:178
+msgid ""
+"<strong>Payment could not work</strong>: An error occurred (that has been "
+"logged) while loading Stripe settings from the database.<br/>Please report "
+"the issue to the staff."
 msgstr ""
 
+#: ../lib/GaletteStripe/Controllers/StripeController.php:179
+msgid "Our apologies for the annoyance :("
+msgstr ""
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:186
+msgid ""
+"Stripe keys have not been defined. Please ask an administrator to add them "
+"in the plugin's settings."
+msgstr ""
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:193
+msgid "Predefined amounts cannot be loaded, that is not a critical error."
+msgstr ""
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:232
+#: ../tempcache/stripe_form_amount.html.twig:334
+msgid ""
+"The amount you've entered is lower than the minimum amount for the selected "
+"option. Please choose another option or change the amount."
+msgstr ""
+
+#: ../lib/GaletteStripe/PluginGaletteStripe.php:54
+msgid "Stripe"
+msgstr ""
+
+#: ../lib/GaletteStripe/PluginGaletteStripe.php:62
+msgid "Stripe History"
+msgstr ""
+
+#: ../lib/GaletteStripe/PluginGaletteStripe.php:89
+#: ../lib/GaletteStripe/PluginGaletteStripe.php:113
+msgid "Payment form"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:68
+msgid "Enter payment reason"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:75
+#: ../tempcache/stripe_form_amount.html.twig:180
+msgid "Payment reason"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:82
+msgid "Select an payment reason"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:197
+msgid "No predefined amounts have been configured yet."
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:219
+#: ../tempcache/stripe_form_checkout.html.twig:80
+msgid "Billing details"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:228
+msgid "First name"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:231
+msgid "Name"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:234
+msgid "Email"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:237
+msgid "Company"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:243
+msgid "Address"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:246
+msgid "Zip code"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:249
+msgid "City"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:252
+msgid "Country"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:255
+msgid "URL"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:319
+msgid "You have to select an option"
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:328
+msgid "Please enter an amount."
+msgstr ""
+
+#: ../tempcache/stripe_history.html.twig:89
+#: ../tempcache/stripe_history.html.twig:251
+msgid "Request"
+msgstr ""
+
+#: ../tempcache/stripe_history.html.twig:158
+#: ../tempcache/stripe_history.html.twig:163
+msgid "duplicate"
+msgstr ""
+
+#: ../tempcache/stripe_history.html.twig:207
+msgid "No request or unable to read request"
+msgstr ""
+
+#: ../tempcache/stripe_history.html.twig:257
+msgid "Show/hide full request"
+msgstr ""
+
+#: ../tempcache/stripe_form_checkout.html.twig:148
+msgid "Payment details"
+msgstr ""
+
+#: ../tempcache/stripe_form_checkout.html.twig:155
+msgid "Card number"
+msgstr ""
+
+#: ../tempcache/stripe_form_checkout.html.twig:162
+msgid "Expiration"
+msgstr ""
+
+#: ../tempcache/stripe_form_checkout.html.twig:169
+msgid "CVC"
+msgstr ""
+
+#: ../tempcache/stripe_form_checkout.html.twig:177
+msgid "Pay"
+msgstr ""
+
+#: ../tempcache/stripe_form_checkout.html.twig:326
+msgid ""
+"Your payment was successful. You may receive a mail from Stripe with details."
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:72
+msgid "Cannot load the settings"
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:78
+msgid "An error occured while loading the settings from the database."
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:82
+msgid "Please, check if the plugin's database has been properly initialized."
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:98
+msgid "Stripe webhook URL"
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:108
+msgid "Stripe webhook events"
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:119
+msgid "Stripe public key"
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:119
+msgid "Enter here your Stripe public key."
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:125
+msgid "Stripe secret key"
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:125
+msgid "Enter here your Stripe secret key."
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:131
+msgid "Stripe webhook secret"
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:131
+msgid "Enter here your Stripe webhook secret."
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:138
+msgid "Country of your Stripe account"
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:138
+msgid "Enter here the country of your Stripe account."
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:145
+msgid "Currency for payments"
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:145
+msgid "Enter here the currency used to capture payments."
+msgstr ""
+
+#: ../tempcache/stripe_preferences.html.twig:227
+msgid "Error: no predefined amounts found."
+msgstr ""

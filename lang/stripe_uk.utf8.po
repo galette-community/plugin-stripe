@@ -1,39 +1,41 @@
-# English translations for PACKAGE package.
-# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# Automatically generated, 2025.
+# Ukrainian translations for Galette Stripe
+# Copyright © 2003-2025 The Galette Team
+# This file is distributed under the same license as Galette Stripe.
+# Guillaume AGNIERAY <dev@agnieray.net>, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-25 21:36+0200\n"
-"PO-Revision-Date: 2025-06-25 21:36+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"Language: en_US\n"
+"POT-Creation-Date: 2025-06-25 21:27+0200\n"
+"PO-Revision-Date: 2025-06-25 21:34+0200\n"
+"Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
+"Language-Team: \n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:78
 msgid "Stripe Settings"
-msgstr "Stripe Settings"
+msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:137
 msgid "Stripe settings have been saved."
-msgstr "Stripe settings have been saved."
+msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:143
 msgid "An error occured saving stripe settings :("
-msgstr "An error occured saving stripe settings :("
+msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:170
 #: ../lib/GaletteStripe/Controllers/StripeController.php:231
 #: ../lib/GaletteStripe/Controllers/StripeController.php:283
 msgid "Stripe payment"
-msgstr "Stripe payment"
+msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:178
 msgid ""
@@ -41,25 +43,20 @@ msgid ""
 "logged) while loading Stripe settings from the database.<br/>Please report "
 "the issue to the staff."
 msgstr ""
-"<strong>Payment could not work</strong>: An error occurred (that has been "
-"logged) while loading Stripe settings from the database.<br/>Please report "
-"the issue to the staff."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:179
 msgid "Our apologies for the annoyance :("
-msgstr "Our apologies for the annoyance :("
+msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:186
 msgid ""
 "Stripe keys have not been defined. Please ask an administrator to add them "
 "in the plugin's settings."
 msgstr ""
-"Stripe keys have not been defined. Please ask an administrator to add them "
-"in the plugin's settings."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:193
 msgid "Predefined amounts cannot be loaded, that is not a critical error."
-msgstr "Predefined amounts cannot be loaded, that is not a critical error."
+msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:232
 #: ../tempcache/stripe_form_amount.html.twig:334
@@ -67,192 +64,189 @@ msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
 msgstr ""
-"The amount you've entered is lower than the minimum amount for the selected "
-"option. Please choose another option or change the amount."
 
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:54
 msgid "Stripe"
-msgstr "Stripe"
+msgstr ""
 
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:62
 msgid "Stripe History"
-msgstr "Stripe History"
+msgstr ""
 
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:89
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:113
 msgid "Payment form"
-msgstr "Payment form"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:68
 msgid "Enter payment reason"
-msgstr "Enter payment reason"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:75
 #: ../tempcache/stripe_form_amount.html.twig:180
 msgid "Payment reason"
-msgstr "Payment reason"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:82
 msgid "Select an payment reason"
-msgstr "Select an payment reason"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:197
 msgid "No predefined amounts have been configured yet."
-msgstr "No predefined amounts have been configured yet."
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:219
 #: ../tempcache/stripe_form_checkout.html.twig:80
 msgid "Billing details"
-msgstr "Billing details"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:228
 msgid "First name"
-msgstr "First name"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:231
 msgid "Name"
-msgstr "Name"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:234
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:237
 msgid "Company"
-msgstr "Company"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:243
 msgid "Address"
-msgstr "Address"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:246
 msgid "Zip code"
-msgstr "Zip code"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:249
 msgid "City"
-msgstr "City"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:252
 msgid "Country"
-msgstr "Country"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:255
 msgid "URL"
-msgstr "URL"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:319
 msgid "You have to select an option"
-msgstr "You have to select an option"
+msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:328
 msgid "Please enter an amount."
-msgstr "Please enter an amount."
+msgstr ""
 
 #: ../tempcache/stripe_history.html.twig:89
 #: ../tempcache/stripe_history.html.twig:251
 msgid "Request"
-msgstr "Request"
+msgstr ""
 
 #: ../tempcache/stripe_history.html.twig:158
 #: ../tempcache/stripe_history.html.twig:163
 msgid "duplicate"
-msgstr "duplicate"
+msgstr ""
 
 #: ../tempcache/stripe_history.html.twig:207
 msgid "No request or unable to read request"
-msgstr "No request or unable to read request"
+msgstr ""
 
 #: ../tempcache/stripe_history.html.twig:257
 msgid "Show/hide full request"
-msgstr "Show/hide full request"
+msgstr ""
 
 #: ../tempcache/stripe_form_checkout.html.twig:148
 msgid "Payment details"
-msgstr "Payment details"
+msgstr ""
 
 #: ../tempcache/stripe_form_checkout.html.twig:155
 msgid "Card number"
-msgstr "Card number"
+msgstr ""
 
 #: ../tempcache/stripe_form_checkout.html.twig:162
 msgid "Expiration"
-msgstr "Expiration"
+msgstr ""
 
 #: ../tempcache/stripe_form_checkout.html.twig:169
 msgid "CVC"
-msgstr "CVC"
+msgstr ""
 
 #: ../tempcache/stripe_form_checkout.html.twig:177
 msgid "Pay"
-msgstr "Pay"
+msgstr ""
 
 #: ../tempcache/stripe_form_checkout.html.twig:326
 msgid ""
 "Your payment was successful. You may receive a mail from Stripe with details."
 msgstr ""
-"Your payment was successful. You may receive a mail from Stripe with details."
 
 #: ../tempcache/stripe_preferences.html.twig:72
 msgid "Cannot load the settings"
-msgstr "Cannot load the settings"
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:78
 msgid "An error occured while loading the settings from the database."
-msgstr "An error occured while loading the settings from the database."
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:82
 msgid "Please, check if the plugin's database has been properly initialized."
-msgstr "Please, check if the plugin's database has been properly initialized."
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:98
 msgid "Stripe webhook URL"
-msgstr "Stripe webhook URL"
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:108
 msgid "Stripe webhook events"
-msgstr "Stripe webhook events"
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:119
 msgid "Stripe public key"
-msgstr "Stripe public key"
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:119
 msgid "Enter here your Stripe public key."
-msgstr "Enter here your Stripe public key."
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:125
 msgid "Stripe secret key"
-msgstr "Stripe secret key"
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:125
 msgid "Enter here your Stripe secret key."
-msgstr "Enter here your Stripe secret key."
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:131
 msgid "Stripe webhook secret"
-msgstr "Stripe webhook secret"
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:131
 msgid "Enter here your Stripe webhook secret."
-msgstr "Enter here your Stripe webhook secret."
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:138
 msgid "Country of your Stripe account"
-msgstr "Country of your Stripe account"
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:138
 msgid "Enter here the country of your Stripe account."
-msgstr "Enter here the country of your Stripe account."
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:145
 msgid "Currency for payments"
-msgstr "Currency for payments"
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:145
 msgid "Enter here the currency used to capture payments."
-msgstr "Enter here the currency used to capture payments."
+msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:227
 msgid "Error: no predefined amounts found."
-msgstr "Error: no predefined amounts found."
+msgstr ""
