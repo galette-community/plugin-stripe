@@ -1,15 +1,29 @@
 # Galette Stripe plugin
 
-[![GitHub license](https://img.shields.io/github/license/galette/galette.svg)](https://github.com/galette/plugin-stripe/blob/master/COPYING)
+[![GitHub license](https://img.shields.io/github/license/galette-community/plugin-stripe)](https://github.com/galette-community/plugin-stripe/blob/master/COPYING)
 
 ### English
 
-A [Galette](https://galette.eu) plugin to handle stripe payments.
+A [Galette](https://galette.eu) plugin to handle membership fees and donations payments with Stripe.
 
-This plugin is based on the Galette Paypal plugin.
+* [website](https://galette-community.github.io/plugin-stripe)
+* [bugs and features](https://github.com/galette-community/plugin-stripe/issues)
+* [documentation](https://galette-community.github.io/plugin-stripe/documentation.html)
+
+To use Galette Stripe plugin, you'll need a reliable Galette version, and of course the plugin itself by either:
+
+* download latest stable version available from the [Galette Stripe plugin page](https://github.com/galette-community/plugin-stripe/releases)
+* use [Galette Stripe plugin source code from repository](https://github.com/galette-community/plugin-stripe), this solution requires some technical skills
 
 ### Français
 
-Un plugin [Galette](https://galette.eu) pour gérer paiments de cotisation et de dons via Stripe.
+Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations et de dons via Stripe.
 
-Ce plugin est basé en grande partie sur le plugin Paypal pour Galette.
+* [site web](https://galette-community.github.io/plugin-stripe)
+* [bogues et fonctionnalités](https://github.com/galette-community/plugin-stripe/issues)
+* [documentation](https://galette-community.github.io/plugin-stripe/documentation.html)
+
+Pour utiliser le plugin Stripe pour Galette, vous aurez besoin d'une version adéquate de Galette, ainsi que du plugin lui même :
+
+* télécharger la dernière version stable depuis la [page du plugin Stripe pour Galette](https://github.com/galette-community/plugin-stripe/releases)
+* utiliser [le code source du plugin Stripe pour Galette depuis le dépôt](https://github.com/galette-community/plugin-stripe), cette solution requiert quelques compétences techniques
