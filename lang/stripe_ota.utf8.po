@@ -203,7 +203,7 @@ msgid "Stripe webhook URL"
 msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:108
-msgid "Stripe webhook events"
+msgid "Stripe webhook event"
 msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:119

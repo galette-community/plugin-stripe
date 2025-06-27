@@ -43,8 +43,8 @@
                     <code>{{ webhook_url }}</code>
                 </div>
                 <div class="inline field">
-                    <label>{{ _T("Stripe webhook events", "stripe") }} :</label>
-                    <code>payment_intent.succeeded</code> {{ _T("and") }} <code>invoice.payment_succeeded</code>
+                    <label>{{ _T("Stripe webhook event", "stripe") }} :</label>
+                    <code>payment_intent.succeeded</code>
                 </div>
 
                 {% include "components/forms/text.html.twig" with {
