@@ -219,8 +219,8 @@ msgid "Stripe webhook URL"
 msgstr "URL du webhook à configurer dans Stripe"
 
 #: ../tempcache/stripe_preferences.html.twig:108
-msgid "Stripe webhook events"
-msgstr "Événements du webhook à configurer dans Stripe"
+msgid "Stripe webhook event"
+msgstr "Événement du webhook à configurer dans Stripe"
 
 #: ../tempcache/stripe_preferences.html.twig:119
 msgid "Stripe public key"

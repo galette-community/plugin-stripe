@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-25 21:36+0200\n"
-"PO-Revision-Date: 2025-06-25 21:36+0200\n"
+"POT-Creation-Date: 2025-06-27 20:34+0200\n"
+"PO-Revision-Date: 2025-06-27 20:34+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en_US\n"
@@ -210,49 +210,49 @@ msgid "Stripe webhook URL"
 msgstr "Stripe webhook URL"
 
 #: ../tempcache/stripe_preferences.html.twig:108
-msgid "Stripe webhook events"
-msgstr "Stripe webhook events"
+msgid "Stripe webhook event"
+msgstr "Stripe webhook event"
 
-#: ../tempcache/stripe_preferences.html.twig:119
+#: ../tempcache/stripe_preferences.html.twig:116
 msgid "Stripe public key"
 msgstr "Stripe public key"
 
-#: ../tempcache/stripe_preferences.html.twig:119
+#: ../tempcache/stripe_preferences.html.twig:116
 msgid "Enter here your Stripe public key."
 msgstr "Enter here your Stripe public key."
 
-#: ../tempcache/stripe_preferences.html.twig:125
+#: ../tempcache/stripe_preferences.html.twig:122
 msgid "Stripe secret key"
 msgstr "Stripe secret key"
 
-#: ../tempcache/stripe_preferences.html.twig:125
+#: ../tempcache/stripe_preferences.html.twig:122
 msgid "Enter here your Stripe secret key."
 msgstr "Enter here your Stripe secret key."
 
-#: ../tempcache/stripe_preferences.html.twig:131
+#: ../tempcache/stripe_preferences.html.twig:128
 msgid "Stripe webhook secret"
 msgstr "Stripe webhook secret"
 
-#: ../tempcache/stripe_preferences.html.twig:131
+#: ../tempcache/stripe_preferences.html.twig:128
 msgid "Enter here your Stripe webhook secret."
 msgstr "Enter here your Stripe webhook secret."
 
-#: ../tempcache/stripe_preferences.html.twig:138
+#: ../tempcache/stripe_preferences.html.twig:135
 msgid "Country of your Stripe account"
 msgstr "Country of your Stripe account"
 
-#: ../tempcache/stripe_preferences.html.twig:138
+#: ../tempcache/stripe_preferences.html.twig:135
 msgid "Enter here the country of your Stripe account."
 msgstr "Enter here the country of your Stripe account."
 
-#: ../tempcache/stripe_preferences.html.twig:145
+#: ../tempcache/stripe_preferences.html.twig:142
 msgid "Currency for payments"
 msgstr "Currency for payments"
 
-#: ../tempcache/stripe_preferences.html.twig:145
+#: ../tempcache/stripe_preferences.html.twig:142
 msgid "Enter here the currency used to capture payments."
 msgstr "Enter here the currency used to capture payments."
 
-#: ../tempcache/stripe_preferences.html.twig:227
+#: ../tempcache/stripe_preferences.html.twig:224
 msgid "Error: no predefined amounts found."
 msgstr "Error: no predefined amounts found."
