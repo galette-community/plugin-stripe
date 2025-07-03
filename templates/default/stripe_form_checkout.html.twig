@@ -26,7 +26,7 @@
             <div class="ui inverted secondary big segment">
                 <div class="ui large center aligned header">
                     {% set charge = amount / 100.0 %}
-                    {{ charge|format_currency(stripe.getCurrency(), locale: galette_lang) }}
+                    {{ charge|format_currency(stripe.getCurrency(), {}, galette_lang) }}
                     <div class="sub header">{{ item_name }}</div>
                 </div>
             </div>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-25 21:27+0200\n"
-"PO-Revision-Date: 2025-06-25 21:33+0200\n"
+"POT-Creation-Date: 2025-07-03 15:48+0200\n"
+"PO-Revision-Date: 2025-07-03 15:53+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -32,8 +32,7 @@ msgid "An error occured saving stripe settings :("
 msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:170
-#: ../lib/GaletteStripe/Controllers/StripeController.php:231
-#: ../lib/GaletteStripe/Controllers/StripeController.php:283
+#: ../lib/GaletteStripe/Controllers/StripeController.php:286
 msgid "Stripe payment"
 msgstr ""
 
@@ -58,11 +57,15 @@ msgstr ""
 msgid "Predefined amounts cannot be loaded, that is not a critical error."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:232
-#: ../tempcache/stripe_form_amount.html.twig:334
+#: ../lib/GaletteStripe/Controllers/StripeController.php:230
+#: ../tempcache/stripe_form_amount.html.twig:333
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
+msgstr ""
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:274
+msgid "An error occured loading the checkout form."
 msgstr ""
 
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:54
@@ -83,7 +86,7 @@ msgid "Enter payment reason"
 msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:75
-#: ../tempcache/stripe_form_amount.html.twig:180
+#: ../tempcache/stripe_form_amount.html.twig:179
 msgid "Payment reason"
 msgstr ""
 
@@ -91,56 +94,56 @@ msgstr ""
 msgid "Select an payment reason"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:197
+#: ../tempcache/stripe_form_amount.html.twig:196
 msgid "No predefined amounts have been configured yet."
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:219
-#: ../tempcache/stripe_form_checkout.html.twig:80
+#: ../tempcache/stripe_form_amount.html.twig:218
+#: ../tempcache/stripe_form_checkout.html.twig:81
 msgid "Billing details"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:228
+#: ../tempcache/stripe_form_amount.html.twig:227
 msgid "First name"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:231
+#: ../tempcache/stripe_form_amount.html.twig:230
 msgid "Name"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:234
+#: ../tempcache/stripe_form_amount.html.twig:233
 msgid "Email"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:237
+#: ../tempcache/stripe_form_amount.html.twig:236
 msgid "Company"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:243
+#: ../tempcache/stripe_form_amount.html.twig:242
 msgid "Address"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:246
+#: ../tempcache/stripe_form_amount.html.twig:245
 msgid "Zip code"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:249
+#: ../tempcache/stripe_form_amount.html.twig:248
 msgid "City"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:252
+#: ../tempcache/stripe_form_amount.html.twig:251
 msgid "Country"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:255
+#: ../tempcache/stripe_form_amount.html.twig:254
 msgid "URL"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:319
+#: ../tempcache/stripe_form_amount.html.twig:318
 msgid "You have to select an option"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:328
+#: ../tempcache/stripe_form_amount.html.twig:327
 msgid "Please enter an amount."
 msgstr ""
 
@@ -162,27 +165,27 @@ msgstr ""
 msgid "Show/hide full request"
 msgstr ""
 
-#: ../tempcache/stripe_form_checkout.html.twig:148
+#: ../tempcache/stripe_form_checkout.html.twig:149
 msgid "Payment details"
 msgstr ""
 
-#: ../tempcache/stripe_form_checkout.html.twig:155
+#: ../tempcache/stripe_form_checkout.html.twig:156
 msgid "Card number"
 msgstr ""
 
-#: ../tempcache/stripe_form_checkout.html.twig:162
+#: ../tempcache/stripe_form_checkout.html.twig:163
 msgid "Expiration"
 msgstr ""
 
-#: ../tempcache/stripe_form_checkout.html.twig:169
+#: ../tempcache/stripe_form_checkout.html.twig:170
 msgid "CVC"
 msgstr ""
 
-#: ../tempcache/stripe_form_checkout.html.twig:177
+#: ../tempcache/stripe_form_checkout.html.twig:178
 msgid "Pay"
 msgstr ""
 
-#: ../tempcache/stripe_form_checkout.html.twig:326
+#: ../tempcache/stripe_form_checkout.html.twig:327
 msgid ""
 "Your payment was successful. You may receive a mail from Stripe with details."
 msgstr ""
@@ -207,46 +210,46 @@ msgstr ""
 msgid "Stripe webhook event"
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:119
+#: ../tempcache/stripe_preferences.html.twig:116
 msgid "Stripe public key"
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:119
+#: ../tempcache/stripe_preferences.html.twig:116
 msgid "Enter here your Stripe public key."
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:125
+#: ../tempcache/stripe_preferences.html.twig:122
 msgid "Stripe secret key"
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:125
+#: ../tempcache/stripe_preferences.html.twig:122
 msgid "Enter here your Stripe secret key."
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:131
+#: ../tempcache/stripe_preferences.html.twig:128
 msgid "Stripe webhook secret"
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:131
+#: ../tempcache/stripe_preferences.html.twig:128
 msgid "Enter here your Stripe webhook secret."
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:138
+#: ../tempcache/stripe_preferences.html.twig:135
 msgid "Country of your Stripe account"
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:138
+#: ../tempcache/stripe_preferences.html.twig:135
 msgid "Enter here the country of your Stripe account."
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:145
+#: ../tempcache/stripe_preferences.html.twig:142
 msgid "Currency for payments"
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:145
+#: ../tempcache/stripe_preferences.html.twig:142
 msgid "Enter here the currency used to capture payments."
 msgstr ""
 
-#: ../tempcache/stripe_preferences.html.twig:227
+#: ../tempcache/stripe_preferences.html.twig:224
 msgid "Error: no predefined amounts found."
 msgstr ""

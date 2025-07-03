@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-25 21:27+0200\n"
-"PO-Revision-Date: 2025-06-25 21:32+0200\n"
+"POT-Creation-Date: 2025-07-03 15:48+0200\n"
+"PO-Revision-Date: 2025-07-03 15:53+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -32,8 +32,7 @@ msgstr ""
 "Une erreur est survenue lors de l'enregistrement des préférences stripe :("
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:170
-#: ../lib/GaletteStripe/Controllers/StripeController.php:231
-#: ../lib/GaletteStripe/Controllers/StripeController.php:283
+#: ../lib/GaletteStripe/Controllers/StripeController.php:286
 msgid "Stripe payment"
 msgstr "Paiement Stripe"
 
@@ -65,14 +64,18 @@ msgstr ""
 "Les montants prédéfinis n'ont pas pu être chargés, cette erreur n'est pas "
 "crtitique."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:232
-#: ../tempcache/stripe_form_amount.html.twig:334
+#: ../lib/GaletteStripe/Controllers/StripeController.php:230
+#: ../tempcache/stripe_form_amount.html.twig:333
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
 msgstr ""
 "Le montant que vous avez entré est inférieur au montant minimum de l'option "
 "sélectionnée. Veuillez choisir une autre option ou entrer un nouveau montant."
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:274
+msgid "An error occured loading the checkout form."
+msgstr "Une erreur est survenue lors du chargement du formulaire de paiement."
 
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:54
 msgid "Stripe"
@@ -92,7 +95,7 @@ msgid "Enter payment reason"
 msgstr "Entrez un motif de paiement"
 
 #: ../tempcache/stripe_form_amount.html.twig:75
-#: ../tempcache/stripe_form_amount.html.twig:180
+#: ../tempcache/stripe_form_amount.html.twig:179
 msgid "Payment reason"
 msgstr "Motif de paiement"
 
@@ -100,56 +103,56 @@ msgstr "Motif de paiement"
 msgid "Select an payment reason"
 msgstr "Sélectionnez un motif de paiement"
 
-#: ../tempcache/stripe_form_amount.html.twig:197
+#: ../tempcache/stripe_form_amount.html.twig:196
 msgid "No predefined amounts have been configured yet."
 msgstr "Aucun montant prédéfini n'a encore été configuré."
 
-#: ../tempcache/stripe_form_amount.html.twig:219
-#: ../tempcache/stripe_form_checkout.html.twig:80
+#: ../tempcache/stripe_form_amount.html.twig:218
+#: ../tempcache/stripe_form_checkout.html.twig:81
 msgid "Billing details"
 msgstr "Informations de facturation"
 
-#: ../tempcache/stripe_form_amount.html.twig:228
+#: ../tempcache/stripe_form_amount.html.twig:227
 msgid "First name"
 msgstr "Prénom"
 
-#: ../tempcache/stripe_form_amount.html.twig:231
+#: ../tempcache/stripe_form_amount.html.twig:230
 msgid "Name"
 msgstr "Nom"
 
-#: ../tempcache/stripe_form_amount.html.twig:234
+#: ../tempcache/stripe_form_amount.html.twig:233
 msgid "Email"
 msgstr "Email"
 
-#: ../tempcache/stripe_form_amount.html.twig:237
+#: ../tempcache/stripe_form_amount.html.twig:236
 msgid "Company"
 msgstr "Société"
 
-#: ../tempcache/stripe_form_amount.html.twig:243
+#: ../tempcache/stripe_form_amount.html.twig:242
 msgid "Address"
 msgstr "Adresse"
 
-#: ../tempcache/stripe_form_amount.html.twig:246
+#: ../tempcache/stripe_form_amount.html.twig:245
 msgid "Zip code"
 msgstr "Code postal"
 
-#: ../tempcache/stripe_form_amount.html.twig:249
+#: ../tempcache/stripe_form_amount.html.twig:248
 msgid "City"
 msgstr "Ville"
 
-#: ../tempcache/stripe_form_amount.html.twig:252
+#: ../tempcache/stripe_form_amount.html.twig:251
 msgid "Country"
 msgstr "Pays"
 
-#: ../tempcache/stripe_form_amount.html.twig:255
+#: ../tempcache/stripe_form_amount.html.twig:254
 msgid "URL"
 msgstr "URL"
 
-#: ../tempcache/stripe_form_amount.html.twig:319
+#: ../tempcache/stripe_form_amount.html.twig:318
 msgid "You have to select an option"
 msgstr "Vous devez sélectionner une option"
 
-#: ../tempcache/stripe_form_amount.html.twig:328
+#: ../tempcache/stripe_form_amount.html.twig:327
 msgid "Please enter an amount."
 msgstr "Veuillez entrer un montant."
 
@@ -171,27 +174,27 @@ msgstr "Pas de requête ou impossible de lire la requête"
 msgid "Show/hide full request"
 msgstr "Afficher/Masquer la requête complète"
 
-#: ../tempcache/stripe_form_checkout.html.twig:148
+#: ../tempcache/stripe_form_checkout.html.twig:149
 msgid "Payment details"
 msgstr "Information sur le paiement"
 
-#: ../tempcache/stripe_form_checkout.html.twig:155
+#: ../tempcache/stripe_form_checkout.html.twig:156
 msgid "Card number"
 msgstr "Numéro de carte"
 
-#: ../tempcache/stripe_form_checkout.html.twig:162
+#: ../tempcache/stripe_form_checkout.html.twig:163
 msgid "Expiration"
 msgstr "Date d'expiration"
 
-#: ../tempcache/stripe_form_checkout.html.twig:169
+#: ../tempcache/stripe_form_checkout.html.twig:170
 msgid "CVC"
 msgstr "CVC"
 
-#: ../tempcache/stripe_form_checkout.html.twig:177
+#: ../tempcache/stripe_form_checkout.html.twig:178
 msgid "Pay"
 msgstr "Payer"
 
-#: ../tempcache/stripe_form_checkout.html.twig:326
+#: ../tempcache/stripe_form_checkout.html.twig:327
 msgid ""
 "Your payment was successful. You may receive a mail from Stripe with details."
 msgstr ""
@@ -222,47 +225,47 @@ msgstr "URL du webhook à configurer dans Stripe"
 msgid "Stripe webhook event"
 msgstr "Événement du webhook à configurer dans Stripe"
 
-#: ../tempcache/stripe_preferences.html.twig:119
+#: ../tempcache/stripe_preferences.html.twig:116
 msgid "Stripe public key"
 msgstr "Clé publique Stripe"
 
-#: ../tempcache/stripe_preferences.html.twig:119
+#: ../tempcache/stripe_preferences.html.twig:116
 msgid "Enter here your Stripe public key."
 msgstr "Renseignez ici votre clé publique Stripe."
 
-#: ../tempcache/stripe_preferences.html.twig:125
+#: ../tempcache/stripe_preferences.html.twig:122
 msgid "Stripe secret key"
 msgstr "Clé secrète Stripe"
 
-#: ../tempcache/stripe_preferences.html.twig:125
+#: ../tempcache/stripe_preferences.html.twig:122
 msgid "Enter here your Stripe secret key."
 msgstr "Renseignez ici votre clé secrète Stripe."
 
-#: ../tempcache/stripe_preferences.html.twig:131
+#: ../tempcache/stripe_preferences.html.twig:128
 msgid "Stripe webhook secret"
 msgstr "Clé secrète du webhook à configurer dans Stripe"
 
-#: ../tempcache/stripe_preferences.html.twig:131
+#: ../tempcache/stripe_preferences.html.twig:128
 msgid "Enter here your Stripe webhook secret."
 msgstr "Renseignez ici la clé secrète de votre webhook."
 
-#: ../tempcache/stripe_preferences.html.twig:138
+#: ../tempcache/stripe_preferences.html.twig:135
 msgid "Country of your Stripe account"
 msgstr "Pays de votre compte Stripe"
 
-#: ../tempcache/stripe_preferences.html.twig:138
+#: ../tempcache/stripe_preferences.html.twig:135
 msgid "Enter here the country of your Stripe account."
 msgstr "Renseignez ici le pays de votre compte Stripe."
 
-#: ../tempcache/stripe_preferences.html.twig:145
+#: ../tempcache/stripe_preferences.html.twig:142
 msgid "Currency for payments"
 msgstr "Devise pour les paiements"
 
-#: ../tempcache/stripe_preferences.html.twig:145
+#: ../tempcache/stripe_preferences.html.twig:142
 msgid "Enter here the currency used to capture payments."
 msgstr "Renseignez ici la devise utilisée pour les paiements."
 
-#: ../tempcache/stripe_preferences.html.twig:227
+#: ../tempcache/stripe_preferences.html.twig:224
 msgid "Error: no predefined amounts found."
 msgstr "Erreur : aucun montant prédéfini trouvé."
 

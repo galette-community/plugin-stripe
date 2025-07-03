@@ -45,7 +45,7 @@
                                                 <input type="radio" name="item_id" id="in{{ k }}" value="{{ k }}"{% if loop.index0 == 0 %} checked="checked"{% endif %}/>
                                                 <label for="in{{ k }}"><span id="in{{ k }}_name">{{ amount['name'] }}</span>
                                                     {% if amount['amount'] > 0 %}
-                                                        (<span id="in{{ k }}_amount">{{ amount['amount']|format_currency(stripe.getCurrency(), locale: galette_lang) }}</span>)
+                                                        (<span id="in{{ k }}_amount">{{ amount['amount']|format_currency(stripe.getCurrency(), {}, galette_lang) }}</span>)
                                                     {% endif %}
                                                 </label>
                                             </div>
