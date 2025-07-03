@@ -225,21 +225,14 @@ class StripeController extends AbstractPluginController
         $stripe_amounts = $stripe->getAmounts($this->login);
 
         if ($amount < $stripe_amounts[$item_id]['amount']) {
-            $params = [
-                'stripe'        => $stripe,
-                'amounts'        => $stripe->getAmounts($this->login),
-                'page_title'    => _T('Stripe payment', 'stripe'),
-                'message'       => _T("The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.", "stripe"),
-                'current_url'   => rtrim($current_url, '/')
-            ];
-
-            // display page
-            $this->view->render(
-                $response,
-                $this->getTemplate('stripe_form_amount'),
-                $params
+            $this->flash->addMessage(
+                'error_detected',
+                _T("The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.", "stripe")
             );
-            return $response;
+
+            return $response
+                ->withStatus(301)
+                ->withHeader('Location', $this->routeparser->urlFor('stripe_form'));
         } else {
             $metadata = [];
 
@@ -275,23 +268,34 @@ class StripeController extends AbstractPluginController
 
             $client_secret = $stripe->createPaymentIntent($metadata, $amount);
 
-            $params = [
-                'stripe'        => $stripe,
-                'amount'        => $amount * 100,
-                'item_name'     => $metadata['item_name'],
-                'client_secret' => $client_secret,
-                'page_title'    => _T('Stripe payment', 'stripe'),
-                'current_url'   => rtrim($current_url, '/'),
-                'metadata'      => $metadata,
-            ];
+            if (!$client_secret) {
+                $this->flash->addMessage(
+                    'error_detected',
+                    _T('An error occured loading the checkout form.', 'stripe')
+                );
 
-            // display page
-            $this->view->render(
-                $response,
-                $this->getTemplate('stripe_form_checkout'),
-                $params
-            );
-            return $response;
+                return $response
+                    ->withStatus(301)
+                    ->withHeader('Location', $this->routeparser->urlFor('stripe_form'));
+            } else {
+                $params = [
+                    'stripe'        => $stripe,
+                    'amount'        => $amount * 100,
+                    'item_name'     => $metadata['item_name'],
+                    'client_secret' => $client_secret,
+                    'page_title'    => _T('Stripe payment', 'stripe'),
+                    'current_url'   => rtrim($current_url, '/'),
+                    'metadata'      => $metadata,
+                ];
+
+                // display page
+                $this->view->render(
+                    $response,
+                    $this->getTemplate('stripe_form_checkout'),
+                    $params
+                );
+                return $response;
+            }
         }
     }
 
