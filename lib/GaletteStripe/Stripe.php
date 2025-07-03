@@ -27,6 +27,7 @@ use Analog\Analog;
 use Galette\Core\Db;
 use Galette\Core\Login;
 use Galette\Entity\ContributionsTypes;
+use Stripe\StripeClient;
 
 /**
  * Preferences for stripe
@@ -396,40 +397,29 @@ class Stripe
      *
      * @param array<string, mixed> $metadata Array of metadata to transmit with payment
      * @param string               $amount   Amount of payment
-     * @param array<int, string>   $methods  Array of payment methods
      *
-     * @return string|boolean
+     * @return string|bool
      */
-    public function createPaymentIntent(array $metadata, string $amount, array $methods = ['card']): string|bool
+    public function createPaymentIntent(array $metadata, string $amount): string|bool
     {
-        $data = [
-            'amount' => (float)$amount * 100, // Stripe needs integer cents as amount
-            'currency' => $this->getCurrency(),
-            'payment_method_types' => $methods,
-            'metadata' => $metadata,
-        ];
-        $payload = http_build_query($data);
+        try {
+            $stripe = new StripeClient($this->getPrivKey());
+            $amountIntended = (float)$amount * 100;
+            $paymentIntent = $stripe->paymentIntents->create([
+                'amount' => (int)$amountIntended, // Stripe needs integer cents as amount
+                'currency' => $this->getCurrency(),
+                'automatic_payment_methods' => ['enabled' => true],
+                'metadata' => $metadata
+            ]);
 
-        // Just using cURL instead of full Stripe PHP library
-        $ch = curl_init('https://api.stripe.com/v1/payment_intents');
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERPWD, $this->getPrivKey() . ':');
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        $object = json_decode($response, true);
-
-        if ($object === null) {
+            return $paymentIntent->client_secret;
+        } catch (\Exception $e) {
+            Analog::log(
+                '[' . get_class($this) . '] Cannot create Stripe payment intent' .
+                '` | ' . $e->getMessage(),
+                Analog::ERROR
+            );
             return false;
-        } else {
-            if (isset($object['error'])) {
-                return false;
-            } else {
-                return $object['client_secret'];
-            }
         }
     }
 

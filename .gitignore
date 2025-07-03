@@ -2,3 +2,4 @@
 *.exvim*
 dist/
 tempcache/
+vendor/

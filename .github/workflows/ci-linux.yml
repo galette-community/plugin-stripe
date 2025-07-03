@@ -66,6 +66,8 @@ jobs:
         run: |
           cd galette-core/galette
           composer install --ignore-platform-reqs
+          cd plugins/plugin-stripe
+          composer install --ignore-platform-reqs
 
       - name: CS
         run: |
@@ -205,6 +207,8 @@ jobs:
         run: |
           cd galette-core
           bin/install_deps
+          cd galette/plugins/plugin-stripe
+          composer install --ignore-platform-reqs
 
       - name: Init for PostgreSQL
         env:
