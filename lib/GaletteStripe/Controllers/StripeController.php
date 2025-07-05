@@ -126,7 +126,7 @@ class StripeController extends AbstractPluginController
             if (isset($post['stripe_currency']) && $this->login->isAdmin()) {
                 $stripe->setCurrency($post['stripe_currency']);
             }
-            if (isset($post['amounts']) && isset($post['inactives'])) {
+            if (isset($post['inactives'])) {
                 $stripe->setInactives($post['inactives']);
             } else {
                 $stripe->unsetInactives();
@@ -187,7 +187,7 @@ class StripeController extends AbstractPluginController
             );
             throw $e;
         }
-        return $this->withJson($response, $returnedCurrencies);
+        return $this->withJson($response, $returnedCurrencies); //@phpstan-ignore-line
     }
 
     /**
