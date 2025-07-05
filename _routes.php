@@ -22,6 +22,7 @@
 declare(strict_types=1);
 
 use GaletteStripe\Controllers\StripeController;
+use Slim\Routing\RouteCollectorProxy;
 
 //Include specific classes (stripe/stripe-php)
 require_once 'vendor/autoload.php';
@@ -64,3 +65,10 @@ $app->post(
     '/webhook',
     [StripeController::class, 'webhook']
 )->setName('stripe_webhook');
+
+$app->group('/ajax', function (RouteCollectorProxy $app) use ($authenticate): void {
+    $app->post(
+        '/currencies',
+        [StripeController::class, 'refreshCurrencies']
+    )->setName('refresh_currencies')->add($authenticate);
+});
