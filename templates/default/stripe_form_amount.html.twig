@@ -140,7 +140,7 @@
                 <div class="ui basic center aligned fitted segment">
                     <button type="submit" name="valid" class="action ui labeled icon primary button"{% if login.isSuperAdmin() %} disabled{% endif %}>
                         <i class="stripe icon"></i>
-                        {{ _T("Pay with stripe", "stripe") }}
+                        {{ _T("Pay with Stripe", "stripe") }}
                     </button>
                     {% include "components/forms/csrf.html.twig" %}
                 </div>
@@ -164,7 +164,7 @@
                     $('#stripeForm').submit(function(e) {
                         var _checked = $('input:checked');
                         if (_checked.length == 0 ) {
-                            alert("{{ _T("You have to select an option", "stripe") }}");
+                            alert("{{ _T("You have to select an option.", "stripe") }}");
                             return false;
                         } else {
                             var _current_amount = parseFloat($('#amount').val());

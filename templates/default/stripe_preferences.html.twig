@@ -68,7 +68,7 @@
                         value: stripe.getWebhookSecret(),
                         label: _T("Stripe webhook secret", "stripe"),
                         required: true,
-                        tip: _T("Enter here your Stripe webhook secret.", "stripe")
+                        tip: _T("Enter here your Stripe secret key for the webhook.", "stripe")
                     } %}
 
                     {%if stripe.getPubKey() != '' or stripe.getPrivKey() != '' or stripe.getWebhookSecret() != '' %}
@@ -77,8 +77,7 @@
                             value: stripe.getCountry(),
                             values: countries,
                             label: _T("Country of your Stripe account", "stripe"),
-                            required: true,
-                            tip: _T("Enter here the country of your Stripe account.", "stripe")
+                            required: true
                         } %}
 
                         {% include "components/forms/select.html.twig" with {

@@ -81,9 +81,9 @@
             <td class="left collapsing" data-col-label="{{ _T("Date") }}">
                 {{ log.history_date|date(_T("Y-m-d H:i:s")) }}
                 {% if log.duplicate is defined %}
-                    <i class="exclamation circle red icon tooltip" data-html="{{ _T("duplicate", "stripe") }}"></i>
+                    <i class="exclamation circle red icon tooltip" data-html="{{ _T("Duplicate", "stripe") }}"></i>
                     <span class="visually-hidden">
-                        {{ _T("duplicate", "stripe") }}
+                        {{ _T("Duplicate", "stripe") }}
                     </span>
                 {% endif %}
             </td>
@@ -99,7 +99,7 @@
                 </a>
             {% endif %}
         {% else %}
-                {{ _T("No request or unable to read request", "stripe") }}
+                {{ _T("No request or unable to read request.", "stripe") }}
         {% endif %}
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Subject") }}">
