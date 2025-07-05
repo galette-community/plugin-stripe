@@ -135,7 +135,7 @@ class StripeController extends AbstractPluginController
             if ($stripe->getCurrency() === '') {
                 $this->flash->addMessage(
                     'error_detected',
-                    _T('You must select a currency.', 'stripe')
+                    _T('You have to select a currency.', 'stripe')
                 );
             } else {
                 $stored = $stripe->store();
@@ -148,7 +148,7 @@ class StripeController extends AbstractPluginController
                     $this->session->stripe = $stripe;
                     $this->flash->addMessage(
                         'error_detected',
-                        _T('An error occured saving stripe settings :(', 'stripe')
+                        _T('An error occured saving stripe settings.', 'stripe')
                     );
                 }
             }
@@ -216,7 +216,7 @@ class StripeController extends AbstractPluginController
             $this->flash->addMessageNow(
                 'error',
                 _T("<strong>Payment could not work</strong>: An error occurred (that has been logged) while loading Stripe settings from the database.<br/>Please report the issue to the staff.", "stripe") .
-                '<br/>' . _T("Our apologies for the annoyance :(", "stripe")
+                '<br/>' . _T("Our apologies for the annoyance.", "stripe")
             );
         }
 

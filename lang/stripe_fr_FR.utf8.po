@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-03 15:48+0200\n"
-"PO-Revision-Date: 2025-07-03 15:53+0200\n"
+"POT-Creation-Date: 2025-07-05 12:45+0200\n"
+"PO-Revision-Date: 2025-07-05 12:45+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -18,25 +18,29 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:78
+#: ../lib/GaletteStripe/Controllers/StripeController.php:80
 msgid "Stripe Settings"
 msgstr "Préférences Stripe"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:137
+#: ../lib/GaletteStripe/Controllers/StripeController.php:138
+msgid "You have to select a currency."
+msgstr "Vous devez sélectionner une devise."
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:145
 msgid "Stripe settings have been saved."
 msgstr "Les préférences Stripe ont été sauvegardées."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:143
-msgid "An error occured saving stripe settings :("
+#: ../lib/GaletteStripe/Controllers/StripeController.php:151
+msgid "An error occured saving stripe settings."
 msgstr ""
-"Une erreur est survenue lors de l'enregistrement des préférences stripe :("
+"Une erreur est survenue lors de l'enregistrement des préférences stripe."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:170
-#: ../lib/GaletteStripe/Controllers/StripeController.php:286
+#: ../lib/GaletteStripe/Controllers/StripeController.php:210
+#: ../lib/GaletteStripe/Controllers/StripeController.php:326
 msgid "Stripe payment"
 msgstr "Paiement Stripe"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:178
+#: ../lib/GaletteStripe/Controllers/StripeController.php:218
 msgid ""
 "<strong>Payment could not work</strong>: An error occurred (that has been "
 "logged) while loading Stripe settings from the database.<br/>Please report "
@@ -46,11 +50,11 @@ msgstr ""
 "enregistrée) est survenue lors du chargement des préférences Stripe depuis "
 "la base de données.<br/>Merci de rapporter ce problème aux membres du bureau."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:179
-msgid "Our apologies for the annoyance :("
-msgstr "Toutes nos excuses pour le désagrément :("
+#: ../lib/GaletteStripe/Controllers/StripeController.php:219
+msgid "Our apologies for the annoyance."
+msgstr "Toutes nos excuses pour le désagrément."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:186
+#: ../lib/GaletteStripe/Controllers/StripeController.php:226
 msgid ""
 "Stripe keys have not been defined. Please ask an administrator to add them "
 "in the plugin's settings."
@@ -58,13 +62,13 @@ msgstr ""
 "Les clés Stripe n'ont pas été configurées. Veuillez demander à un "
 "administrateur de les ajouter à partir des préférences du plugin."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:193
+#: ../lib/GaletteStripe/Controllers/StripeController.php:233
 msgid "Predefined amounts cannot be loaded, that is not a critical error."
 msgstr ""
 "Les montants prédéfinis n'ont pas pu être chargés, cette erreur n'est pas "
 "crtitique."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:230
+#: ../lib/GaletteStripe/Controllers/StripeController.php:270
 #: ../tempcache/stripe_form_amount.html.twig:333
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
@@ -73,17 +77,18 @@ msgstr ""
 "Le montant que vous avez entré est inférieur au montant minimum de l'option "
 "sélectionnée. Veuillez choisir une autre option ou entrer un nouveau montant."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:274
+#: ../lib/GaletteStripe/Controllers/StripeController.php:314
 msgid "An error occured loading the checkout form."
 msgstr "Une erreur est survenue lors du chargement du formulaire de paiement."
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:557
+#: ../lib/GaletteStripe/PluginGaletteStripe.php:62
+msgid "Stripe History"
+msgstr "Historique Stripe"
 
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:54
 msgid "Stripe"
 msgstr "Stripe"
-
-#: ../lib/GaletteStripe/PluginGaletteStripe.php:62
-msgid "Stripe History"
-msgstr "Historique Stripe"
 
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:89
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:113
@@ -148,9 +153,13 @@ msgstr "Pays"
 msgid "URL"
 msgstr "URL"
 
+#: ../tempcache/stripe_form_amount.html.twig:274
+msgid "Pay with Stripe"
+msgstr "Payer avec Stripe"
+
 #: ../tempcache/stripe_form_amount.html.twig:318
-msgid "You have to select an option"
-msgstr "Vous devez sélectionner une option"
+msgid "You have to select an option."
+msgstr "Vous devez sélectionner une option."
 
 #: ../tempcache/stripe_form_amount.html.twig:327
 msgid "Please enter an amount."
@@ -163,12 +172,12 @@ msgstr "Requête"
 
 #: ../tempcache/stripe_history.html.twig:158
 #: ../tempcache/stripe_history.html.twig:163
-msgid "duplicate"
-msgstr "doublon"
+msgid "Duplicate"
+msgstr "Doublon"
 
 #: ../tempcache/stripe_history.html.twig:207
-msgid "No request or unable to read request"
-msgstr "Pas de requête ou impossible de lire la requête"
+msgid "No request or unable to read request."
+msgstr "Pas de requête ou impossible de lire la requête."
 
 #: ../tempcache/stripe_history.html.twig:257
 msgid "Show/hide full request"
@@ -246,28 +255,54 @@ msgid "Stripe webhook secret"
 msgstr "Clé secrète du webhook à configurer dans Stripe"
 
 #: ../tempcache/stripe_preferences.html.twig:128
-msgid "Enter here your Stripe webhook secret."
-msgstr "Renseignez ici la clé secrète de votre webhook."
+msgid "Enter here your Stripe secret key for the webhook."
+msgstr "Renseignez ici votre clé secrète Stripe pour le webhook."
 
-#: ../tempcache/stripe_preferences.html.twig:135
+#: ../tempcache/stripe_preferences.html.twig:138
 msgid "Country of your Stripe account"
 msgstr "Pays de votre compte Stripe"
 
-#: ../tempcache/stripe_preferences.html.twig:135
-msgid "Enter here the country of your Stripe account."
-msgstr "Renseignez ici le pays de votre compte Stripe."
-
-#: ../tempcache/stripe_preferences.html.twig:142
+#: ../tempcache/stripe_preferences.html.twig:145
 msgid "Currency for payments"
 msgstr "Devise pour les paiements"
 
-#: ../tempcache/stripe_preferences.html.twig:142
-msgid "Enter here the currency used to capture payments."
-msgstr "Renseignez ici la devise utilisée pour les paiements."
+#: ../tempcache/stripe_preferences.html.twig:280
+msgid "Select a currency"
+msgstr "Sélectionner une devise"
 
-#: ../tempcache/stripe_preferences.html.twig:224
-msgid "Error: no predefined amounts found."
-msgstr "Erreur : aucun montant prédéfini trouvé."
+#~ msgid "You must select a currency."
+#~ msgstr "Vous devez sélectionner une devise."
+
+#~ msgid "An error occured saving stripe settings :("
+#~ msgstr ""
+#~ "Une erreur est survenue lors de l'enregistrement des préférences stripe :("
+
+#~ msgid "Our apologies for the annoyance :("
+#~ msgstr "Toutes nos excuses pour le désagrément :("
+
+#~ msgid "You have to select an option"
+#~ msgstr "Vous devez sélectionner une option"
+
+#~ msgid "duplicate"
+#~ msgstr "doublon"
+
+#~ msgid "No request or unable to read request"
+#~ msgstr "Pas de requête ou impossible de lire la requête"
+
+#~ msgid "Enter here your Stripe webhook secret."
+#~ msgstr "Renseignez ici la clé secrète de votre webhook."
+
+#~ msgid "Pay with stripe"
+#~ msgstr "Payer avec Stripe"
+
+#~ msgid "Enter here the country of your Stripe account."
+#~ msgstr "Renseignez ici le pays de votre compte Stripe."
+
+#~ msgid "Enter here the currency used to capture payments."
+#~ msgstr "Renseignez ici la devise utilisée pour les paiements."
+
+#~ msgid "Error: no predefined amounts found."
+#~ msgstr "Erreur : aucun montant prédéfini trouvé."
 
 #~ msgid "Payment intent"
 #~ msgstr "Transaction"
