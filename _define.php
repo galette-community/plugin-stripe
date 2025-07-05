@@ -33,7 +33,8 @@ $this->register(
         'stripe_preferences'        => 'staff',
         'store_stripe_preferences'  => 'staff',
         'stripe_history'            => 'staff',
-        'filter_stripe_history'     => 'staff'
+        'filter_stripe_history'     => 'staff',
+        'refresh_currencies'        => 'admin'
     ]
 );
 

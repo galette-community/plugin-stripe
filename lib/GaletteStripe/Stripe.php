@@ -75,7 +75,8 @@ class Stripe
         $this->inactives = [];
         $this->pubkey = null;
         $this->privkey = null;
-        $this->country = null;
+        $this->webhook_secret = null;
+        $this->country = 'FR';
         $this->currency = null;
         $this->load();
     }
@@ -566,17 +567,21 @@ class Stripe
     /**
      * Get all currencies
      *
-     * @return array<string, mixed>
+     * @param string $country Stripe country
+     *
+     * @return array<string, string>
      */
-    public function getAllCurrencies(): array
+    public function getAllCurrencies(string $country): array
     {
         // Currencies names are voluntarily not translatable.
-        $currencies = [
-            "usd" => "USD - United States Dollar",
+        $allCurrencies = [
             "aed" => "AED - United Arab Emirates Dirham",
+            "afn" => "AFN - Afghan Afghani",
             "all" => "ALL - Albanian Lek",
             "amd" => "AMD - Armenian Dram",
             "ang" => "ANG - Netherlands Antillean Guilder",
+            "aoa" => "AOA - Angolan Kwanza",
+            "ars" => "ARS - Argentine Peso",
             "aud" => "AUD - Australian Dollar",
             "awg" => "AWG - Aruban Florin",
             "azn" => "AZN - Azerbaijani Manat",
@@ -584,9 +589,12 @@ class Stripe
             "bbd" => "BBD - Barbadian Dollar",
             "bdt" => "BDT - Bangladeshi Taka",
             "bgn" => "BGN - Bulgarian Lev",
+            "bhd" => "BHD - Bahraini Dinar",
             "bif" => "BIF - Burundian Franc",
             "bmd" => "BMD - Bermudian Dollar",
             "bnd" => "BND - Brunei Dollar",
+            "bob" => "BOB - Bolivian Boliviano",
+            "brl" => "BRL - Brazilian Real",
             "bsd" => "BSD - Bahamian Dollar",
             "bwp" => "BWP - Botswana Pula",
             "byn" => "BYN - Belarusian Ruble",
@@ -594,8 +602,13 @@ class Stripe
             "cad" => "CAD - Canadian Dollar",
             "cdf" => "CDF - Congolese Franc",
             "chf" => "CHF - Swiss Franc",
+            "clp" => "CLP - Chilean Peso",
             "cny" => "CNY - Chinese Yuan",
+            "cop" => "COP - Colombian Peso",
+            "crc" => "CRC - Costa Rican Colón",
+            "cve" => "CVE - Cape Verdean Escudo",
             "czk" => "CZK - Czech Koruna",
+            "djf" => "DJF - Djiboutian Franc",
             "dkk" => "DKK - Danish Krone",
             "dop" => "DOP - Dominican Peso",
             "dzd" => "DZD - Algerian Dinar",
@@ -603,12 +616,16 @@ class Stripe
             "etb" => "ETB - Ethiopian Birr",
             "eur" => "EUR - Euro",
             "fjd" => "FJD - Fijian Dollar",
+            "fkp" => "FKP - Falkland Islands Pound",
             "gbp" => "GBP - British Pound Sterling",
             "gel" => "GEL - Georgian Lari",
             "gip" => "GIP - Gibraltar Pound",
             "gmd" => "GMD - Gambian Dalasi",
+            "gnf" => "GNF - Guinean Franc",
+            "gtq" => "GTQ - Guatemalan Quetzal",
             "gyd" => "GYD - Guyanese Dollar",
             "hkd" => "HKD - Hong Kong Dollar",
+            "hnl" => "HNL - Honduran Lempira",
             "htg" => "HTG - Haitian Gourde",
             "huf" => "HUF - Hungarian Forint",
             "idr" => "IDR - Indonesian Rupiah",
@@ -616,14 +633,17 @@ class Stripe
             "inr" => "INR - Indian Rupee",
             "isk" => "ISK - Icelandic Króna",
             "jmd" => "JMD - Jamaican Dollar",
+            "jod" => "JOD - Jordanian Dinar",
             "jpy" => "JPY - Japanese Yen",
             "kes" => "KES - Kenyan Shilling",
             "kgs" => "KGS - Kyrgyzstani Som",
             "khr" => "KHR - Cambodian Riel",
             "kmf" => "KMF - Comorian Franc",
             "krw" => "KRW - South Korean Won",
+            "kwd" => "KWD - Kuwaiti Dinar",
             "kyd" => "KYD - Cayman Islands Dollar",
             "kzt" => "KZT - Kazakhstani Tenge",
+            "lak" => "LAK - Laotian Kip",
             "lbp" => "LBP - Lebanese Pound",
             "lkr" => "LKR - Sri Lankan Rupee",
             "lrd" => "LRD - Liberian Dollar",
@@ -635,6 +655,7 @@ class Stripe
             "mmk" => "MMK - Myanmar Kyat",
             "mnt" => "MNT - Mongolian Tögrög",
             "mop" => "MOP - Macanese Pataca",
+            "mur" => "MUR - Mauritian Rupee",
             "mvr" => "MVR - Maldivian Rufiyaa",
             "mwk" => "MWK - Malawian Kwacha",
             "mxn" => "MXN - Mexican Peso",
@@ -642,13 +663,18 @@ class Stripe
             "mzn" => "MZN - Mozambican Metical",
             "nad" => "NAD - Namibian Dollar",
             "ngn" => "NGN - Nigerian Naira",
+            "nio" => "NIO - Nicaraguan Córdoba",
             "nok" => "NOK - Norwegian Krone",
             "npr" => "NPR - Nepalese Rupee",
             "nzd" => "NZD - New Zealand Dollar",
+            "omr" => "OMR - Omani Rial",
+            "pab" => "PAB - Panamanian Balboa",
+            "pen" => "PEN - Peruvian Sol",
             "pgk" => "PGK - Papua New Guinean Kina",
             "php" => "PHP - Philippine Peso",
             "pkr" => "PKR - Pakistani Rupee",
             "pln" => "PLN - Polish Zloty",
+            "pyg" => "PYG - Paraguayan Guarani",
             "qar" => "QAR - Qatari Rial",
             "ron" => "RON - Romanian Leu",
             "rsd" => "RSD - Serbian Dinar",
@@ -659,11 +685,15 @@ class Stripe
             "scr" => "SCR - Seychellois Rupee",
             "sek" => "SEK - Swedish Krona",
             "sgd" => "SGD - Singapore Dollar",
+            "shp" => "SHP - Saint Helena Pound",
             "sle" => "SLE - Sierra Leonean Leone",
             "sos" => "SOS - Somali Shilling",
+            "srd" => "SRD - Surinamese Dollar",
+            "std" => "STD - São Tomé and Príncipe Dobra",
             "szl" => "SZL - Swazi Lilangeni",
             "thb" => "THB - Thai Baht",
             "tjs" => "TJS - Tajikistani Somoni",
+            "tnd" => "TND - Tunisian Dinar",
             "top" => "TOP - Tongan Paʻanga",
             "try" => "TRY - Turkish Lira",
             "ttd" => "TTD - Trinidad and Tobago Dollar",
@@ -671,6 +701,8 @@ class Stripe
             "tzs" => "TZS - Tanzanian Shilling",
             "uah" => "UAH - Ukrainian Hryvnia",
             "ugx" => "UGX - Ugandan Shilling",
+            "usd" => "USD - United States Dollar",
+            "uyu" => "UYU - Uruguayan Peso",
             "uzs" => "UZS - Uzbekistani Som",
             "vnd" => "VND - Vietnamese Dong",
             "vuv" => "VUV - Vanuatu Vatu",
@@ -678,39 +710,30 @@ class Stripe
             "xaf" => "XAF - Central African CFA Franc",
             "xcd" => "XCD - East Caribbean Dollar",
             "xcg" => "XCG - Gold Currency Unit",
+            "xof" => "XOF - West African CFA Franc",
             "yer" => "YER - Yemeni Rial",
             "zar" => "ZAR - South African Rand",
             "zmw" => "ZMW - Zambian Kwacha",
-            "afn" => "AFN - Afghan Afghani",
-            "aoa" => "AOA - Angolan Kwanza",
-            "ars" => "ARS - Argentine Peso",
-            "bob" => "BOB - Bolivian Boliviano",
-            "brl" => "BRL - Brazilian Real",
-            "clp" => "CLP - Chilean Peso",
-            "cop" => "COP - Colombian Peso",
-            "crc" => "CRC - Costa Rican Colón",
-            "cve" => "CVE - Cape Verdean Escudo",
-            "djf" => "DJF - Djiboutian Franc",
-            "fkp" => "FKP - Falkland Islands Pound",
-            "gnf" => "GNF - Guinean Franc",
-            "gtq" => "GTQ - Guatemalan Quetzal",
-            "hnl" => "HNL - Honduran Lempira",
-            "lak" => "LAK - Laotian Kip",
-            "mur" => "MUR - Mauritian Rupee",
-            "nio" => "NIO - Nicaraguan Córdoba",
-            "pab" => "PAB - Panamanian Balboa",
-            "pen" => "PEN - Peruvian Sol",
-            "pyg" => "PYG - Paraguayan Guarani",
-            "shp" => "SHP - Saint Helena Pound",
-            "srd" => "SRD - Surinamese Dollar",
-            "std" => "STD - São Tomé and Príncipe Dobra",
-            "uyu" => "UYU - Uruguayan Peso",
-            "xof" => "XOF - West African CFA Franc",
             "xpf" => "XPF - CFP Franc"
         ];
 
-        asort($currencies);
-        return $currencies;
+        try {
+            $stripe = new StripeClient($this->getPrivKey());
+            $countrySpec = $stripe->countrySpecs->retrieve($country, []);
+            $countryCurrencies = $countrySpec->supported_payment_currencies;
+
+            $supportedCurrencies = array_intersect_key($allCurrencies, array_flip($countryCurrencies));
+            asort($supportedCurrencies);
+
+            return $supportedCurrencies;
+        } catch (\Exception $e) {
+            Analog::log(
+                '[' . get_class($this) . '] Cannot get supported currencies' .
+                '` | ' . $e->getMessage(),
+                Analog::ERROR
+            );
+            return $allCurrencies;
+        }
     }
 
     /**

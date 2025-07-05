@@ -35,6 +35,7 @@ use GaletteStripe\Stripe;
 use GaletteStripe\StripeHistory;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
+use Throwable;
 
 /**
  * Galette Stripe plugin controller
@@ -70,9 +71,10 @@ class StripeController extends AbstractPluginController
             $stripe = new Stripe($this->zdb);
         }
 
+        $current_country = $stripe->getCountry();
         $amounts = $stripe->getAllAmounts();
         $countries = $stripe->getAllCountries();
-        $currencies = $stripe->getAllCurrencies();
+        $currencies = $stripe->getAllCurrencies($current_country);
 
         $params = [
             'page_title'    => _T('Stripe Settings', 'stripe'),
@@ -124,30 +126,68 @@ class StripeController extends AbstractPluginController
             if (isset($post['stripe_currency']) && $this->login->isAdmin()) {
                 $stripe->setCurrency($post['stripe_currency']);
             }
-            if (isset($post['inactives'])) {
+            if (isset($post['amounts']) && isset($post['inactives'])) {
                 $stripe->setInactives($post['inactives']);
             } else {
                 $stripe->unsetInactives();
             }
 
-            $stored = $stripe->store();
-            if ($stored) {
-                $this->flash->addMessage(
-                    'success_detected',
-                    _T('Stripe settings have been saved.', 'stripe')
-                );
-            } else {
-                $this->session->stripe = $stripe;
+            if ($stripe->getCurrency() === '') {
                 $this->flash->addMessage(
                     'error_detected',
-                    _T('An error occured saving stripe settings :(', 'stripe')
+                    _T('You must select a currency.', 'stripe')
                 );
+            } else {
+                $stored = $stripe->store();
+                if ($stored) {
+                    $this->flash->addMessage(
+                        'success_detected',
+                        _T('Stripe settings have been saved.', 'stripe')
+                    );
+                } else {
+                    $this->session->stripe = $stripe;
+                    $this->flash->addMessage(
+                        'error_detected',
+                        _T('An error occured saving stripe settings :(', 'stripe')
+                    );
+                }
             }
         }
 
         return $response
             ->withStatus(301)
             ->withHeader('Location', $this->routeparser->urlFor('stripe_preferences'));
+    }
+
+    /**
+     * Ajax currencies list refresh
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function refreshCurrencies(Request $request, Response $response): Response
+    {
+        $post = $request->getParsedBody();
+        $stripe = new Stripe($this->zdb);
+        $returnedCurrencies = [];
+        try {
+            $allCurrencies = $stripe->getAllCurrencies($post['country']);
+            foreach ($allCurrencies as $key => $value) {
+                $returnedCurrencies[] = [
+                    'value' => $key,
+                    'name' => $value
+                ];
+            }
+        } catch (Throwable $e) {
+            Analog::log(
+                'An error occurred while retrieving updated currencies list: ' . $e->getMessage(),
+                Analog::WARNING
+            );
+            throw $e;
+        }
+        return $this->withJson($response, $returnedCurrencies);
     }
 
     /**
