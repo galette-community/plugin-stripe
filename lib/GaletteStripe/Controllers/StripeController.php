@@ -554,7 +554,7 @@ class StripeController extends AbstractPluginController
         $filters->setViewPagination($this->routeparser, $this->view);
 
         $params = [
-            'page_title'        => _T("Stripe History"),
+            'page_title'        => _T("Stripe History", "stripe"),
             'stripe_history'    => $stripe_history,
             'logs'              => $logs,
             'nb'                => $logs_count,
