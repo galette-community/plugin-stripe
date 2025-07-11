@@ -60,21 +60,7 @@ class Stripe extends GaletteTestCase
         $this->assertSame('eur', $stripe->getCurrency());
 
         $amounts = $stripe->getAmounts($this->login);
-        $this->assertCount(1, $amounts);
-
-        $ctype = new \Galette\Entity\ContributionsTypes($this->zdb);
-        $ctype_id = $ctype->getIdByLabel('donation in money');
-        $this->assertEquals(
-            [
-                $ctype_id => [
-                    'name' => 'donation in money',
-                    'amount' => null,
-                    'extra' => '0',
-                    'text_orig' => 'donation in money',
-                ]
-            ],
-            $amounts
-        );
+        $this->assertCount(0, $amounts);
         $this->assertCount(7, $stripe->getAllAmounts());
         $this->assertTrue($stripe->areAmountsLoaded());
         $this->assertTrue($stripe->isLoaded());

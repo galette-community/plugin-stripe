@@ -25,8 +25,8 @@
         <div class="ui segment">
             <div class="ui inverted secondary big segment">
                 <div class="ui large center aligned header">
-                    {% set charge = amount / 100.0 %}
-                    {{ charge|format_currency(stripe.getCurrency(), {}, galette_lang) }}
+                    {% set charged_amount = stripe.isZeroDecimal(stripe.getCurrency()) ? amount : amount / 100.0 %}
+                    {{ charged_amount|format_currency(stripe.getCurrency(), {}, galette_lang) }}
                     <div class="sub header">{{ item_name }}</div>
                 </div>
             </div>
