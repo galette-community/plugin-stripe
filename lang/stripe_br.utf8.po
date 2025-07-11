@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-05 12:45+0200\n"
+"POT-Creation-Date: 2025-07-11 22:34+0200\n"
 "PO-Revision-Date: 2025-07-03 15:53+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
@@ -38,7 +38,7 @@ msgid "An error occured saving stripe settings."
 msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:210
-#: ../lib/GaletteStripe/Controllers/StripeController.php:326
+#: ../lib/GaletteStripe/Controllers/StripeController.php:327
 msgid "Stripe payment"
 msgstr ""
 
@@ -63,18 +63,18 @@ msgstr ""
 msgid "Predefined amounts cannot be loaded, that is not a critical error."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:270
-#: ../tempcache/stripe_form_amount.html.twig:333
+#: ../lib/GaletteStripe/Controllers/StripeController.php:271
+#: ../tempcache/stripe_form_amount.html.twig:328
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:314
+#: ../lib/GaletteStripe/Controllers/StripeController.php:315
 msgid "An error occured loading the checkout form."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:557
+#: ../lib/GaletteStripe/Controllers/StripeController.php:559
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:62
 msgid "Stripe History"
 msgstr ""
@@ -88,73 +88,72 @@ msgstr ""
 msgid "Payment form"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:68
-msgid "Enter payment reason"
-msgstr ""
-
-#: ../tempcache/stripe_form_amount.html.twig:75
-#: ../tempcache/stripe_form_amount.html.twig:179
+#: ../tempcache/stripe_form_amount.html.twig:74
 msgid "Payment reason"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:82
+#: ../tempcache/stripe_form_amount.html.twig:81
 msgid "Select an payment reason"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:196
-msgid "No predefined amounts have been configured yet."
-msgstr ""
-
-#: ../tempcache/stripe_form_amount.html.twig:218
+#: ../tempcache/stripe_form_amount.html.twig:185
 #: ../tempcache/stripe_form_checkout.html.twig:81
 msgid "Billing details"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:227
+#: ../tempcache/stripe_form_amount.html.twig:194
 msgid "First name"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:230
+#: ../tempcache/stripe_form_amount.html.twig:197
 msgid "Name"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:233
+#: ../tempcache/stripe_form_amount.html.twig:200
 msgid "Email"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:236
+#: ../tempcache/stripe_form_amount.html.twig:203
 msgid "Company"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:242
+#: ../tempcache/stripe_form_amount.html.twig:209
 msgid "Address"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:245
+#: ../tempcache/stripe_form_amount.html.twig:212
 msgid "Zip code"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:248
+#: ../tempcache/stripe_form_amount.html.twig:215
 msgid "City"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:251
+#: ../tempcache/stripe_form_amount.html.twig:218
 msgid "Country"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:254
+#: ../tempcache/stripe_form_amount.html.twig:221
 msgid "URL"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:274
+#: ../tempcache/stripe_form_amount.html.twig:241
 msgid "Pay with Stripe"
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:318
+#: ../tempcache/stripe_form_amount.html.twig:257
+msgid "No payment reasons are available."
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:271
+msgid "No predefined amounts have been configured yet."
+msgstr ""
+
+#: ../tempcache/stripe_form_amount.html.twig:313
 msgid "You have to select an option."
 msgstr ""
 
-#: ../tempcache/stripe_form_amount.html.twig:327
+#: ../tempcache/stripe_form_amount.html.twig:322
 msgid "Please enter an amount."
 msgstr ""
 

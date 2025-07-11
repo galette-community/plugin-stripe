@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-05 12:45+0200\n"
-"PO-Revision-Date: 2025-07-05 12:45+0200\n"
+"POT-Creation-Date: 2025-07-11 22:35+0200\n"
+"PO-Revision-Date: 2025-07-11 22:39+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Une erreur est survenue lors de l'enregistrement des préférences stripe."
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:210
-#: ../lib/GaletteStripe/Controllers/StripeController.php:326
+#: ../lib/GaletteStripe/Controllers/StripeController.php:327
 msgid "Stripe payment"
 msgstr "Paiement Stripe"
 
@@ -68,8 +68,8 @@ msgstr ""
 "Les montants prédéfinis n'ont pas pu être chargés, cette erreur n'est pas "
 "crtitique."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:270
-#: ../tempcache/stripe_form_amount.html.twig:333
+#: ../lib/GaletteStripe/Controllers/StripeController.php:271
+#: ../tempcache/stripe_form_amount.html.twig:328
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
@@ -77,11 +77,11 @@ msgstr ""
 "Le montant que vous avez entré est inférieur au montant minimum de l'option "
 "sélectionnée. Veuillez choisir une autre option ou entrer un nouveau montant."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:314
+#: ../lib/GaletteStripe/Controllers/StripeController.php:315
 msgid "An error occured loading the checkout form."
 msgstr "Une erreur est survenue lors du chargement du formulaire de paiement."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:557
+#: ../lib/GaletteStripe/Controllers/StripeController.php:559
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:62
 msgid "Stripe History"
 msgstr "Historique Stripe"
@@ -95,73 +95,72 @@ msgstr "Stripe"
 msgid "Payment form"
 msgstr "Formulaire de paiement"
 
-#: ../tempcache/stripe_form_amount.html.twig:68
-msgid "Enter payment reason"
-msgstr "Entrez un motif de paiement"
-
-#: ../tempcache/stripe_form_amount.html.twig:75
-#: ../tempcache/stripe_form_amount.html.twig:179
+#: ../tempcache/stripe_form_amount.html.twig:74
 msgid "Payment reason"
 msgstr "Motif de paiement"
 
-#: ../tempcache/stripe_form_amount.html.twig:82
+#: ../tempcache/stripe_form_amount.html.twig:81
 msgid "Select an payment reason"
 msgstr "Sélectionnez un motif de paiement"
 
-#: ../tempcache/stripe_form_amount.html.twig:196
-msgid "No predefined amounts have been configured yet."
-msgstr "Aucun montant prédéfini n'a encore été configuré."
-
-#: ../tempcache/stripe_form_amount.html.twig:218
+#: ../tempcache/stripe_form_amount.html.twig:185
 #: ../tempcache/stripe_form_checkout.html.twig:81
 msgid "Billing details"
 msgstr "Informations de facturation"
 
-#: ../tempcache/stripe_form_amount.html.twig:227
+#: ../tempcache/stripe_form_amount.html.twig:194
 msgid "First name"
 msgstr "Prénom"
 
-#: ../tempcache/stripe_form_amount.html.twig:230
+#: ../tempcache/stripe_form_amount.html.twig:197
 msgid "Name"
 msgstr "Nom"
 
-#: ../tempcache/stripe_form_amount.html.twig:233
+#: ../tempcache/stripe_form_amount.html.twig:200
 msgid "Email"
 msgstr "Email"
 
-#: ../tempcache/stripe_form_amount.html.twig:236
+#: ../tempcache/stripe_form_amount.html.twig:203
 msgid "Company"
 msgstr "Société"
 
-#: ../tempcache/stripe_form_amount.html.twig:242
+#: ../tempcache/stripe_form_amount.html.twig:209
 msgid "Address"
 msgstr "Adresse"
 
-#: ../tempcache/stripe_form_amount.html.twig:245
+#: ../tempcache/stripe_form_amount.html.twig:212
 msgid "Zip code"
 msgstr "Code postal"
 
-#: ../tempcache/stripe_form_amount.html.twig:248
+#: ../tempcache/stripe_form_amount.html.twig:215
 msgid "City"
 msgstr "Ville"
 
-#: ../tempcache/stripe_form_amount.html.twig:251
+#: ../tempcache/stripe_form_amount.html.twig:218
 msgid "Country"
 msgstr "Pays"
 
-#: ../tempcache/stripe_form_amount.html.twig:254
+#: ../tempcache/stripe_form_amount.html.twig:221
 msgid "URL"
 msgstr "URL"
 
-#: ../tempcache/stripe_form_amount.html.twig:274
+#: ../tempcache/stripe_form_amount.html.twig:241
 msgid "Pay with Stripe"
 msgstr "Payer avec Stripe"
 
-#: ../tempcache/stripe_form_amount.html.twig:318
+#: ../tempcache/stripe_form_amount.html.twig:257
+msgid "No payment reasons are available."
+msgstr "Aucun motif de paiement n'est disponible."
+
+#: ../tempcache/stripe_form_amount.html.twig:271
+msgid "No predefined amounts have been configured yet."
+msgstr "Aucun montant prédéfini n'a encore été configuré."
+
+#: ../tempcache/stripe_form_amount.html.twig:313
 msgid "You have to select an option."
 msgstr "Vous devez sélectionner une option."
 
-#: ../tempcache/stripe_form_amount.html.twig:327
+#: ../tempcache/stripe_form_amount.html.twig:322
 msgid "Please enter an amount."
 msgstr "Veuillez entrer un montant."
 
@@ -269,273 +268,3 @@ msgstr "Devise pour les paiements"
 #: ../tempcache/stripe_preferences.html.twig:280
 msgid "Select a currency"
 msgstr "Sélectionner une devise"
-
-#~ msgid "You must select a currency."
-#~ msgstr "Vous devez sélectionner une devise."
-
-#~ msgid "An error occured saving stripe settings :("
-#~ msgstr ""
-#~ "Une erreur est survenue lors de l'enregistrement des préférences stripe :("
-
-#~ msgid "Our apologies for the annoyance :("
-#~ msgstr "Toutes nos excuses pour le désagrément :("
-
-#~ msgid "You have to select an option"
-#~ msgstr "Vous devez sélectionner une option"
-
-#~ msgid "duplicate"
-#~ msgstr "doublon"
-
-#~ msgid "No request or unable to read request"
-#~ msgstr "Pas de requête ou impossible de lire la requête"
-
-#~ msgid "Enter here your Stripe webhook secret."
-#~ msgstr "Renseignez ici la clé secrète de votre webhook."
-
-#~ msgid "Pay with stripe"
-#~ msgstr "Payer avec Stripe"
-
-#~ msgid "Enter here the country of your Stripe account."
-#~ msgstr "Renseignez ici le pays de votre compte Stripe."
-
-#~ msgid "Enter here the currency used to capture payments."
-#~ msgstr "Renseignez ici la devise utilisée pour les paiements."
-
-#~ msgid "Error: no predefined amounts found."
-#~ msgstr "Erreur : aucun montant prédéfini trouvé."
-
-#~ msgid "Payment intent"
-#~ msgstr "Transaction"
-
-#~ msgid "Stripe preferences"
-#~ msgstr "Préférences Stripe"
-
-#~ msgid "Payment"
-#~ msgstr "Paiement"
-
-#~ msgid "Payment successful"
-#~ msgstr "Paiement réussi"
-
-#~ msgid "Payment reason:"
-#~ msgstr "Motif de paiement :"
-
-#~ msgid ""
-#~ "WARNING: If you enter an amount below, make sure that it is not lower "
-#~ "than the amount of the option you've selected."
-#~ msgstr ""
-#~ "ATTENTION : si vous entrez un montant ci-dessous, assurez-vous qu'il ne "
-#~ "soit pas inférieur au montant de l'option que vous avez sélectionnée."
-
-#~ msgid ""
-#~ "Enter here the currency used to capture payments. You must enter your "
-#~ "public key and currency first."
-#~ msgstr "Renseignez la devise dans laquelle les paiements seront effectués."
-
-#~ msgid "Your payment has been aborted!"
-#~ msgstr "Votre paiement a été annulé !"
-
-#~ msgid "Stripe payment success"
-#~ msgstr "Paiement Stripe effectué"
-
-#~ msgid "Your payment has been proceeded!"
-#~ msgstr "Votre paiement a été effectué !"
-
-#~ msgid "Stripe identifier:"
-#~ msgstr "Identifiant Stripe :"
-
-#~ msgid ""
-#~ "Enter here one of your Stripe ID or email adress associated within your "
-#~ "stripe account."
-#~ msgstr ""
-#~ "Entrez ici votre identifiant Stripe ou une adresse email associée à votre "
-#~ "compte stripe."
-
-#~ msgid "Your stripe payment was successful. Some details are shown below:"
-#~ msgstr ""
-#~ "Votre paiement stripe a été effectué avec succès. Quelques détails "
-#~ "concernant la transaction sont affichés ci-dessous :"
-
-#~ msgid ""
-#~ "Stripe id has not been defined. Please ask an administrator to add it "
-#~ "from plugin preferences."
-#~ msgstr ""
-#~ "L'identifiant Stripe n'a pas été renseigné. Veuillez demander à un "
-#~ "administrateur de l'ajouter dans les préférences du plugin."
-
-#~ msgid "Go back to %s's website to complete your inscription."
-#~ msgstr "Retour au site de %s pour compléter votre inscription."
-
-#~ msgid "Save"
-#~ msgstr "Sauvegarder"
-
-#~ msgid "red"
-#~ msgstr "rouge"
-
-#~ msgid "Amount"
-#~ msgstr "Montant"
-
-#~ msgid "Descendant"
-#~ msgstr "Décroissant"
-
-#~ msgid "Payment status"
-#~ msgstr "État du paiement"
-
-#~ msgid "Pages:"
-#~ msgstr "Pages :"
-
-#~ msgid "Label"
-#~ msgstr "Étiquette"
-
-#~ msgid "Subject"
-#~ msgstr "Sujet"
-
-#~ msgid "logs are empty"
-#~ msgstr "l'historique est vide"
-
-#~ msgid "Change"
-#~ msgstr "Modifier"
-
-#~ msgid "NB : The mandatory fields are in"
-#~ msgstr "NB : Les champs requis sont en"
-
-#~ msgid "Ascendent"
-#~ msgstr "Croissant"
-
-#~ msgid "Stripe Preferences"
-#~ msgstr "Préférences Stripe"
-
-#~ msgid "- ERROR -"
-#~ msgstr "- ERREUR -"
-
-#~ msgid "Payment date"
-#~ msgstr "Date de paiement"
-
-#~ msgid "Inactive"
-#~ msgstr "Inactif"
-
-#~ msgid "Records per page:"
-#~ msgstr "Enregistrements par page :"
-
-#~ msgid "Cotisation type"
-#~ msgstr "Type de cotisation"
-
-#~ msgid "annual fee"
-#~ msgstr "Cotisation annuelle"
-
-#~ msgid "Validate"
-#~ msgstr "Valider"
-
-#~ msgid "Date"
-#~ msgstr "Date"
-
-#~ msgid "- WARNING -"
-#~ msgstr "- ATTENTION -"
-
-#~ msgid "Payment type"
-#~ msgstr "Type de paiement"
-
-#~ msgid "donation in money"
-#~ msgstr "donation pécuniaire"
-
-#~ msgid ""
-#~ "Select an option below, then click 'Payment' to proceed.<br/>Once your "
-#~ "paiment validated, an entry will be automatically added in the "
-#~ "contributions table and staff members will receive a notification mail."
-#~ msgstr ""
-#~ "Choisissez une option ci-dessous, puis cliquez sur 'Paiement' pour "
-#~ "continuer.<br/> Une fois que votre paiement aura été validé, une entrée "
-#~ "sera automatiquement générée dans la table des contributions et les "
-#~ "membres du bureau recevront un message de notification."
-
-#~ msgid "fullcard"
-#~ msgstr "fullcard"
-
-#~ msgid "Society"
-#~ msgstr "Société"
-
-#~ msgid "Email adress"
-#~ msgstr "Courriel"
-
-#~ msgid "At "
-#~ msgstr "Fait à "
-
-#~ msgid "Active member"
-#~ msgstr "Membre actif"
-
-#~ msgid "Miss"
-#~ msgstr "Mlle"
-
-#~ msgid "Mister"
-#~ msgstr "Monsieur"
-
-#~ msgid "Adherent file card"
-#~ msgstr "Fiche adhérent"
-
-#~ msgid "Signature"
-#~ msgstr "Signature"
-
-#~ msgid "Empty card"
-#~ msgstr "Carte vide"
-
-#~ msgid "** Galette identifier, if applicable"
-#~ msgstr "** Identifiant Galette, si applicable"
-
-#~ msgid "Benefactor member"
-#~ msgstr "Membre bienfaiteur"
-
-#~ msgid "%membername: PDF member card"
-#~ msgstr "%membername: Fiche PDF"
-
-#~ msgid "Username"
-#~ msgstr "Identifiant"
-
-#~ msgid ""
-#~ "The minimum contribution for each type of membership are defined on the "
-#~ "website of the association. The amount of donations are free to be dcided "
-#~ "by the generous donor."
-#~ msgstr ""
-#~ "Les cotisations minimales pour chacun des types d'adhésions sont fixées "
-#~ "sur le site web de l'association. Le montant des dons est quant à lui "
-#~ "laissé à l'entière appréciation des généreux donateurs."
-
-#~ msgid ""
-#~ "Hereby, I agree to comply to %s association's statutes and its rules."
-#~ msgstr ""
-#~ "Par la présente, je m'engage à respecter les statuts ainsi que le "
-#~ "règlement intérieur de l'association %s."
-
-#~ msgid "Required membership:"
-#~ msgstr "Adhésion souhaitée :"
-
-#~ msgid "Mrs"
-#~ msgstr "Mme"
-
-#~ msgid "PDF member card"
-#~ msgstr "Fiche adhérent PDF"
-
-#~ msgid ""
-#~ "Complete the following form and send it with your funds, in order to "
-#~ "complete your subscription."
-#~ msgstr ""
-#~ "Remplissez le formulaire suivant et joignez le lors de l'envoi de votre "
-#~ "règlement, pour compléter votre inscription."
-
-#~ msgid "Full card"
-#~ msgstr "Fiche Adhérent"
-
-#~ msgid "Politeness"
-#~ msgstr "Civilité"
-
-#~ msgid "* Company names for compagnies"
-#~ msgstr "* Raison sociale pour les sociéétés"
-
-#~ msgid "Generates an empty member card you can print for events, for example"
-#~ msgstr ""
-#~ "Génère une fiche adhérent vierge que vous pourrez imprimer pour des "
-#~ "évènements, par exemple"
-
-#~ msgid "Donation"
-#~ msgstr "Don"
-
-#~ msgid "On            /            /            "
-#~ msgstr "Le            /            /            "

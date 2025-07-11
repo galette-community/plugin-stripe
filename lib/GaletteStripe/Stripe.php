@@ -398,14 +398,15 @@ class Stripe
      *
      * @param array<string, mixed> $metadata Array of metadata to transmit with payment
      * @param string               $amount   Amount of payment
+     * @param string               $currency Currency used
      *
      * @return string|bool
      */
-    public function createPaymentIntent(array $metadata, string $amount): string|bool
+    public function createPaymentIntent(array $metadata, string $amount, string $currency): string|bool
     {
         try {
             $stripe = new StripeClient($this->getPrivKey());
-            $amountIntended = (float)$amount * 100;
+            $amountIntended = $this->isZeroDecimal($currency) ? round((float)$amount) : (float)$amount * 100;
             $paymentIntent = $stripe->paymentIntents->create([
                 'amount' => (int)$amountIntended, // Stripe needs integer cents as amount
                 'currency' => $this->getCurrency(),
@@ -485,7 +486,8 @@ class Stripe
     {
         $prices = [];
         foreach ($this->prices as $k => $v) {
-            if (!$this->isInactive($k)) {
+            $amount = $this->isZeroDecimal($this->getCurrency()) ? round($v['amount']) : $v['amount'];
+            if (!$this->isInactive($k) && $amount > 0) {
                 if ($login->isLogged() || $v['extra'] == ContributionsTypes::DONATION_TYPE) {
                     $prices[$k] = $v;
                 }
@@ -734,6 +736,37 @@ class Stripe
             );
             return $allCurrencies;
         }
+    }
+
+    /**
+     * Is currency a zero-decimal?
+     * https://docs.stripe.com/currencies#zero-decimal
+     *
+     * @param string $currency Currency
+     *
+     * @return boolean
+     */
+    public function isZeroDecimal(string $currency): bool
+    {
+        $zeroDecimalCurrencies = [
+            "bif",
+            "clp",
+            "djf",
+            "gnf",
+            "jpy",
+            "kmf",
+            "krw",
+            "mga",
+            "pyg",
+            "rwf",
+            "vnd",
+            "vuv",
+            "xaf",
+            "xof",
+            "xpf"
+        ];
+
+        return in_array($currency, $zeroDecimalCurrencies);
     }
 
     /**

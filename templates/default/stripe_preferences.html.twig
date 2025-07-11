@@ -107,7 +107,7 @@
                                         <label for="amount_{{ k }}">{{ amount['name'] }}</label>
                                     </td>
                                     <td>
-                                        <input type="text" name="amounts[]" id="amount_{{ k }}" value="{{ amount['amount']|number_format(2, ',', '') }}"/>
+                                        <input type="text" name="amounts[]" id="amount_{{ k }}" value="{{ amount['amount'] }}"/>
                                     </td>
                                     <td class="collapsing">
                                          <div class="ui right aligned toggle checkbox">

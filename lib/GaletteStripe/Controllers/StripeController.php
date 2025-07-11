@@ -261,10 +261,11 @@ class StripeController extends AbstractPluginController
 
         // Check the amount
         $item_id = $stripe_request['item_id'];
-        $amount = $stripe_request['amount'];
         $stripe_amounts = $stripe->getAmounts($this->login);
+        $amount = $stripe_request['amount'];
+        $amount_check = $stripe->isZeroDecimal($stripe->getCurrency()) ? round((float)$stripe_amounts[$item_id]['amount']) : $stripe_amounts[$item_id]['amount'];
 
-        if ($amount < $stripe_amounts[$item_id]['amount']) {
+        if ($amount < $amount_check) {
             $this->flash->addMessage(
                 'error_detected',
                 _T("The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.", "stripe")
@@ -306,7 +307,7 @@ class StripeController extends AbstractPluginController
             $metadata['item_id'] = $item_id;
             $metadata['item_name'] = $stripe_amounts[$item_id]['name'];
 
-            $client_secret = $stripe->createPaymentIntent($metadata, $amount);
+            $client_secret = $stripe->createPaymentIntent($metadata, $amount, $stripe->getCurrency());
 
             if (!$client_secret) {
                 $this->flash->addMessage(
@@ -320,7 +321,7 @@ class StripeController extends AbstractPluginController
             } else {
                 $params = [
                     'stripe'        => $stripe,
-                    'amount'        => $amount * 100,
+                    'amount'        => $stripe->isZeroDecimal($stripe->getCurrency()) ? round((float)$amount) : $amount * 100,
                     'item_name'     => $metadata['item_name'],
                     'client_secret' => $client_secret,
                     'page_title'    => _T('Stripe payment', 'stripe'),
@@ -444,6 +445,7 @@ class StripeController extends AbstractPluginController
                 * If no member id is provided, we only send to post contribution
                 * script, Galette does not handle anonymous contributions
                 */
+                $amount = $post['data']['object']['amount'];
                 $contrib_args = [
                     'type'          => $post['data']['object']['metadata']['item_id'],
                     'adh'           => $post['data']['object']['metadata']['member_id'],
@@ -453,7 +455,7 @@ class StripeController extends AbstractPluginController
                     ContributionsTypes::PK  => $post['data']['object']['metadata']['item_id'],
                     Adherent::PK            => $post['data']['object']['metadata']['member_id'],
                     'type_paiement_cotis'   => PaymentType::CREDITCARD,
-                    'montant_cotis'         => $post['data']['object']['amount'] / 100, // Stripe handles cents
+                    'montant_cotis'         => $stripe->isZeroDecimal($stripe->getCurrency()) ? $amount : $amount / 100,
                 ];
                 if ($this->preferences->pref_membership_ext != '') { //@phpstan-ignore-line
                     $contrib_args['ext'] = $this->preferences->pref_membership_ext;
