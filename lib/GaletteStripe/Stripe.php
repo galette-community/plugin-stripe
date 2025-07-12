@@ -538,7 +538,6 @@ class Stripe
             "HR" => "Croatia",
             "HU" => "Hungary",
             "IE" => "Ireland",
-            "IN" => "India",
             "IT" => "Italy",
             "JP" => "Japan",
             "LI" => "Liechtenstein",
