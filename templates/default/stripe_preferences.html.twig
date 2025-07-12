@@ -66,7 +66,7 @@
                     {% include "components/forms/text.html.twig" with {
                         id: 'stripe_webhook_secret',
                         value: stripe.getWebhookSecret(),
-                        label: _T("Stripe webhook secret", "stripe"),
+                        label: _T("Stripe webhook secret key", "stripe"),
                         required: true,
                         tip: _T("Enter here your Stripe secret key for the webhook.", "stripe")
                     } %}
@@ -97,20 +97,24 @@
                                 <th class="listing">{{ _T("Contribution type") }}</th>
                                 <th class="listing collapsing">
                                     {{ _T("Amount") }}
-                                    <i class="circular small basic question icon tooltip" aria-hidden="true" title="{{ _T("Amounts can be defined in the contribution types configuration", "stripe") }}"></i>
+                                    <i class="circular small basic question icon tooltip" aria-hidden="true" title="{{ _T("Amounts can be defined in the contributions types settings.", "stripe") }}"></i>
                                 </th>
                                 <th class="listing collapsing">{{ _T("Inactive") }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for k, amount in amounts %}
+                                {% set charged_amount = stripe.isZeroDecimal(stripe.getCurrency()) ? amount['amount']|round : amount['amount'] %}
                                 <tr>
                                     <td>
                                         <input type="hidden" name="amount_id[]" id="amount_id_{{ k }}" value="{{ k }}"/>
                                         <label for="amount_{{ k }}">{{ amount['name'] }}</label>
                                     </td>
                                     <td class="collapsing">
-                                        {{ amount['amount'] }}
+                                        {{ charged_amount }}
+                                        {% if not stripe.isInactive(k) and charged_amount == 0 %}
+                                             <i class="triangle exclamation orange icon tooltip" aria-hidden="true" title="{{ _T("Zero amounts, even if they are not disabled, are not proposed as a payment reason on the form. You can disable this reason, or set a positive value in the contributions types settings.", "stripe") }}"></i>
+                                        {% endif %}
                                     </td>
                                     <td class="collapsing">
                                          <div class="ui right aligned toggle checkbox">
