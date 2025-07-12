@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-11 22:43+0200\n"
-"PO-Revision-Date: 2025-07-11 22:43+0200\n"
+"POT-Creation-Date: 2025-07-12 13:36+0200\n"
+"PO-Revision-Date: 2025-07-12 13:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en_US\n"
@@ -21,24 +21,24 @@ msgstr ""
 msgid "Stripe Settings"
 msgstr "Stripe Settings"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:138
+#: ../lib/GaletteStripe/Controllers/StripeController.php:134
 msgid "You have to select a currency."
 msgstr "You have to select a currency."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:145
+#: ../lib/GaletteStripe/Controllers/StripeController.php:141
 msgid "Stripe settings have been saved."
 msgstr "Stripe settings have been saved."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:151
+#: ../lib/GaletteStripe/Controllers/StripeController.php:147
 msgid "An error occured saving stripe settings."
 msgstr "An error occured saving stripe settings."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:210
-#: ../lib/GaletteStripe/Controllers/StripeController.php:327
+#: ../lib/GaletteStripe/Controllers/StripeController.php:205
+#: ../lib/GaletteStripe/Controllers/StripeController.php:315
 msgid "Stripe payment"
 msgstr "Stripe payment"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:218
+#: ../lib/GaletteStripe/Controllers/StripeController.php:213
 msgid ""
 "<strong>Payment could not work</strong>: An error occurred (that has been "
 "logged) while loading Stripe settings from the database.<br/>Please report "
@@ -48,11 +48,11 @@ msgstr ""
 "logged) while loading Stripe settings from the database.<br/>Please report "
 "the issue to the staff."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:219
+#: ../lib/GaletteStripe/Controllers/StripeController.php:214
 msgid "Our apologies for the annoyance."
 msgstr "Our apologies for the annoyance."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:226
+#: ../lib/GaletteStripe/Controllers/StripeController.php:221
 msgid ""
 "Stripe keys have not been defined. Please ask an administrator to add them "
 "in the plugin's settings."
@@ -60,12 +60,8 @@ msgstr ""
 "Stripe keys have not been defined. Please ask an administrator to add them "
 "in the plugin's settings."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:233
-msgid "Predefined amounts cannot be loaded, that is not a critical error."
-msgstr "Predefined amounts cannot be loaded, that is not a critical error."
-
-#: ../lib/GaletteStripe/Controllers/StripeController.php:271
-#: ../tempcache/stripe_form_amount.html.twig:328
+#: ../lib/GaletteStripe/Controllers/StripeController.php:259
+#: ../tempcache/stripe_form_amount.html.twig:311
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
@@ -73,11 +69,11 @@ msgstr ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:315
+#: ../lib/GaletteStripe/Controllers/StripeController.php:303
 msgid "An error occured loading the checkout form."
 msgstr "An error occured loading the checkout form."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:559
+#: ../lib/GaletteStripe/Controllers/StripeController.php:547
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:62
 msgid "Stripe History"
 msgstr "Stripe History"
@@ -91,72 +87,68 @@ msgstr "Stripe"
 msgid "Payment form"
 msgstr "Payment form"
 
-#: ../tempcache/stripe_form_amount.html.twig:74
+#: ../tempcache/stripe_form_amount.html.twig:71
 msgid "Payment reason"
 msgstr "Payment reason"
 
-#: ../tempcache/stripe_form_amount.html.twig:81
+#: ../tempcache/stripe_form_amount.html.twig:78
 msgid "Select an payment reason"
 msgstr "Select an payment reason"
 
-#: ../tempcache/stripe_form_amount.html.twig:185
+#: ../tempcache/stripe_form_amount.html.twig:182
 #: ../tempcache/stripe_form_checkout.html.twig:81
 msgid "Billing details"
 msgstr "Billing details"
 
-#: ../tempcache/stripe_form_amount.html.twig:194
+#: ../tempcache/stripe_form_amount.html.twig:191
 msgid "First name"
 msgstr "First name"
 
-#: ../tempcache/stripe_form_amount.html.twig:197
+#: ../tempcache/stripe_form_amount.html.twig:194
 msgid "Name"
 msgstr "Name"
 
-#: ../tempcache/stripe_form_amount.html.twig:200
+#: ../tempcache/stripe_form_amount.html.twig:197
 msgid "Email"
 msgstr "Email"
 
-#: ../tempcache/stripe_form_amount.html.twig:203
+#: ../tempcache/stripe_form_amount.html.twig:200
 msgid "Company"
 msgstr "Company"
 
-#: ../tempcache/stripe_form_amount.html.twig:209
+#: ../tempcache/stripe_form_amount.html.twig:206
 msgid "Address"
 msgstr "Address"
 
-#: ../tempcache/stripe_form_amount.html.twig:212
+#: ../tempcache/stripe_form_amount.html.twig:209
 msgid "Zip code"
 msgstr "Zip code"
 
-#: ../tempcache/stripe_form_amount.html.twig:215
+#: ../tempcache/stripe_form_amount.html.twig:212
 msgid "City"
 msgstr "City"
 
-#: ../tempcache/stripe_form_amount.html.twig:218
+#: ../tempcache/stripe_form_amount.html.twig:215
 msgid "Country"
 msgstr "Country"
 
-#: ../tempcache/stripe_form_amount.html.twig:221
+#: ../tempcache/stripe_form_amount.html.twig:218
 msgid "URL"
 msgstr "URL"
 
-#: ../tempcache/stripe_form_amount.html.twig:241
+#: ../tempcache/stripe_form_amount.html.twig:238
 msgid "Pay with Stripe"
 msgstr "Pay with Stripe"
 
-#: ../tempcache/stripe_form_amount.html.twig:257
+#: ../tempcache/stripe_form_amount.html.twig:254
 msgid "No payment reasons are available."
 msgstr "No payment reasons are available."
 
-#: ../tempcache/stripe_form_amount.html.twig:271
-msgid "No predefined amounts have been configured yet."
-msgstr "No predefined amounts have been configured yet."
-
-#: ../tempcache/stripe_form_amount.html.twig:313
+#: ../tempcache/stripe_form_amount.html.twig:296
 msgid "You have to select an option."
 msgstr "You have to select an option."
 
-#: ../tempcache/stripe_form_amount.html.twig:322
+#: ../tempcache/stripe_form_amount.html.twig:305
 msgid "Please enter an amount."
 msgstr "Please enter an amount."
 
@@ -241,8 +233,8 @@ msgid "Enter here your Stripe secret key."
 msgstr "Enter here your Stripe secret key."
 
 #: ../tempcache/stripe_preferences.html.twig:128
-msgid "Stripe webhook secret"
-msgstr "Stripe webhook secret"
+msgid "Stripe webhook secret key"
+msgstr "Stripe webhook secret key"
 
 #: ../tempcache/stripe_preferences.html.twig:128
 msgid "Enter here your Stripe secret key for the webhook."
@@ -256,6 +248,20 @@ msgstr "Country of your Stripe account"
 msgid "Currency for payments"
 msgstr "Currency for payments"
 
-#: ../tempcache/stripe_preferences.html.twig:280
+#: ../tempcache/stripe_preferences.html.twig:170
+msgid "Amounts can be defined in the contributions types settings."
+msgstr "Amounts can be defined in the contributions types settings."
+
+#: ../tempcache/stripe_preferences.html.twig:214
+msgid ""
+"Zero amounts, even if they are not disabled, are not proposed as a payment "
+"reason on the form. You can disable this reason, or set a positive value in "
+"the contributions types settings."
+msgstr ""
+"Zero amounts, even if they are not disabled, are not proposed as a payment "
+"reason on the form. You can disable this reason, or set a positive value in "
+"the contributions types settings."
+
+#: ../tempcache/stripe_preferences.html.twig:297
 msgid "Select a currency"
 msgstr "Select a currency"
