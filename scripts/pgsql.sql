@@ -1,14 +1,4 @@
 --
--- Table structure for table galette_stripe_types_cotisation_prices
---
-DROP TABLE IF EXISTS galette_stripe_types_cotisation_prices;
-CREATE TABLE galette_stripe_types_cotisation_prices (
-  id_type_cotis integer REFERENCES galette_types_cotisation ON DELETE CASCADE,
-  amount  real DEFAULT '0',
-  PRIMARY KEY (id_type_cotis)
-);
-
---
 -- Table structure for table galette_stripe_history
 --
 DROP SEQUENCE IF EXISTS galette_stripe_history_id_seq;

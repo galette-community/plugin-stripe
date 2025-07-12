@@ -22,131 +22,123 @@
 
 {% block content %}
     {% if stripe.isLoaded() and stripe.getPubKey() != null and stripe.getPrivKey() != null %}
-        {% if stripe.areAmountsLoaded() %}
-            {% if amounts|length > 0 %}
-                <form action="" method="post" id="stripeForm" class="ui form">
+        {% if amounts|length > 0 %}
+            <form action="" method="post" id="stripeForm" class="ui form">
+                <div class="ui top attached accordion-styled header">
+                    {% if amounts|length == 1%}
+                        {{ _T("Payment reason", "stripe") }}
+                    {% elseif amounts|length > 1 %}
+                        {{ _T("Select an payment reason", "stripe") }}
+                    {% endif %}
+                </div>
+                <div class="ui bottom attached accordion-styled segment">
+                    <div class="active content field">
+                        <div class="field inline">
+                            <input type="hidden" name="item_name" id="item_name" value="{% if login.isLogged() %}{{ _T("annual fee") }}{% else %}{{ _T("donation in money") }}{% endif %}"/>
+                            <div class="grouped fields">
+                                {% for k, amount in amounts %}
+                                    {% set charged_amount = stripe.isZeroDecimal(stripe.getCurrency()) ? amount['amount']|round : amount['amount'] %}
+                                    <div class="field">
+                                        <div class="ui radio checkbox">
+                                            <input type="radio" name="item_id" id="in{{ k }}" value="{{ k }}"{% if loop.index0 == 0 %} checked="checked"{% endif %}/>
+                                            <label for="in{{ k }}"><span id="in{{ k }}_name" data-amount="{{ charged_amount }}">{{ amount['name'] }}</span>
+                                                ({{ charged_amount|format_currency(stripe.getCurrency(), {}, galette_lang) }})
+                                            </label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        {% set first_amount = stripe.isZeroDecimal(stripe.getCurrency()) ? amounts|first.amount|round : amounts|first.amount %}
+                        {% include "components/forms/text.html.twig" with {
+                            id: 'amount',
+                            value: first_amount,
+                            label: _T("Amount"),
+                            required: true
+                        } %}
+                    </div>
+                </div>
+
+                {% if not login.isLogged() %}
                     <div class="ui top attached accordion-styled header">
-                        {% if amounts|length == 1%}
-                            {{ _T("Payment reason", "stripe") }}
-                        {% elseif amounts|length > 1 %}
-                            {{ _T("Select an payment reason", "stripe") }}
-                        {% endif %}
+                        {{ _T("Billing details", "stripe") }}
                     </div>
                     <div class="ui bottom attached accordion-styled segment">
                         <div class="active content field">
-                            <div class="field inline">
-                                <input type="hidden" name="item_name" id="item_name" value="{% if login.isLogged() %}{{ _T("annual fee") }}{% else %}{{ _T("donation in money") }}{% endif %}"/>
-                                <div class="grouped fields">
-                                    {% for k, amount in amounts %}
-                                        {% set charged_amount = stripe.isZeroDecimal(stripe.getCurrency()) ? amount['amount']|round : amount['amount'] %}
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="item_id" id="in{{ k }}" value="{{ k }}"{% if loop.index0 == 0 %} checked="checked"{% endif %}/>
-                                                <label for="in{{ k }}"><span id="in{{ k }}_name" data-amount="{{ charged_amount }}">{{ amount['name'] }}</span>
-                                                    ({{ charged_amount|format_currency(stripe.getCurrency(), {}, galette_lang) }})
-                                                </label>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
+                            <div class="ui two column stackable grid">
+                                <div class="column">
+                                    {% include "components/forms/text.html.twig" with {
+                                        id: 'billing_firstname',
+                                        label: _T("First name", "stripe"),
+                                        value: '',
+                                        required: true
+                                    } %}
+                                    {% include "components/forms/text.html.twig" with {
+                                        id: 'billing_lastname',
+                                        label: _T("Name", "stripe"),
+                                        value: '',
+                                        required: true
+                                    } %}
+                                    {% include "components/forms/input.html.twig" with {
+                                        type: 'email',
+                                        id: 'billing_email',
+                                        label: _T("Email", "stripe"),
+                                        value: '',
+                                        required: true
+                                    } %}
+                                    {% include "components/forms/text.html.twig" with {
+                                        id: 'billing_company',
+                                        label: _T("Company", "stripe"),
+                                        value: ''
+                                    } %}
                                 </div>
-                            </div>
-
-                            {% set first_amount = stripe.isZeroDecimal(stripe.getCurrency()) ? amounts|first.amount|round : amounts|first.amount %}
-                            {% include "components/forms/text.html.twig" with {
-                                id: 'amount',
-                                value: first_amount,
-                                label: _T("Amount"),
-                                required: true
-                            } %}
-                        </div>
-                    </div>
-
-                    {% if not login.isLogged() %}
-                        <div class="ui top attached accordion-styled header">
-                            {{ _T("Billing details", "stripe") }}
-                        </div>
-                        <div class="ui bottom attached accordion-styled segment">
-                            <div class="active content field">
-                                <div class="ui two column stackable grid">
-                                    <div class="column">
-                                        {% include "components/forms/text.html.twig" with {
-                                            id: 'billing_firstname',
-                                            label: _T("First name", "stripe"),
-                                            value: '',
-                                            required: true
-                                        } %}
-                                        {% include "components/forms/text.html.twig" with {
-                                            id: 'billing_lastname',
-                                            label: _T("Name", "stripe"),
-                                            value: '',
-                                            required: true
-                                        } %}
-                                        {% include "components/forms/input.html.twig" with {
-                                            type: 'email',
-                                            id: 'billing_email',
-                                            label: _T("Email", "stripe"),
-                                            value: '',
-                                            required: true
-                                        } %}
-                                        {% include "components/forms/text.html.twig" with {
-                                            id: 'billing_company',
-                                            label: _T("Company", "stripe"),
-                                            value: ''
-                                        } %}
-                                    </div>
-                                    <div class="column">
-                                        {% include "components/forms/textarea.html.twig" with {
-                                            id: 'billing_address',
-                                            label: _T("Address", "stripe"),
-                                            rows: 2,
-                                            value: ''
-                                        } %}
-                                        {% include "components/forms/text.html.twig" with {
-                                            id: 'billing_zip',
-                                            label: _T("Zip code", "stripe"),
-                                            value: ''
-                                        } %}
-                                        {% include "components/forms/text.html.twig" with {
-                                            id: 'billing_town',
-                                            label: _T("City", "stripe"),
-                                            value: ''
-                                        } %}
-                                        {% include "components/forms/text.html.twig" with {
-                                            id: 'billing_country',
-                                            label: _T("Country", "stripe"),
-                                            value: ''
-                                        } %}
-                                        {% include "components/forms/text.html.twig" with {
-                                            id: 'honeypot',
-                                            label: _T("URL", "stripe"),
-                                            value: '',
-                                            component_class: 'displaynone'
-                                        } %}
-                                    </div>
+                                <div class="column">
+                                    {% include "components/forms/textarea.html.twig" with {
+                                        id: 'billing_address',
+                                        label: _T("Address", "stripe"),
+                                        rows: 2,
+                                        value: ''
+                                    } %}
+                                    {% include "components/forms/text.html.twig" with {
+                                        id: 'billing_zip',
+                                        label: _T("Zip code", "stripe"),
+                                        value: ''
+                                    } %}
+                                    {% include "components/forms/text.html.twig" with {
+                                        id: 'billing_town',
+                                        label: _T("City", "stripe"),
+                                        value: ''
+                                    } %}
+                                    {% include "components/forms/text.html.twig" with {
+                                        id: 'billing_country',
+                                        label: _T("Country", "stripe"),
+                                        value: ''
+                                    } %}
+                                    {% include "components/forms/text.html.twig" with {
+                                        id: 'honeypot',
+                                        label: _T("URL", "stripe"),
+                                        value: '',
+                                        component_class: 'displaynone'
+                                    } %}
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
+                    </div>
+                {% endif %}
 
-                    <div class="ui basic center aligned fitted segment">
-                        <button type="submit" name="valid" class="action ui labeled icon primary button"{% if login.isSuperAdmin() %} disabled{% endif %}>
-                            <i class="stripe icon"></i>
-                            {{ _T("Pay with Stripe", "stripe") }}
-                        </button>
-                        {% include "components/forms/csrf.html.twig" %}
-                    </div>
-                </form>
-            {% else %}
-                <div class="ui small message">
-                    <div class="content">
-                        <em>{{ _T("No payment reasons are available.", "stripe") }}</em>
-                    </div>
+                <div class="ui basic center aligned fitted segment">
+                    <button type="submit" name="valid" class="action ui labeled icon primary button"{% if login.isSuperAdmin() %} disabled{% endif %}>
+                        <i class="stripe icon"></i>
+                        {{ _T("Pay with Stripe", "stripe") }}
+                    </button>
+                    {% include "components/forms/csrf.html.twig" %}
                 </div>
-            {% endif %}
+            </form>
         {% else %}
             <div class="ui small message">
                 <div class="content">
-                    <em>{{ _T("No predefined amounts have been configured yet.", "stripe") }}</em>
+                    <em>{{ _T("No payment reasons are available.", "stripe") }}</em>
                 </div>
             </div>
         {% endif %}
@@ -154,7 +146,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    {% if stripe.isLoaded() and stripe.getPubKey() != null and stripe.getPrivKey() != null and stripe.areAmountsLoaded() and amounts|length > 0 %}
+    {% if stripe.isLoaded() and stripe.getPubKey() != null and stripe.getPrivKey() != null and amounts|length > 0 %}
         <script type="text/javascript">
             $(function() {
                 $('input[name="item_id"]').change(function(){

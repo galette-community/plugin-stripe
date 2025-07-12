@@ -1,0 +1,1 @@
+DROP TABLE galette_stripe_types_cotisation_prices;
