@@ -40,9 +40,7 @@ use Stripe\StripeClient;
 
 class Stripe
 {
-    public const TABLE = 'types_cotisation_prices';
-    public const PK = ContributionsTypes::PK;
-    public const PREFS_TABLE = 'preferences';
+    public const TABLE = 'preferences';
 
     public const PAYMENT_PENDING = 'Pending';
     public const PAYMENT_COMPLETE = 'Complete';
@@ -82,14 +80,14 @@ class Stripe
     }
 
     /**
-     * Load preferences form the database and amounts
+     * Load preferences form the database and amounts from core contributions types
      *
      * @return void
      */
     public function load(): void
     {
         try {
-            $results = $this->zdb->selectAll(STRIPE_PREFIX . self::PREFS_TABLE);
+            $results = $this->zdb->selectAll(STRIPE_PREFIX . self::TABLE);
 
             /** @var \ArrayObject<string, mixed> $row */
             foreach ($results as $row) {
@@ -122,7 +120,7 @@ class Stripe
                 }
             }
             $this->loaded = true;
-            $this->loadAmounts();
+            $this->loadContributionsTypes();
         } catch (\Exception $e) {
             Analog::log(
                 '[' . get_class($this) . '] Cannot load stripe settings |' .
@@ -135,63 +133,20 @@ class Stripe
     }
 
     /**
-     * Load amounts from database
+     * Load amounts from core contributions types
      *
      * @return void
      */
-    private function loadAmounts(): void
+    private function loadContributionsTypes(): void
     {
-        $ct = new ContributionsTypes($this->zdb);
-        $this->prices = $ct->getCompleteList();
-
         try {
-            $results = $this->zdb->selectAll(STRIPE_PREFIX . self::TABLE);
-            $results = $results->toArray();
-
-            //check if all types currently exists in stripe table
-            if (count($results) != count($this->prices)) {
-                Analog::log(
-                    '[' . get_class($this) . '] There are missing types in ' .
-                    'stripe table, Galette will try to create them.',
-                    Analog::INFO
-                );
-            }
-
-            $queries = [];
-            foreach ($this->prices as $k => $v) {
-                $_found = false;
-                if (count($results) > 0) {
-                    //for each entry in types, we want to get the associated amount
-                    foreach ($results as $stripe) {
-                        $stripe = (object)$stripe;
-                        if ($stripe->id_type_cotis == $k) {
-                            $_found = true;
-                            $this->prices[$k]['amount'] = (float)$stripe->amount;
-                            break;
-                        }
-                    }
-                }
-                if ($_found === false) {
-                    Analog::log(
-                        'The type `' . $v['name'] . '` (' . $k . ') does not exist' .
-                        ', Galette will attempt to create it.',
-                        Analog::INFO
-                    );
-                    $this->prices[$k]['amount'] = null;
-                    $queries[] = [
-                        'id'   => $k,
-                        'amount' => null
-                    ];
-                }
-            }
-            if (count($queries) > 0) {
-                $this->newEntries($queries);
-            }
+            $ct = new ContributionsTypes($this->zdb);
+            $this->prices = $ct->getCompleteList();
             //amounts should be loaded here
             $this->amounts_loaded = true;
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot load stripe amounts' .
+                '[' . get_class($this) . '] Cannot load amounts from core contributions types' .
                 '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
@@ -213,7 +168,7 @@ class Stripe
                 'nom_pref' => 'stripe_pubkey',
                 'val_pref' => $this->pubkey
             ];
-            $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
+            $update = $this->zdb->update(STRIPE_PREFIX . self::TABLE);
             $update->set($values)
                 ->where(
                     [
@@ -228,7 +183,7 @@ class Stripe
                 'nom_pref' => 'stripe_privkey',
                 'val_pref' => $this->privkey
             ];
-            $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
+            $update = $this->zdb->update(STRIPE_PREFIX . self::TABLE);
             $update->set($values)
                 ->where(
                     [
@@ -243,7 +198,7 @@ class Stripe
                 'nom_pref' => 'stripe_webhook_secret',
                 'val_pref' => $this->webhook_secret
             ];
-            $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
+            $update = $this->zdb->update(STRIPE_PREFIX . self::TABLE);
             $update->set($values)
                 ->where(
                     [
@@ -258,7 +213,7 @@ class Stripe
                 'nom_pref' => 'stripe_country',
                 'val_pref' => $this->country
             ];
-            $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
+            $update = $this->zdb->update(STRIPE_PREFIX . self::TABLE);
             $update->set($values)
                 ->where(
                     [
@@ -273,7 +228,7 @@ class Stripe
                 'nom_pref' => 'stripe_currency',
                 'val_pref' => $this->currency
             ];
-            $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
+            $update = $this->zdb->update(STRIPE_PREFIX . self::TABLE);
             $update->set($values)
                 ->where(
                     [
@@ -288,7 +243,7 @@ class Stripe
                 'nom_pref' => 'stripe_inactives',
                 'val_pref' => implode(',', $this->inactives)
             ];
-            $update = $this->zdb->update(STRIPE_PREFIX . self::PREFS_TABLE);
+            $update = $this->zdb->update(STRIPE_PREFIX . self::TABLE);
             $update->set($values)
                 ->where(
                     [
@@ -304,7 +259,7 @@ class Stripe
                 Analog::INFO
             );
 
-            return $this->storeAmounts();
+            return true;
         } catch (\Exception $e) {
             Analog::log(
                 '[' . get_class($this) . '] Cannot store stripe settings' .
@@ -312,84 +267,6 @@ class Stripe
                 Analog::ERROR
             );
             return false;
-        }
-    }
-
-    /**
-     * Store amounts in the database
-     *
-     * @return boolean
-     */
-    public function storeAmounts(): bool
-    {
-        try {
-            $update = $this->zdb->update(STRIPE_PREFIX . self::TABLE);
-            $update->set(
-                [
-                    'amount'    => ':amount'
-                ]
-            )->where->equalTo(self::PK, ':id');
-
-            $stmt = $this->zdb->sql->prepareStatementForSqlObject($update);
-
-            foreach ($this->prices as $k => $v) {
-                $stmt->execute(
-                    [
-                        'amount'    => (float)$v['amount'],
-                        'where1'    => $k
-                    ]
-                );
-            }
-
-            Analog::log(
-                '[' . get_class($this) . '] Stripe amounts were sucessfully stored',
-                Analog::INFO
-            );
-            return true;
-        } catch (\Exception $e) {
-            Analog::log(
-                '[' . get_class($this) . '] Cannot store stripe amounts' .
-                '` | ' . $e->getMessage(),
-                Analog::ERROR
-            );
-            return false;
-        }
-    }
-
-    /**
-     * Add missing types in stripe table
-     *
-     * @param array<int, array<string, mixed>> $queries Array of items to insert
-     *
-     * @return void
-     */
-    private function newEntries(array $queries): void
-    {
-        try {
-            $insert = $this->zdb->insert(STRIPE_PREFIX . self::TABLE);
-            $insert->values(
-                [
-                    self::PK    => ':' . self::PK,
-                    'amount'    => ':amount'
-                ]
-            );
-            $stmt = $this->zdb->sql->prepareStatementForSqlObject($insert);
-
-            foreach ($queries as $q) {
-                $stmt->execute(
-                    [
-                        self::PK    => $q['id'],
-                        'amount'    => $q['amount']
-                    ]
-                );
-            }
-        } catch (\Exception $e) {
-            Analog::log(
-                'Unable to store missing types in stripe table.' .
-                //@phpstan-ignore-next-line
-                $stmt->getMessage() . '(' . $stmt->getDebugInfo() . ')',
-                Analog::WARNING
-            );
         }
     }
 
@@ -486,7 +363,7 @@ class Stripe
     {
         $prices = [];
         foreach ($this->prices as $k => $v) {
-            $amount = $this->isZeroDecimal($this->getCurrency()) ? round($v['amount']) : $v['amount'];
+            $amount = $this->isZeroDecimal($this->getCurrency()) ? round((float)$v['amount']) : $v['amount'];
             if (!$this->isInactive($k) && $amount > 0) {
                 if ($login->isLogged() || $v['extra'] == ContributionsTypes::DONATION_TYPE) {
                     $prices[$k] = $v;

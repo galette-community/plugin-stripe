@@ -107,50 +107,45 @@ class StripeController extends AbstractPluginController
         $post = $request->getParsedBody();
         $stripe = new Stripe($this->zdb);
 
-        if (isset($post['amounts'])) {
-            if (isset($post['stripe_pubkey']) && $this->login->isAdmin()) {
-                $stripe->setPubKey($post['stripe_pubkey']);
-            }
-            if (isset($post['stripe_privkey']) && $this->login->isAdmin()) {
-                $stripe->setPrivKey($post['stripe_privkey']);
-            }
-            if (isset($post['stripe_webhook_secret']) && $this->login->isAdmin()) {
-                $stripe->setWebhookSecret($post['stripe_webhook_secret']);
-            }
-            if (isset($post['amount_id'])) {
-                $stripe->setPrices($post['amount_id'], $post['amounts']);
-            }
-            if (isset($post['stripe_country']) && $this->login->isAdmin()) {
-                $stripe->setCountry($post['stripe_country']);
-            }
-            if (isset($post['stripe_currency']) && $this->login->isAdmin()) {
-                $stripe->setCurrency($post['stripe_currency']);
-            }
-            if (isset($post['inactives'])) {
-                $stripe->setInactives($post['inactives']);
-            } else {
-                $stripe->unsetInactives();
-            }
+        if (isset($post['stripe_pubkey']) && $this->login->isAdmin()) {
+            $stripe->setPubKey($post['stripe_pubkey']);
+        }
+        if (isset($post['stripe_privkey']) && $this->login->isAdmin()) {
+            $stripe->setPrivKey($post['stripe_privkey']);
+        }
+        if (isset($post['stripe_webhook_secret']) && $this->login->isAdmin()) {
+            $stripe->setWebhookSecret($post['stripe_webhook_secret']);
+        }
+        if (isset($post['stripe_country']) && $this->login->isAdmin()) {
+            $stripe->setCountry($post['stripe_country']);
+        }
+        if (isset($post['stripe_currency']) && $this->login->isAdmin()) {
+            $stripe->setCurrency($post['stripe_currency']);
+        }
+        if (isset($post['inactives'])) {
+            $stripe->setInactives($post['inactives']);
+        } else {
+            $stripe->unsetInactives();
+        }
 
-            if ($stripe->getCurrency() === '') {
+        if ($stripe->getCurrency() === '') {
+            $this->flash->addMessage(
+                'error_detected',
+                _T('You have to select a currency.', 'stripe')
+            );
+        } else {
+            $stored = $stripe->store();
+            if ($stored) {
                 $this->flash->addMessage(
-                    'error_detected',
-                    _T('You have to select a currency.', 'stripe')
+                    'success_detected',
+                    _T('Stripe settings have been saved.', 'stripe')
                 );
             } else {
-                $stored = $stripe->store();
-                if ($stored) {
-                    $this->flash->addMessage(
-                        'success_detected',
-                        _T('Stripe settings have been saved.', 'stripe')
-                    );
-                } else {
-                    $this->session->stripe = $stripe;
-                    $this->flash->addMessage(
-                        'error_detected',
-                        _T('An error occured saving stripe settings.', 'stripe')
-                    );
-                }
+                $this->session->stripe = $stripe;
+                $this->flash->addMessage(
+                    'error_detected',
+                    _T('An error occured saving stripe settings.', 'stripe')
+                );
             }
         }
 
@@ -224,13 +219,6 @@ class StripeController extends AbstractPluginController
             $this->flash->addMessageNow(
                 'error',
                 _T("Stripe keys have not been defined. Please ask an administrator to add them in the plugin's settings.", "stripe")
-            );
-        }
-
-        if (!$stripe->areAmountsLoaded()) {
-            $this->flash->addMessageNow(
-                'warning',
-                _T("Predefined amounts cannot be loaded, that is not a critical error.", "stripe")
             );
         }
 

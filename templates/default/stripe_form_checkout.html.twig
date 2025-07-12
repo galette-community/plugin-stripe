@@ -87,7 +87,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    {% if stripe.isLoaded() and stripe.getPubKey() != null and stripe.getPrivKey() != null and stripe.areAmountsLoaded() %}
+    {% if stripe.isLoaded() and stripe.getPubKey() != null and stripe.getPrivKey() != null %}
         <script src="https://js.stripe.com/v3/" defer></script>
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function() {
