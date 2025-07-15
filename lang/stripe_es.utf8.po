@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-12 13:34+0200\n"
+"POT-Creation-Date: 2025-07-15 16:28+0200\n"
 "PO-Revision-Date: 2025-07-03 15:53+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:205
 #: ../lib/GaletteStripe/Controllers/StripeController.php:315
-msgid "Stripe payment"
+msgid "Online payment"
 msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:213
@@ -131,7 +131,7 @@ msgid "URL"
 msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:238
-msgid "Pay with Stripe"
+msgid "Proceed to payment"
 msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:254

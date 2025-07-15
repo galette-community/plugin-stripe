@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-12 13:34+0200\n"
-"PO-Revision-Date: 2025-07-12 13:35+0200\n"
+"POT-Creation-Date: 2025-07-15 16:28+0200\n"
+"PO-Revision-Date: 2025-07-15 16:34+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -37,8 +37,8 @@ msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:205
 #: ../lib/GaletteStripe/Controllers/StripeController.php:315
-msgid "Stripe payment"
-msgstr "Paiement Stripe"
+msgid "Online payment"
+msgstr "Paiement en ligne"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:213
 msgid ""
@@ -139,8 +139,8 @@ msgid "URL"
 msgstr "URL"
 
 #: ../tempcache/stripe_form_amount.html.twig:238
-msgid "Pay with Stripe"
-msgstr "Payer avec Stripe"
+msgid "Proceed to payment"
+msgstr "Procéder au paiement"
 
 #: ../tempcache/stripe_form_amount.html.twig:254
 msgid "No payment reasons are available."
@@ -174,7 +174,7 @@ msgstr "Afficher/Masquer la requête complète"
 
 #: ../tempcache/stripe_form_checkout.html.twig:149
 msgid "Payment details"
-msgstr "Information sur le paiement"
+msgstr "Informations de paiement"
 
 #: ../tempcache/stripe_form_checkout.html.twig:156
 msgid "Card number"

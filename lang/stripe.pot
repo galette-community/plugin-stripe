@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-12 13:36+0200\n"
+"POT-Creation-Date: 2025-07-15 16:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:205
 #: ../lib/GaletteStripe/Controllers/StripeController.php:315
-msgid "Stripe payment"
+msgid "Online payment"
 msgstr ""
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:213
@@ -130,7 +130,7 @@ msgid "URL"
 msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:238
-msgid "Pay with Stripe"
+msgid "Proceed to payment"
 msgstr ""
 
 #: ../tempcache/stripe_form_amount.html.twig:254

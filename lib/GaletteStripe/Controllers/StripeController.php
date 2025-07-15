@@ -202,7 +202,7 @@ class StripeController extends AbstractPluginController
         $params = [
             'stripe'        => $stripe,
             'amounts'       => $stripe->getAmounts($this->login),
-            'page_title'    => _T('Stripe payment', 'stripe'),
+            'page_title'    => _T('Online payment', 'stripe'),
             'message'       => null,
             'current_url'   => rtrim($current_url, '/'),
         ];
@@ -312,7 +312,7 @@ class StripeController extends AbstractPluginController
                     'amount'        => $stripe->isZeroDecimal($stripe->getCurrency()) ? round((float)$amount) : $amount * 100,
                     'item_name'     => $metadata['item_name'],
                     'client_secret' => $client_secret,
-                    'page_title'    => _T('Stripe payment', 'stripe'),
+                    'page_title'    => _T('Online payment', 'stripe'),
                     'current_url'   => rtrim($current_url, '/'),
                     'metadata'      => $metadata,
                 ];
