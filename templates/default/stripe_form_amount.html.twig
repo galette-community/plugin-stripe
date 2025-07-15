@@ -129,8 +129,8 @@
 
                 <div class="ui basic center aligned fitted segment">
                     <button type="submit" name="valid" class="action ui labeled icon primary button"{% if login.isSuperAdmin() %} disabled{% endif %}>
-                        <i class="stripe icon"></i>
-                        {{ _T("Pay with Stripe", "stripe") }}
+                        <i class="angle right icon"></i>
+                        {{ _T("Proceed to payment", "stripe") }}
                     </button>
                     {% include "components/forms/csrf.html.twig" %}
                 </div>

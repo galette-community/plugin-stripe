@@ -90,7 +90,7 @@ class PluginGaletteStripe extends GalettePlugin
                 'route' => [
                     'name' => 'stripe_form'
                 ],
-                'icon' => 'stripe'
+                'icon' => 'credit card outline'
             ]
         ];
     }
@@ -114,7 +114,7 @@ class PluginGaletteStripe extends GalettePlugin
                 'route' => [
                     'name' => 'stripe_form'
                 ],
-                'icon' => 'stripe'
+                'icon' => 'credit_card'
             ];
         }
         return $contents;
