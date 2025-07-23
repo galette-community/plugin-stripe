@@ -89,13 +89,13 @@
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Name") }}">
         {% if log.metadata is iterable %}
-            {% if log.metadata.adherent_id is defined and log.metadata.adherent_id != '' %}
-                <a href="{{ url_for("member", {"id": log.metadata.adherent_id}) }}">
+            {% if log.metadata.member_id is defined and log.metadata.member_id != '' %}
+                <a href="{{ url_for("member", {"id": log.metadata.member_id}) }}">
             {% endif %}
             {% if log.metadata.billing_name is defined %}
                 {{ log.metadata.billing_name }}
             {% endif %}
-            {% if log.metadata.adherent_id is defined and log.metadata.adherent_id != '' %}
+            {% if log.metadata.member_id is defined and log.metadata.member_id != '' %}
                 </a>
             {% endif %}
         {% else %}

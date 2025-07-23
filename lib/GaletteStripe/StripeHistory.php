@@ -83,7 +83,7 @@ class StripeHistory extends History
                 'history_date'  => date('Y-m-d H:i:s'),
                 'intent_id'     => $request['type'] . ' ' . $request['data']['object']['id'],
                 'amount'        => $request['data']['object']['amount'] / 100, // Stripe handles cent
-                'comment'       => $request['data']['object']['description'],
+                'comments'      => $request['data']['object']['description'],
                 'metadata'      => serialize($request['data']['object']['metadata']),
                 'state'         => self::STATE_NONE
             ];
