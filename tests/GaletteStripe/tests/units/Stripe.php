@@ -52,7 +52,7 @@ class Stripe extends GaletteTestCase
      */
     public function testEmpty(): void
     {
-        $stripe = new \GaletteStripe\Stripe($this->zdb);
+        $stripe = new \GaletteStripe\Stripe($this->zdb, $this->preferences);
         $this->assertSame('', $stripe->getPubKey());
         $this->assertSame('', $stripe->getPrivKey());
         $this->assertSame('', $stripe->getWebhookSecret());

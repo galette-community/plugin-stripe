@@ -55,137 +55,6 @@ class StripeController extends AbstractPluginController
     protected array $module_info;
 
     /**
-     * Preferences
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
-     */
-    public function preferences(Request $request, Response $response): Response
-    {
-        if ($this->session->stripe !== null) {
-            $stripe = $this->session->stripe;
-            $this->session->stripe = null;
-        } else {
-            $stripe = new Stripe($this->zdb);
-        }
-
-        $current_country = $stripe->getCountry();
-        $amounts = $stripe->getAllAmounts();
-        $countries = $stripe->getAllCountries();
-        $currencies = $stripe->getAllCurrencies($current_country);
-
-        $params = [
-            'page_title'    => _T('Stripe Settings', 'stripe'),
-            'stripe'        => $stripe,
-            'webhook_url'   => $this->preferences->getURL() . $this->routeparser->urlFor('stripe_webhook'),
-            'amounts'       => $amounts,
-            'countries'     => $countries,
-            'currencies'    => $currencies,
-        ];
-
-        // display page
-        $this->view->render(
-            $response,
-            $this->getTemplate('stripe_preferences'),
-            $params
-        );
-        return $response;
-    }
-
-    /**
-     * Store Preferences
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
-     */
-    public function storePreferences(Request $request, Response $response): Response
-    {
-        $post = $request->getParsedBody();
-        $stripe = new Stripe($this->zdb);
-
-        if (isset($post['stripe_pubkey']) && $this->login->isAdmin()) {
-            $stripe->setPubKey($post['stripe_pubkey']);
-        }
-        if (isset($post['stripe_privkey']) && $this->login->isAdmin()) {
-            $stripe->setPrivKey($post['stripe_privkey']);
-        }
-        if (isset($post['stripe_webhook_secret']) && $this->login->isAdmin()) {
-            $stripe->setWebhookSecret($post['stripe_webhook_secret']);
-        }
-        if (isset($post['stripe_country']) && $this->login->isAdmin()) {
-            $stripe->setCountry($post['stripe_country']);
-        }
-        if (isset($post['stripe_currency']) && $this->login->isAdmin()) {
-            $stripe->setCurrency($post['stripe_currency']);
-        }
-        if (isset($post['inactives'])) {
-            $stripe->setInactives($post['inactives']);
-        } else {
-            $stripe->unsetInactives();
-        }
-
-        if ($stripe->getCurrency() === '') {
-            $this->flash->addMessage(
-                'error_detected',
-                _T('You have to select a currency.', 'stripe')
-            );
-        } else {
-            $stored = $stripe->store();
-            if ($stored) {
-                $this->flash->addMessage(
-                    'success_detected',
-                    _T('Stripe settings have been saved.', 'stripe')
-                );
-            } else {
-                $this->session->stripe = $stripe;
-                $this->flash->addMessage(
-                    'error_detected',
-                    _T('An error occured saving stripe settings.', 'stripe')
-                );
-            }
-        }
-
-        return $response
-            ->withStatus(301)
-            ->withHeader('Location', $this->routeparser->urlFor('stripe_preferences'));
-    }
-
-    /**
-     * Ajax currencies list refresh
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
-     */
-    public function refreshCurrencies(Request $request, Response $response): Response
-    {
-        $post = $request->getParsedBody();
-        $stripe = new Stripe($this->zdb);
-        $returnedCurrencies = [];
-        try {
-            $allCurrencies = $stripe->getAllCurrencies($post['country']);
-            foreach ($allCurrencies as $key => $value) {
-                $returnedCurrencies[] = [
-                    'value' => $key,
-                    'name' => $value
-                ];
-            }
-        } catch (Throwable $e) {
-            Analog::log(
-                'An error occurred while retrieving updated currencies list: ' . $e->getMessage(),
-                Analog::WARNING
-            );
-            throw $e;
-        }
-        return $this->withJson($response, $returnedCurrencies); //@phpstan-ignore-line
-    }
-
-    /**
      * Main form
      *
      * @param Request  $request  PSR Request
@@ -195,7 +64,7 @@ class StripeController extends AbstractPluginController
      */
     public function form(Request $request, Response $response): Response
     {
-        $stripe = new Stripe($this->zdb);
+        $stripe = new Stripe($this->zdb, $this->preferences);
 
         $current_url = $this->preferences->getURL();
 
@@ -225,7 +94,7 @@ class StripeController extends AbstractPluginController
         // display page
         $this->view->render(
             $response,
-            $this->getTemplate('stripe_form_amount'),
+            $this->getTemplate('stripe_form'),
             $params
         );
         return $response;
@@ -242,7 +111,7 @@ class StripeController extends AbstractPluginController
     public function formCheckout(Request $request, Response $response): Response
     {
         $stripe_request = $request->getParsedBody();
-        $stripe = new Stripe($this->zdb);
+        $stripe = new Stripe($this->zdb, $this->preferences);
         $adherent = new Adherent($this->zdb);
 
         $current_url = $this->preferences->getURL();
@@ -268,36 +137,22 @@ class StripeController extends AbstractPluginController
             if ($this->login->isLogged() && !$this->login->isSuperAdmin()) {
                 $adherent->load($this->login->id);
                 $metadata['member_id'] = $this->login->id;
-                $metadata['billing_name'] = Adherent::getSName($this->zdb, $this->login->id);
-                $metadata['billing_email'] = $adherent->getEmail();
-                $metadata['billing_company'] = $adherent->company_name;
-                $metadata['billing_address'] = $adherent->getAddress();
-                $metadata['billing_zip'] = $adherent->getZipcode();
-                $metadata['billing_town'] = $adherent->getTown();
-                $metadata['billing_country'] = $adherent->getCountry();
-            }
-
-            if (!$this->login->isLogged()) {
-                if ($stripe_request['honeypot'] !== '') {
-                    return $response->withStatus(403);
-                }
-
-                $metadata['member_id'] = '';
-                $metadata['billing_name'] = $stripe_request['billing_firstname'] . ' ' . $stripe_request['billing_lastname'];
-                $metadata['billing_email'] = $stripe_request['billing_email'];
-                $metadata['billing_company'] = $stripe_request['billing_company'];
-                $metadata['billing_address'] = $stripe_request['billing_address'];
-                $metadata['billing_zip'] = $stripe_request['billing_zip'];
-                $metadata['billing_town'] = $stripe_request['billing_town'];
-                $metadata['billing_country'] = $stripe_request['billing_country'];
+                $metadata['checkout_name'] = $adherent->name;
+                $metadata['checkout_firstname'] = $adherent->surname;
+                $metadata['checkout_email'] = $adherent->getEmail();
+                $metadata['checkout_address'] = preg_replace('/\r\n|\r|\n/', ', ', $adherent->getAddress());
+                $metadata['checkout_city'] = $adherent->getTown();
+                $metadata['checkout_zipcode'] = $adherent->getZipcode();
+                $metadata['checkout_country'] = $adherent->getCountry();
+                $metadata['checkout_company'] = $adherent->company_name;
             }
 
             $metadata['item_id'] = $item_id;
             $metadata['item_name'] = $stripe_amounts[$item_id]['name'];
 
-            $client_secret = $stripe->createPaymentIntent($metadata, $amount, $stripe->getCurrency());
+            $checkout = $stripe->checkout($metadata, $amount, $stripe->getCurrency());
 
-            if (!$client_secret) {
+            if (!$checkout) {
                 $this->flash->addMessage(
                     'error_detected',
                     _T('An error occured loading the checkout form.', 'stripe')
@@ -307,197 +162,10 @@ class StripeController extends AbstractPluginController
                     ->withStatus(301)
                     ->withHeader('Location', $this->routeparser->urlFor('stripe_form'));
             } else {
-                $params = [
-                    'stripe'        => $stripe,
-                    'amount'        => $stripe->isZeroDecimal($stripe->getCurrency()) ? round((float)$amount) : $amount * 100,
-                    'item_name'     => $metadata['item_name'],
-                    'client_secret' => $client_secret,
-                    'page_title'    => _T('Online payment', 'stripe'),
-                    'current_url'   => rtrim($current_url, '/'),
-                    'metadata'      => $metadata,
-                ];
-
-                // display page
-                $this->view->render(
-                    $response,
-                    $this->getTemplate('stripe_form_checkout'),
-                    $params
-                );
-                return $response;
+                return $response
+                    ->withStatus(301)
+                    ->withHeader('Location', $checkout['url']);
             }
-        }
-    }
-
-    /**
-     * Webhook
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
-     */
-    public function webhook(Request $request, Response $response): Response
-    {
-        $body = $request->getBody();
-        $post = json_decode($body->getContents(), true);
-        $stripe = new Stripe($this->zdb);
-
-        // Check webhook signature
-        $stripe_signatures = $request->getHeader('HTTP_STRIPE_SIGNATURE');
-        foreach ($stripe_signatures as $signature) {
-            $parsedSignature = explode(',', $signature);
-            $sig_timestamp = null;
-            $sig_hash = null;
-            foreach ($parsedSignature as $chunk) {
-                $pair = explode('=', $chunk);
-                if ($pair[0] == 't') {
-                    $sig_timestamp = $pair[1];
-                }
-                if ($pair[0] == 'v1') {
-                    $sig_hash = $pair[1];
-                }
-            }
-
-            if (abs(time() - $sig_timestamp) > 5) {
-                Analog::log(
-                    'Stripe signature delayed for too many seconds!',
-                    Analog::ERROR
-                );
-                echo 'Stripe signature delayed for too many seconds!';
-                return $response->withStatus(403);
-            }
-
-            $signed_body = $sig_timestamp . '.' . $body;
-            $body_hash = hash_hmac('sha256', $signed_body, $stripe->getWebhookSecret());
-
-            if ($sig_hash != $body_hash) {
-                Analog::log(
-                    'Stripe signature mismatch!',
-                    Analog::ERROR
-                );
-                echo 'Stripe signature mismatch!';
-                return $response->withStatus(403);
-            }
-        }
-
-        Analog::log("Stripe webhook request: " . var_export($post, true), Analog::DEBUG);
-
-        // Process payload
-        if (
-            isset($post['type'])
-            && ($post['type'] == 'payment_intent.succeeded' || $post['type'] == 'invoice.payment_succeeded')
-        ) {
-            //We accept subscription invoice (annual or monthly) ; https://stripe.com/docs/billing/subscriptions/overview
-            //Todo : rewrite a more cleaner
-            if ($post['type'] == 'invoice.payment_succeeded') {
-                $post['data']['object']['metadata'] = array_merge($post['data']['object']['metadata'], $post['data']['object']['lines']['data'][0]['metadata']);
-                $post['data']['object']['amount_received'] = $post['data']['object']['amount_paid'];
-                $post['data']['object']['amount'] = $post['data']['object']['amount_due'];
-                $post['data']['object']['description'] = $post['data']['object']['lines']['data'][0]['metadata']['item_name'];
-
-                if ($post['data']['object']['status'] == 'paid') {
-                    $post['data']['object']['status'] = 'succeeded';
-                }
-            }
-
-            $ph = new StripeHistory($this->zdb, $this->login, $this->preferences);
-            $ph->add($post);
-
-            // are we working on a real contribution?
-            $real_contrib = false;
-            if (
-                isset($post['data']['object']['metadata']['member_id'])
-                && is_numeric($post['data']['object']['metadata']['member_id'])
-                && $post['data']['object']['status'] == 'succeeded'
-                && $post['data']['object']['amount_received'] == $post['data']['object']['amount']
-            ) {
-                $real_contrib = true;
-            }
-
-            if ($ph->isProcessed($post)) {
-                Analog::log(
-                    'A stripe payment notification has been received, but it is already processed!',
-                    Analog::WARNING
-                );
-                $ph->setState(StripeHistory::STATE_ALREADYDONE);
-            }
-
-            // we'll now try to add the relevant cotisation
-            if ($post['data']['object']['status'] == 'succeeded') {
-                /**
-                * We will use the following parameters:
-                * - $post['data']['object']['amount']: the amount
-                * - $post['data']['object']['metadata']['member_id']: member id
-                * - $post['data']['object']['metadata']['item_id']: contribution type id
-                *
-                * If no member id is provided, we only send to post contribution
-                * script, Galette does not handle anonymous contributions
-                */
-                $amount = $post['data']['object']['amount'];
-                $contrib_args = [
-                    'type'          => $post['data']['object']['metadata']['item_id'],
-                    'adh'           => $post['data']['object']['metadata']['member_id'],
-                    'payment_type'  => PaymentType::CREDITCARD
-                ];
-                $check_contrib_args = [
-                    ContributionsTypes::PK  => $post['data']['object']['metadata']['item_id'],
-                    Adherent::PK            => $post['data']['object']['metadata']['member_id'],
-                    'type_paiement_cotis'   => PaymentType::CREDITCARD,
-                    'montant_cotis'         => $stripe->isZeroDecimal($stripe->getCurrency()) ? $amount : $amount / 100,
-                ];
-                if ($this->preferences->pref_membership_ext != '') { //@phpstan-ignore-line
-                    $contrib_args['ext'] = $this->preferences->pref_membership_ext;
-                }
-                $contrib = new Contribution($this->zdb, $this->login, $contrib_args);
-
-                // all goes well, we can proceed
-                if ($real_contrib) {
-                    // Check contribution to set $contrib->errors to [] and handle contribution overlap
-                    $valid = $contrib->setNoCheckLogin()->check($check_contrib_args, [], []);
-                    if ($valid !== true) {
-                        Analog::log(
-                            'An error occurred while storing a new contribution from Stripe payment:'
-                            . implode("\n   ", $valid),
-                            Analog::ERROR
-                        );
-                        $ph->setState(StripeHistory::STATE_ERROR);
-                        return $response->withStatus(500, 'Internal error');
-                    }
-
-                    $store = $contrib->store();
-                    if ($contrib->store()) {
-                        // contribution has been stored :)
-                        Analog::log(
-                            'Stripe payment has been successfully registered as a contribution',
-                            Analog::INFO
-                        );
-                        $ph->setState(StripeHistory::STATE_PROCESSED);
-                    } else {
-                        // something went wrong :'(
-                        Analog::log(
-                            'An error occured while storing a new contribution from Stripe payment',
-                            Analog::ERROR
-                        );
-                        $ph->setState(StripeHistory::STATE_ERROR);
-                        return $response->withStatus(500, 'Internal error');
-                    }
-                    return $response->withStatus(200);
-                }
-            } else {
-                Analog::log(
-                    'A stripe payment notification has been received, but is not completed!',
-                    Analog::WARNING
-                );
-                $ph->setState(StripeHistory::STATE_INCOMPLETE);
-                return $response->withStatus(500, 'Internal error');
-            }
-            return $response->withStatus(200);
-        } else {
-            Analog::log(
-                'Webhook called without required arguments!',
-                Analog::ERROR
-            );
-            return $response->withStatus(500, 'Missing required arguments');
         }
     }
 
@@ -587,5 +255,351 @@ class StripeController extends AbstractPluginController
         return $response
             ->withStatus(301)
             ->withHeader('Location', $this->routeparser->urlFor('stripe_history'));
+    }
+
+    /**
+     * Preferences
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function preferences(Request $request, Response $response): Response
+    {
+        if ($this->session->stripe !== null) {
+            $stripe = $this->session->stripe;
+            $this->session->stripe = null;
+        } else {
+            $stripe = new Stripe($this->zdb, $this->preferences);
+        }
+
+        $current_country = $stripe->getCountry();
+        $amounts = $stripe->getAllAmounts();
+        $countries = $stripe->getAllCountries();
+        $currencies = $stripe->getAllCurrencies($current_country);
+
+        $params = [
+            'page_title'    => _T('Stripe Settings', 'stripe'),
+            'stripe'        => $stripe,
+            'webhook_url'   => $this->preferences->getURL() . $this->routeparser->urlFor('stripe_webhook'),
+            'amounts'       => $amounts,
+            'countries'     => $countries,
+            'currencies'    => $currencies,
+        ];
+
+        // display page
+        $this->view->render(
+            $response,
+            $this->getTemplate('stripe_preferences'),
+            $params
+        );
+        return $response;
+    }
+
+    /**
+     * Store Preferences
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function storePreferences(Request $request, Response $response): Response
+    {
+        $post = $request->getParsedBody();
+        $stripe = new Stripe($this->zdb, $this->preferences);
+
+        if (isset($post['stripe_pubkey']) && $this->login->isAdmin()) {
+            $stripe->setPubKey($post['stripe_pubkey']);
+        }
+        if (isset($post['stripe_privkey']) && $this->login->isAdmin()) {
+            $stripe->setPrivKey($post['stripe_privkey']);
+        }
+        if (isset($post['stripe_webhook_secret']) && $this->login->isAdmin()) {
+            $stripe->setWebhookSecret($post['stripe_webhook_secret']);
+        }
+        if (isset($post['stripe_country']) && $this->login->isAdmin()) {
+            $stripe->setCountry($post['stripe_country']);
+        }
+        if (isset($post['stripe_currency']) && $this->login->isAdmin()) {
+            $stripe->setCurrency($post['stripe_currency']);
+        }
+        if (isset($post['inactives'])) {
+            $stripe->setInactives($post['inactives']);
+        } else {
+            $stripe->unsetInactives();
+        }
+
+        if ($stripe->getCurrency() === '') {
+            $this->flash->addMessage(
+                'error_detected',
+                _T('You have to select a currency.', 'stripe')
+            );
+        } else {
+            $stored = $stripe->store();
+            if ($stored) {
+                $this->flash->addMessage(
+                    'success_detected',
+                    _T('Stripe settings have been saved.', 'stripe')
+                );
+            } else {
+                $this->session->stripe = $stripe;
+                $this->flash->addMessage(
+                    'error_detected',
+                    _T('An error occured saving stripe settings.', 'stripe')
+                );
+            }
+        }
+
+        return $response
+            ->withStatus(301)
+            ->withHeader('Location', $this->routeparser->urlFor('stripe_preferences'));
+    }
+
+    /**
+     * Ajax currencies list refresh
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function refreshCurrencies(Request $request, Response $response): Response
+    {
+        $post = $request->getParsedBody();
+        $stripe = new Stripe($this->zdb, $this->preferences);
+        $returnedCurrencies = [];
+        try {
+            $allCurrencies = $stripe->getAllCurrencies($post['country']);
+            foreach ($allCurrencies as $key => $value) {
+                $returnedCurrencies[] = [
+                    'value' => $key,
+                    'name' => $value
+                ];
+            }
+        } catch (Throwable $e) {
+            Analog::log(
+                'An error occurred while retrieving updated currencies list: ' . $e->getMessage(),
+                Analog::WARNING
+            );
+            throw $e;
+        }
+        return $this->withJson($response, $returnedCurrencies); //@phpstan-ignore-line
+    }
+
+    /**
+     * Webhook
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function webhook(Request $request, Response $response): Response
+    {
+        $body = $request->getBody();
+        $post = json_decode($body->getContents(), true);
+        $stripe = new Stripe($this->zdb, $this->preferences);
+
+        // Check webhook signature
+        $stripe_signatures = $request->getHeader('HTTP_STRIPE_SIGNATURE');
+        foreach ($stripe_signatures as $signature) {
+            $parsedSignature = explode(',', $signature);
+            $sig_timestamp = null;
+            $sig_hash = null;
+            foreach ($parsedSignature as $chunk) {
+                $pair = explode('=', $chunk);
+                if ($pair[0] == 't') {
+                    $sig_timestamp = $pair[1];
+                }
+                if ($pair[0] == 'v1') {
+                    $sig_hash = $pair[1];
+                }
+            }
+
+            if (abs(time() - $sig_timestamp) > 5) { //@phpstan-ignore-line
+                Analog::log(
+                    'Stripe signature delayed for too many seconds!',
+                    Analog::ERROR
+                );
+                echo 'Stripe signature delayed for too many seconds!';
+                return $response->withStatus(403);
+            }
+
+            $signed_body = $sig_timestamp . '.' . $body;
+            $body_hash = hash_hmac('sha256', $signed_body, $stripe->getWebhookSecret());
+
+            if ($sig_hash != $body_hash) {
+                Analog::log(
+                    'Stripe signature mismatch!',
+                    Analog::ERROR
+                );
+                echo 'Stripe signature mismatch!';
+                return $response->withStatus(403);
+            }
+        }
+
+        Analog::log(
+            "Stripe webhook request: " . var_export($post, true),
+            Analog::DEBUG
+        );
+
+        if (
+            isset($post['type'])
+            && ($post['type'] == 'payment_intent.succeeded' || $post['type'] == 'invoice.payment_succeeded')
+            && ($post['data']['object']['metadata']['item_id'] || $post['data']['object']['lines']['data'][0]['metadata']['item_id'])
+        ) {
+            //We accept subscription invoice (annual or monthly) ; https://stripe.com/docs/billing/subscriptions/overview
+            //Todo : rewrite a more cleaner
+            if ($post['type'] == 'invoice.payment_succeeded') {
+                $post['data']['object']['metadata'] = array_merge($post['data']['object']['metadata'], $post['data']['object']['lines']['data'][0]['metadata']);
+                $post['data']['object']['amount_received'] = $post['data']['object']['amount_paid'];
+                $post['data']['object']['amount'] = $post['data']['object']['amount_due'];
+                $post['data']['object']['description'] = $post['data']['object']['lines']['data'][0]['metadata']['item_name'];
+
+                if ($post['data']['object']['status'] == 'paid') {
+                    $post['data']['object']['status'] = 'succeeded';
+                }
+            }
+
+            $sh = new StripeHistory($this->zdb, $this->login, $this->preferences);
+            $sh->add($post);
+
+            // are we working on a real contribution?
+            $real_contrib = false;
+            if (array_key_exists('member_id', $post['data']['object']['metadata'])) {
+                $real_contrib = true;
+            }
+
+            if ($sh->isProcessed($post)) {
+                Analog::log(
+                    'A stripe payment notification has been received, but it is already processed!',
+                    Analog::WARNING
+                );
+                $sh->setState(StripeHistory::STATE_ALREADYDONE);
+            } else {
+                // we'll now try to add the relevant cotisation
+                if ($post['data']['object']['status'] == 'succeeded') {
+                    /**
+                    * We will use the following parameters:
+                    * - $post['data']['object']['amount']: the amount
+                    * - $post['data']['object']['metadata']['member_id']: member id
+                    * - $post['data']['object']['metadata']['item_id']: contribution type id
+                    *
+                    * If no member id is provided, we only send to post contribution
+                    * script, Galette does not handle anonymous contributions
+                    */
+                    $amount = $post['data']['object']['amount'];
+                    $member_id = array_key_exists('member_id', $post['data']['object']['metadata']) ? $post['data']['object']['metadata']['member_id'] : '';
+                    $contrib_args = [
+                        'type'          => $post['data']['object']['metadata']['item_id'],
+                        'adh'           => $member_id,
+                        'payment_type'  => PaymentType::CREDITCARD
+                    ];
+                    $check_contrib_args = [
+                        ContributionsTypes::PK  => $post['data']['object']['metadata']['item_id'],
+                        Adherent::PK            => $member_id,
+                        'type_paiement_cotis'   => PaymentType::CREDITCARD,
+                        'montant_cotis'         => $stripe->isZeroDecimal($stripe->getCurrency()) ? $amount : $amount / 100,
+                    ];
+                    if ($this->preferences->pref_membership_ext != '') { //@phpstan-ignore-line
+                        $contrib_args['ext'] = $this->preferences->pref_membership_ext;
+                    }
+                    $contrib = new Contribution($this->zdb, $this->login, $contrib_args);
+
+                    // all goes well, we can proceed
+                    if ($real_contrib) {
+                        // Check contribution to set $contrib->errors to [] and handle contribution overlap
+                        $valid = $contrib->setNoCheckLogin()->check($check_contrib_args, [], []);
+                        if ($valid !== true) {
+                            Analog::log(
+                                'An error occurred while storing a new contribution from Stripe payment:' .
+                                implode("\n   ", $valid),
+                                Analog::ERROR
+                            );
+                            $sh->setState(StripeHistory::STATE_ERROR);
+                            return $response->withStatus(500, 'Internal error');
+                        }
+
+                        $store = $contrib->store();
+                        if ($contrib->store()) {
+                            // contribution has been stored :)
+                            Analog::log(
+                                'Stripe payment has been successfully registered as a contribution',
+                                Analog::DEBUG
+                            );
+                            $sh->setState(StripeHistory::STATE_PROCESSED);
+                        } else {
+                            // something went wrong :'(
+                            Analog::log(
+                                'An error occured while storing a new contribution from Stripe payment',
+                                Analog::ERROR
+                            );
+                            $sh->setState(StripeHistory::STATE_ERROR);
+                            return $response->withStatus(500, 'Internal error');
+                        }
+                        return $response->withStatus(200);
+                    }
+                } else {
+                    Analog::log(
+                        'A stripe payment notification has been received, but is not completed!',
+                        Analog::WARNING
+                    );
+                    $sh->setState(StripeHistory::STATE_INCOMPLETE);
+                    return $response->withStatus(500, 'Internal error');
+                }
+            }
+            return $response->withStatus(200);
+        } else {
+            // Ignore all other stripe events.
+            Analog::log(
+                'Stripe event ignored. Only succeeded payments events are processed.',
+                Analog::DEBUG
+            );
+            return $response->withStatus(200);
+        }
+    }
+
+    /**
+     * Success URL
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function successUrl(Request $request, Response $response): Response
+    {
+        $params = [
+            'page_title'    => _T('Payment success', 'stripe')
+        ];
+
+        // display page
+        $this->view->render(
+            $response,
+            $this->getTemplate('stripe_success'),
+            $params
+        );
+        return $response;
+    }
+
+    /**
+     * Cancel URL
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
+     *
+     * @return Response
+     */
+    public function cancelUrl(Request $request, Response $response): Response
+    {
+        $this->flash->addMessage(
+            'warning_detected',
+            _T('Your payment has been aborted!', 'stripe')
+        );
+        return $response
+            ->withStatus(301)
+            ->withHeader('Location', $this->routeparser->urlFor('stripe_form'));
     }
 }
