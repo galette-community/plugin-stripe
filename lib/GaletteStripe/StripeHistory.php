@@ -25,6 +25,7 @@ namespace GaletteStripe;
 
 use Analog\Analog;
 use Galette\Core\Db;
+use Galette\Core\Galette;
 use Galette\Core\Login;
 use Galette\Core\History;
 use Galette\Core\Preferences;
@@ -45,10 +46,9 @@ class StripeHistory extends History
 
     public const STATE_NONE = 0;
     public const STATE_PROCESSED = 1;
-    //public const STATE_DONE = 2;
-    public const STATE_ERROR = 3;
-    public const STATE_INCOMPLETE = 4;
-    public const STATE_ALREADYDONE = 5;
+    public const STATE_ERROR = 2;
+    public const STATE_INCOMPLETE = 3;
+    public const STATE_ALREADYDONE = 4;
 
     private int $id;
 
@@ -77,14 +77,15 @@ class StripeHistory extends History
      */
     public function add(array|string $action, string $argument = '', string $query = ''): bool
     {
+        $stripe = new Stripe($this->zdb, $this->preferences);
         $request = $action;
         try {
             $values = [
                 'history_date'  => date('Y-m-d H:i:s'),
-                'intent_id'     => $request['type'] . ' ' . $request['data']['object']['id'],
-                'amount'        => $request['data']['object']['amount'] / 100, // Stripe handles cent
-                'comments'      => $request['data']['object']['description'],
-                'metadata'      => serialize($request['data']['object']['metadata']),
+                'intent_id'     => $request['data']['object']['id'],
+                'amount'        => $stripe->isZeroDecimal($stripe->getCurrency()) ? $request['data']['object']['amount'] : $request['data']['object']['amount'] / 100,
+                'comments'      => $request['data']['object']['metadata']['item_name'],
+                'metadata'      => Galette::jsonEncode($request),
                 'state'         => self::STATE_NONE
             ];
 
@@ -95,7 +96,7 @@ class StripeHistory extends History
 
             Analog::log(
                 'An entry has been added in stripe history',
-                Analog::INFO
+                Analog::DEBUG
             );
         } catch (\Exception $e) {
             Analog::log(
@@ -147,42 +148,28 @@ class StripeHistory extends History
         if (count($orig) > 0) {
             foreach ($orig as $o) {
                 try {
-                    $oa = unserialize($o['metadata']);
-                } catch (\ErrorException $err) {
-                    Analog::log(
-                        'Error loading Stripe history entry #' . $o[$this->getPk()]
-                        . ' ' . $err->getMessage(),
-                        Analog::WARNING
-                    );
+                    if (Galette::isSerialized($o['metadata'])) {
+                        $oa = unserialize($o['metadata']);
+                    } else {
+                        $oa = Galette::jsonDecode($o['metadata']);
+                    }
 
-                    //maybe an unserialization issue, try to fix
-                    $data = preg_replace_callback(
-                        '!s:(\d+):"(.*?)";!',
-                        function ($match) {
-                            return ($match[1] == strlen($match[2]))
-                                ? $match[0] : 's:' . strlen($match[2]) . ':"' . $match[2] . '";';
-                        },
-                        $o['metadata']
-                    );
-                    $oa = unserialize($data);
+                    $o['raw_request'] = print_r($oa, true);
+                    $o['metadata'] = $oa;
+                    if (in_array($o['intent_id'], $dedup)) {
+                        $o['duplicate'] = true;
+                    } else {
+                        $dedup[] = $o['intent_id'];
+                    }
+
+                    $new[] = $o;
                 } catch (\Exception $e) {
                     Analog::log(
                         'Error loading Stripe history entry #' . $o[$this->getPk()]
                         . ' ' . $e->getMessage(),
                         Analog::WARNING
                     );
-                    throw $e;
                 }
-
-                $o['raw_request'] = print_r($oa, true);
-                $o['metadata'] = $oa;
-                if (in_array($o['intent_id'], $dedup)) {
-                    $o['duplicate'] = true;
-                } else {
-                    $dedup[] = $o['intent_id'];
-                }
-
-                $new[] = $o;
             }
         }
         return $new;
@@ -216,7 +203,7 @@ class StripeHistory extends History
         $select = $this->zdb->select($this->getTableName());
         $select->where(
             [
-                'intent_id' => $request['type'] . ' ' . $request['data']['object']['id'],
+                'intent_id' => $request['data']['object']['id'],
                 'state'     => self::STATE_PROCESSED
             ]
         );

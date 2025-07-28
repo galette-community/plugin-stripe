@@ -66,6 +66,16 @@ $app->post(
     [StripeController::class, 'webhook']
 )->setName('stripe_webhook');
 
+$app->get(
+    '/success',
+    [StripeController::class, 'successUrl']
+)->setName('stripe_success');
+
+$app->get(
+    '/cancel',
+    [StripeController::class, 'cancelUrl']
+)->setName('stripe_cancel');
+
 $app->group('/ajax', function (RouteCollectorProxy $app) use ($authenticate): void {
     $app->post(
         '/currencies',

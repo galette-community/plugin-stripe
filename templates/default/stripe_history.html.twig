@@ -68,9 +68,6 @@
 
 {% block body %}
     {% for log in logs %}
-        {% set payment_intent = log.intent_id|split(' ') %}
-        {% set payment_intent_color = payment_intent[0] == 'payment_intent.succeeded' ? 'green' : 'blue' %}
-
         <tr>
             <td class="center collapsing" data-scope="row">
                 {{ loop.index }}
@@ -89,13 +86,14 @@
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Name") }}">
         {% if log.metadata is iterable %}
-            {% if log.metadata.member_id is defined and log.metadata.member_id != '' %}
-                <a href="{{ url_for("member", {"id": log.metadata.member_id}) }}">
+            {% if log.metadata.data.object.metadata.member_id is defined %}
+                <a href="{{ url_for("member", {"id": log.metadata.data.object.metadata.member_id}) }}">
             {% endif %}
-            {% if log.metadata.billing_name is defined %}
-                {{ log.metadata.billing_name }}
+            {{ log.metadata.data.object.metadata.checkout_name|default(_T("Anonymous", "stripe")) }}
+            {% if log.metadata.data.object.metadata.checkout_firstname is defined %}
+                {{ log.metadata.data.object.metadata.checkout_firstname }}
             {% endif %}
-            {% if log.metadata.member_id is defined and log.metadata.member_id != '' %}
+            {% if log.metadata.data.object.metadata.member_id is defined %}
                 </a>
             {% endif %}
         {% else %}
@@ -104,9 +102,12 @@
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Subject") }}">
         {% if log.metadata is iterable %}
-            {% if log.metadata.item_name is defined %}
-                <span class="ui {{ payment_intent_color }} small label">{{ payment_intent[0] }}</span>
-                | {{ log.metadata.item_name }}
+            {% if log.metadata.data.object.metadata.item_name is defined %}
+                <span class="ui green small label">
+                    {{ _T("Payment nb.", "stripe") }}
+                    {{ log.intent_id }}
+                </span>
+                | {{ log.metadata.data.object.metadata.item_name }}
             {% endif %}
         {% endif %}
             </td>
@@ -119,7 +120,6 @@
                         <i class="caret down icon" aria-hidden="true"></i> {{ _T("Show/hide full request", "stripe") }}
                     </summary>
                     <div class="content">
-                        <code>{{ payment_intent[1] }}</code>
                         <pre>{{ log.raw_request }}</pre>
                     </div>
                 </details>

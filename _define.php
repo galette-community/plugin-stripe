@@ -28,7 +28,7 @@ $this->register(
     '1.0.0-dev',                                        //Version
     '1.2.1',                                            //Galette compatible version
     'stripe',                                           //routing name and translation domain
-    '2024-02-08',                                       //Release date
+    '2025-07-25',                                       //Release date
     [   //Permissions needed
         'stripe_preferences'        => 'staff',
         'store_stripe_preferences'  => 'staff',
@@ -40,6 +40,6 @@ $this->register(
 
 $this->setCsrfExclusions(
     [
-    '/stripe_webhook/',
+    '/stripe_(webhook|success|cancel)/',
     ]
 );

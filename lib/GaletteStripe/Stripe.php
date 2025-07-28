@@ -26,6 +26,7 @@ namespace GaletteStripe;
 use Analog\Analog;
 use Galette\Core\Db;
 use Galette\Core\Login;
+use Galette\Core\Preferences;
 use Galette\Entity\ContributionsTypes;
 use Stripe\StripeClient;
 
@@ -46,6 +47,7 @@ class Stripe
     public const PAYMENT_COMPLETE = 'Complete';
 
     private Db $zdb;
+    private Preferences $preferences;
 
     /** @var array<int, array<string,mixed>> */
     private array $prices;
@@ -63,11 +65,13 @@ class Stripe
     /**
      * Default constructor
      *
-     * @param Db $zdb Database instance
+     * @param Db          $zdb         Database instance
+     * @param Preferences $preferences Preferences
      */
-    public function __construct(Db $zdb)
+    public function __construct(Db $zdb, Preferences $preferences)
     {
         $this->zdb = $zdb;
+        $this->preferences = $preferences;
         $this->loaded = false;
         $this->prices = [];
         $this->inactives = [];
@@ -256,7 +260,7 @@ class Stripe
             Analog::log(
                 '[' . get_class($this)
                 . '] Stripe settings were sucessfully stored',
-                Analog::INFO
+                Analog::DEBUG
             );
 
             return true;
@@ -271,30 +275,47 @@ class Stripe
     }
 
     /**
-     * Create payment intent
+     * Stripe Checkout
      *
      * @param array<string, mixed> $metadata Array of metadata to transmit with payment
      * @param string               $amount   Amount of payment
      * @param string               $currency Currency used
      *
-     * @return string|bool
+     * @return array|bool
      */
-    public function createPaymentIntent(array $metadata, string $amount, string $currency): string|bool
+    public function checkout(array $metadata, string $amount, string $currency): array|bool
     {
         try {
             $stripe = new StripeClient($this->getPrivKey());
-            $amountIntended = $this->isZeroDecimal($currency) ? round((float)$amount) : (float)$amount * 100;
-            $paymentIntent = $stripe->paymentIntents->create([
-                'amount' => (int)$amountIntended, // Stripe needs integer cents as amount
-                'currency' => $this->getCurrency(),
-                'automatic_payment_methods' => ['enabled' => true],
-                'metadata' => $metadata
+            $checkout_amount = $this->isZeroDecimal($currency) ? round((float)$amount) : (float)$amount * 100;
+            $session = $stripe->checkout->sessions->create([
+                'success_url' => $this->preferences->getURL() . '/plugins/stripe/success',
+                'cancel_url' => $this->preferences->getURL() . '/plugins/stripe/cancel',
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'currency' => $this->getCurrency(),
+                            'product_data' => [
+                                'name' => $metadata['item_name']
+                            ],
+                            'unit_amount' => (int)$checkout_amount
+                        ],
+                        'quantity' => 1
+                    ],
+                ],
+                'mode' => 'payment',
+                'payment_intent_data' => [
+                    'description' => $metadata['item_name'],
+                    'metadata' => $metadata,
+                ],
+                'ui_mode' => 'hosted'
             ]);
+            $contents = json_encode($session);
 
-            return $paymentIntent->client_secret;
+            return json_decode($contents, true);
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot create Stripe payment intent'
+                '[' . get_class($this) . '] Cannot create Stripe checkout'
                 . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
@@ -723,22 +744,6 @@ class Stripe
     public function setCurrency(string $currency): void
     {
         $this->currency = $currency;
-    }
-
-    /**
-     * Set new prices
-     *
-     * @param array<int, string> $ids     array of identifier
-     * @param array<int, string> $amounts array of amounts
-     *
-     * @return void
-     */
-    public function setPrices(array $ids, array $amounts): void
-    {
-        $this->prices = [];
-        foreach ($ids as $k => $id) {
-            $this->prices[$id]['amount'] = $amounts[$k];
-        }
     }
 
     /**
