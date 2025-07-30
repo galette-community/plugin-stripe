@@ -404,40 +404,22 @@ class StripeController extends AbstractPluginController
 
         // Check webhook signature
         $stripe_signatures = $request->getHeader('HTTP_STRIPE_SIGNATURE');
-        foreach ($stripe_signatures as $signature) {
-            $parsedSignature = explode(',', $signature);
-            $sig_timestamp = null;
-            $sig_hash = null;
-            foreach ($parsedSignature as $chunk) {
-                $pair = explode('=', $chunk);
-                if ($pair[0] == 't') {
-                    $sig_timestamp = $pair[1];
-                }
-                if ($pair[0] == 'v1') {
-                    $sig_hash = $pair[1];
-                }
-            }
-
-            if (abs(time() - $sig_timestamp) > 5) { //@phpstan-ignore-line
+        if (!empty($stripe_signatures)) {
+            try {
+                $event = \Stripe\Webhook::constructEvent((string)$body, $stripe_signatures[0], $stripe->getWebhookSecret());
+            } catch (\Stripe\Exception\SignatureVerificationException $e) {
                 Analog::log(
-                    'Stripe signature delayed for too many seconds!',
+                    'Error verifying webhook signature: ' . $e->getMessage(),
                     Analog::ERROR
                 );
-                echo 'Stripe signature delayed for too many seconds!';
                 return $response->withStatus(403);
             }
-
-            $signed_body = $sig_timestamp . '.' . $body;
-            $body_hash = hash_hmac('sha256', $signed_body, $stripe->getWebhookSecret());
-
-            if ($sig_hash != $body_hash) {
-                Analog::log(
-                    'Stripe signature mismatch!',
-                    Analog::ERROR
-                );
-                echo 'Stripe signature mismatch!';
-                return $response->withStatus(403);
-            }
+        } else {
+            Analog::log(
+                'Request to the webhook is not signed!',
+                Analog::ERROR
+            );
+            return $response->withStatus(403);
         }
 
         Analog::log(
