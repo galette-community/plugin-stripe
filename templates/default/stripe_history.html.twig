@@ -85,15 +85,12 @@
                 {% endif %}
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Name") }}">
-        {% if log.metadata is iterable %}
-            {% if log.metadata.data.object.metadata.member_id is defined %}
-                <a href="{{ url_for("member", {"id": log.metadata.data.object.metadata.member_id}) }}">
+        {% if log.request is iterable %}
+            {% if log.request.data.object.metadata.member_id is defined %}
+                <a href="{{ url_for("member", {"id": log.request.data.object.metadata.member_id}) }}">
             {% endif %}
-            {{ log.metadata.data.object.metadata.checkout_name|default(_T("Anonymous", "stripe")) }}
-            {% if log.metadata.data.object.metadata.checkout_firstname is defined %}
-                {{ log.metadata.data.object.metadata.checkout_firstname }}
-            {% endif %}
-            {% if log.metadata.data.object.metadata.member_id is defined %}
+                {{ log.payer_name }}
+            {% if log.request.data.object.metadata.member_id is defined %}
                 </a>
             {% endif %}
         {% else %}
@@ -101,13 +98,13 @@
         {% endif %}
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Subject") }}">
-        {% if log.metadata is iterable %}
-            {% if log.metadata.data.object.metadata.item_name is defined %}
+        {% if log.request is iterable %}
+            {% if log.request.data.object.metadata.item_name is defined %}
                 <span class="ui green small label">
                     {{ _T("Payment nb.", "stripe") }}
                     {{ log.intent_id }}
                 </span>
-                | {{ log.metadata.data.object.metadata.item_name }}
+                | {{ log.request.data.object.metadata.item_name }}
             {% endif %}
         {% endif %}
             </td>
