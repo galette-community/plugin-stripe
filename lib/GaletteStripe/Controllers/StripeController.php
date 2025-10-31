@@ -453,7 +453,7 @@ class StripeController extends AbstractPluginController
                 // all goes well, we can proceed
                 if ($real_contrib) {
                     // Check contribution to set $contrib->errors to [] and handle contribution overlap
-                    $valid = $contrib->check($check_contrib_args, [], []);
+                    $valid = $contrib->setNoCheckLogin()->check($check_contrib_args, [], []);
                     if ($valid !== true) {
                         Analog::log(
                             'An error occurred while storing a new contribution from Stripe payment:' .
@@ -465,7 +465,7 @@ class StripeController extends AbstractPluginController
                     }
 
                     $store = $contrib->store();
-                    if ($store === true) {
+                    if ($contrib->store()) {
                         // contribution has been stored :)
                         Analog::log(
                             'Stripe payment has been successfully registered as a contribution',
