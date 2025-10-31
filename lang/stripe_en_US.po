@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-15 16:34+0200\n"
-"PO-Revision-Date: 2025-07-15 16:34+0200\n"
+"POT-Creation-Date: 2025-08-08 09:47+0200\n"
+"PO-Revision-Date: 2025-08-08 09:47+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en_US\n"
@@ -17,28 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:80
-msgid "Stripe Settings"
-msgstr "Stripe Settings"
-
-#: ../lib/GaletteStripe/Controllers/StripeController.php:134
-msgid "You have to select a currency."
-msgstr "You have to select a currency."
-
-#: ../lib/GaletteStripe/Controllers/StripeController.php:141
-msgid "Stripe settings have been saved."
-msgstr "Stripe settings have been saved."
-
-#: ../lib/GaletteStripe/Controllers/StripeController.php:147
-msgid "An error occured saving stripe settings."
-msgstr "An error occured saving stripe settings."
-
-#: ../lib/GaletteStripe/Controllers/StripeController.php:205
-#: ../lib/GaletteStripe/Controllers/StripeController.php:315
+#: ../lib/GaletteStripe/Controllers/StripeController.php:74
 msgid "Online payment"
 msgstr "Online payment"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:213
+#: ../lib/GaletteStripe/Controllers/StripeController.php:82
 msgid ""
 "<strong>Payment could not work</strong>: An error occurred (that has been "
 "logged) while loading Stripe settings from the database.<br/>Please report "
@@ -48,11 +31,11 @@ msgstr ""
 "logged) while loading Stripe settings from the database.<br/>Please report "
 "the issue to the staff."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:214
+#: ../lib/GaletteStripe/Controllers/StripeController.php:83
 msgid "Our apologies for the annoyance."
 msgstr "Our apologies for the annoyance."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:221
+#: ../lib/GaletteStripe/Controllers/StripeController.php:90
 msgid ""
 "Stripe keys have not been defined. Please ask an administrator to add them "
 "in the plugin's settings."
@@ -60,8 +43,8 @@ msgstr ""
 "Stripe keys have not been defined. Please ask an administrator to add them "
 "in the plugin's settings."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:259
-#: ../tempcache/stripe_form_amount.html.twig:311
+#: ../lib/GaletteStripe/Controllers/StripeController.php:128
+#: ../tempcache/stripe_form.html.twig:258
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
@@ -69,14 +52,38 @@ msgstr ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:303
+#: ../lib/GaletteStripe/Controllers/StripeController.php:150
 msgid "An error occured loading the checkout form."
 msgstr "An error occured loading the checkout form."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:547
+#: ../lib/GaletteStripe/Controllers/StripeController.php:207
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:62
 msgid "Stripe History"
 msgstr "Stripe History"
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:275
+msgid "Stripe Settings"
+msgstr "Stripe Settings"
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:329
+msgid "You have to select a currency."
+msgstr "You have to select a currency."
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:336
+msgid "Stripe settings have been saved."
+msgstr "Stripe settings have been saved."
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:342
+msgid "An error occured saving stripe settings."
+msgstr "An error occured saving stripe settings."
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:549
+msgid "Payment success"
+msgstr "Payment success"
+
+#: ../lib/GaletteStripe/Controllers/StripeController.php:573
+msgid "Your payment has been aborted!"
+msgstr "Your payment has been aborted!"
 
 #: ../lib/GaletteStripe/PluginGaletteStripe.php:54
 msgid "Stripe"
@@ -87,114 +94,59 @@ msgstr "Stripe"
 msgid "Payment form"
 msgstr "Payment form"
 
-#: ../tempcache/stripe_form_amount.html.twig:71
-msgid "Payment reason"
-msgstr "Payment reason"
-
-#: ../tempcache/stripe_form_amount.html.twig:78
-msgid "Select an payment reason"
-msgstr "Select an payment reason"
-
-#: ../tempcache/stripe_form_amount.html.twig:182
-#: ../tempcache/stripe_form_checkout.html.twig:81
-msgid "Billing details"
-msgstr "Billing details"
-
-#: ../tempcache/stripe_form_amount.html.twig:191
-msgid "First name"
-msgstr "First name"
-
-#: ../tempcache/stripe_form_amount.html.twig:194
-msgid "Name"
-msgstr "Name"
-
-#: ../tempcache/stripe_form_amount.html.twig:197
-msgid "Email"
-msgstr "Email"
-
-#: ../tempcache/stripe_form_amount.html.twig:200
-msgid "Company"
-msgstr "Company"
-
-#: ../tempcache/stripe_form_amount.html.twig:206
-msgid "Address"
-msgstr "Address"
-
-#: ../tempcache/stripe_form_amount.html.twig:209
-msgid "Zip code"
-msgstr "Zip code"
-
-#: ../tempcache/stripe_form_amount.html.twig:212
-msgid "City"
-msgstr "City"
-
-#: ../tempcache/stripe_form_amount.html.twig:215
-msgid "Country"
-msgstr "Country"
-
-#: ../tempcache/stripe_form_amount.html.twig:218
-msgid "URL"
-msgstr "URL"
-
-#: ../tempcache/stripe_form_amount.html.twig:238
-msgid "Proceed to payment"
-msgstr "Proceed to payment"
-
-#: ../tempcache/stripe_form_amount.html.twig:254
-msgid "No payment reasons are available."
-msgstr "No payment reasons are available."
-
-#: ../tempcache/stripe_form_amount.html.twig:296
-msgid "You have to select an option."
-msgstr "You have to select an option."
-
-#: ../tempcache/stripe_form_amount.html.twig:305
-msgid "Please enter an amount."
-msgstr "Please enter an amount."
+#: ../tempcache/stripe_success.html.twig:62
+msgid ""
+"Your payment has succeeded. You will receive an email from Stripe with "
+"details."
+msgstr ""
+"Your payment has succeeded. You will receive an email from Stripe with "
+"details."
 
 #: ../tempcache/stripe_history.html.twig:89
-#: ../tempcache/stripe_history.html.twig:251
+#: ../tempcache/stripe_history.html.twig:244
 msgid "Request"
 msgstr "Request"
 
-#: ../tempcache/stripe_history.html.twig:158
-#: ../tempcache/stripe_history.html.twig:163
+#: ../tempcache/stripe_history.html.twig:151
+#: ../tempcache/stripe_history.html.twig:156
 msgid "Duplicate"
 msgstr "Duplicate"
 
-#: ../tempcache/stripe_history.html.twig:207
+#: ../tempcache/stripe_history.html.twig:195
 msgid "No request or unable to read request."
 msgstr "No request or unable to read request."
 
-#: ../tempcache/stripe_history.html.twig:257
+#: ../tempcache/stripe_history.html.twig:215
+msgid "Payment nb."
+msgstr "Payment nb."
+
+#: ../tempcache/stripe_history.html.twig:250
 msgid "Show/hide full request"
 msgstr "Show/hide full request"
 
-#: ../tempcache/stripe_form_checkout.html.twig:149
-msgid "Payment details"
-msgstr "Payment details"
+#: ../tempcache/stripe_form.html.twig:71
+msgid "Payment reason"
+msgstr "Payment reason"
 
-#: ../tempcache/stripe_form_checkout.html.twig:156
-msgid "Card number"
-msgstr "Card number"
+#: ../tempcache/stripe_form.html.twig:78
+msgid "Select an payment reason"
+msgstr "Select an payment reason"
 
-#: ../tempcache/stripe_form_checkout.html.twig:163
-msgid "Expiration"
-msgstr "Expiration"
+#: ../tempcache/stripe_form.html.twig:185
+msgid "Proceed to payment"
+msgstr "Proceed to payment"
 
-#: ../tempcache/stripe_form_checkout.html.twig:170
-msgid "CVC"
-msgstr "CVC"
+#: ../tempcache/stripe_form.html.twig:201
+msgid "No payment reasons are available."
+msgstr "No payment reasons are available."
 
-#: ../tempcache/stripe_form_checkout.html.twig:178
-msgid "Pay"
-msgstr "Pay"
+#: ../tempcache/stripe_form.html.twig:243
+msgid "You have to select an option."
+msgstr "You have to select an option."
 
-#: ../tempcache/stripe_form_checkout.html.twig:327
-msgid ""
-"Your payment was successful. You may receive a mail from Stripe with details."
-msgstr ""
-"Your payment was successful. You may receive a mail from Stripe with details."
+#: ../tempcache/stripe_form.html.twig:252
+msgid "Please enter an amount."
+msgstr "Please enter an amount."
 
 #: ../tempcache/stripe_preferences.html.twig:72
 msgid "Cannot load the settings"
