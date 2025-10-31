@@ -30,6 +30,7 @@ use Galette\Core\Login;
 use Galette\Core\History;
 use Galette\Core\Preferences;
 use Galette\Filters\HistoryList;
+use Stripe\StripeClient;
 
 /**
  * This class stores and serve the Stripe History.
@@ -79,13 +80,15 @@ class StripeHistory extends History
     {
         $stripe = new Stripe($this->zdb, $this->preferences);
         $request = $action;
+        $payment_method = $this->getStripePaymentMethod($request['data']['object']['payment_method']);
         try {
             $values = [
                 'history_date'  => date('Y-m-d H:i:s'),
                 'intent_id'     => $request['data']['object']['id'],
                 'amount'        => $stripe->isZeroDecimal($stripe->getCurrency()) ? $request['data']['object']['amount'] : $request['data']['object']['amount'] / 100,
+                'payer_name'    => $payment_method['billing_details']['name'],
                 'comments'      => $request['data']['object']['metadata']['item_name'],
-                'metadata'      => Galette::jsonEncode($request),
+                'request'       => Galette::jsonEncode($request),
                 'state'         => self::STATE_NONE
             ];
 
@@ -148,14 +151,14 @@ class StripeHistory extends History
         if (count($orig) > 0) {
             foreach ($orig as $o) {
                 try {
-                    if (Galette::isSerialized($o['metadata'])) {
-                        $oa = unserialize($o['metadata']);
+                    if (Galette::isSerialized($o['request'])) {
+                        $oa = unserialize($o['request']);
                     } else {
-                        $oa = Galette::jsonDecode($o['metadata']);
+                        $oa = Galette::jsonDecode($o['request']);
                     }
 
                     $o['raw_request'] = print_r($oa, true);
-                    $o['metadata'] = $oa;
+                    $o['request'] = $oa;
                     if (in_array($o['intent_id'], $dedup)) {
                         $o['duplicate'] = true;
                     } else {
@@ -173,6 +176,24 @@ class StripeHistory extends History
             }
         }
         return $new;
+    }
+
+    /**
+     * Gets Stripe Payment Method details
+     *
+     * @param string $id ID of the payment method to retrieve
+     *
+     * @return array
+     */
+    public function getStripePaymentMethod(string $id): array
+    {
+        $stripe = new Stripe($this->zdb, $this->preferences);
+        $stripe_client = new StripeClient($stripe->getPrivKey());
+
+        $paymentMethod = $stripe_client->paymentMethods->retrieve($id, []);
+        $content = json_encode($paymentMethod);
+
+        return json_decode($content, true);
     }
 
     /**

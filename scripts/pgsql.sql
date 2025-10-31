@@ -15,8 +15,9 @@ CREATE TABLE galette_stripe_history (
   history_date date NOT NULL,
   intent_id character varying(255),
   amount real NOT NULL,
+  payer_name character varying(255),
   comments character varying(255),
-  metadata text,
+  request text,
   state smallint DEFAULT 0 NOT NULL,
   PRIMARY KEY (id_stripe)
 );

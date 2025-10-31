@@ -7,8 +7,9 @@ CREATE TABLE galette_stripe_history (
   history_date datetime NOT NULL,
   intent_id varchar(255) COLLATE utf8_unicode_ci,
   amount double NOT NULL,
+  payer_name varchar(255) COLLATE utf8_unicode_ci,
   comments varchar(255) COLLATE utf8_unicode_ci,
-  metadata text COLLATE utf8_unicode_ci,
+  request text COLLATE utf8_unicode_ci,
   state tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_stripe`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

@@ -137,14 +137,6 @@ class StripeController extends AbstractPluginController
             if ($this->login->isLogged() && !$this->login->isSuperAdmin()) {
                 $adherent->load($this->login->id);
                 $metadata['member_id'] = $this->login->id;
-                $metadata['checkout_name'] = $adherent->name;
-                $metadata['checkout_firstname'] = $adherent->surname;
-                $metadata['checkout_email'] = $adherent->getEmail();
-                $metadata['checkout_address'] = preg_replace('/\r\n|\r|\n/', ', ', $adherent->getAddress());
-                $metadata['checkout_city'] = $adherent->getTown();
-                $metadata['checkout_zipcode'] = $adherent->getZipcode();
-                $metadata['checkout_country'] = $adherent->getCountry();
-                $metadata['checkout_company'] = $adherent->company_name;
             }
 
             $metadata['item_id'] = $item_id;
@@ -496,8 +488,8 @@ class StripeController extends AbstractPluginController
                         $valid = $contrib->setNoCheckLogin()->check($check_contrib_args, [], []);
                         if ($valid !== true) {
                             Analog::log(
-                                'An error occurred while storing a new contribution from Stripe payment:' .
-                                implode("\n   ", $valid),
+                                'An error occurred while storing a new contribution from Stripe payment:'
+                                . implode("\n   ", $valid),
                                 Analog::ERROR
                             );
                             $sh->setState(StripeHistory::STATE_ERROR);
