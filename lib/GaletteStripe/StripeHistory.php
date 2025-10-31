@@ -150,8 +150,8 @@ class StripeHistory extends History
                     $oa = unserialize($o['metadata']);
                 } catch (\ErrorException $err) {
                     Analog::log(
-                        'Error loading Stripe history entry #' . $o[$this->getPk()] .
-                        ' ' . $err->getMessage(),
+                        'Error loading Stripe history entry #' . $o[$this->getPk()]
+                        . ' ' . $err->getMessage(),
                         Analog::WARNING
                     );
 
@@ -159,16 +159,16 @@ class StripeHistory extends History
                     $data = preg_replace_callback(
                         '!s:(\d+):"(.*?)";!',
                         function ($match) {
-                            return ($match[1] == strlen($match[2])) ?
-                                $match[0] : 's:' . strlen($match[2]) . ':"' . $match[2] . '";';
+                            return ($match[1] == strlen($match[2]))
+                                ? $match[0] : 's:' . strlen($match[2]) . ':"' . $match[2] . '";';
                         },
                         $o['metadata']
                     );
                     $oa = unserialize($data);
                 } catch (\Exception $e) {
                     Analog::log(
-                        'Error loading Stripe history entry #' . $o[$this->getPk()] .
-                        ' ' . $e->getMessage(),
+                        'Error loading Stripe history entry #' . $o[$this->getPk()]
+                        . ' ' . $e->getMessage(),
                         Analog::WARNING
                     );
                     throw $e;
