@@ -113,8 +113,8 @@ class Stripe
                     default:
                         //we've got a preference not intended
                         Analog::log(
-                            '[' . get_class($this) . '] unknown preference `' .
-                            $row->nom_pref . '` in the database.',
+                            '[' . get_class($this) . '] unknown preference `'
+                            . $row->nom_pref . '` in the database.',
                             Analog::WARNING
                         );
                 }
@@ -123,8 +123,8 @@ class Stripe
             $this->loadContributionsTypes();
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot load stripe settings |' .
-                $e->getMessage(),
+                '[' . get_class($this) . '] Cannot load stripe settings |'
+                . $e->getMessage(),
                 Analog::ERROR
             );
             //consider plugin is not loaded when missing the main settings
@@ -146,8 +146,8 @@ class Stripe
             $this->amounts_loaded = true;
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot load amounts from core contributions types' .
-                '` | ' . $e->getMessage(),
+                '[' . get_class($this) . '] Cannot load amounts from core contributions types'
+                . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
             //amounts are not loaded at this point
@@ -254,16 +254,16 @@ class Stripe
             $edit = $this->zdb->execute($update);
 
             Analog::log(
-                '[' . get_class($this) .
-                '] Stripe settings were sucessfully stored',
+                '[' . get_class($this)
+                . '] Stripe settings were sucessfully stored',
                 Analog::INFO
             );
 
             return true;
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot store stripe settings' .
-                '` | ' . $e->getMessage(),
+                '[' . get_class($this) . '] Cannot store stripe settings'
+                . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
             return false;
@@ -294,8 +294,8 @@ class Stripe
             return $paymentIntent->client_secret;
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot create Stripe payment intent' .
-                '` | ' . $e->getMessage(),
+                '[' . get_class($this) . '] Cannot create Stripe payment intent'
+                . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
             return false;
@@ -606,8 +606,8 @@ class Stripe
             return $supportedCurrencies;
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot get supported currencies' .
-                '` | ' . $e->getMessage(),
+                '[' . get_class($this) . '] Cannot get supported currencies'
+                . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
             return $allCurrencies;

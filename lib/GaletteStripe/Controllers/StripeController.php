@@ -210,8 +210,8 @@ class StripeController extends AbstractPluginController
         if (!$stripe->isLoaded()) {
             $this->flash->addMessageNow(
                 'error',
-                _T("<strong>Payment could not work</strong>: An error occurred (that has been logged) while loading Stripe settings from the database.<br/>Please report the issue to the staff.", "stripe") .
-                '<br/>' . _T("Our apologies for the annoyance.", "stripe")
+                _T("<strong>Payment could not work</strong>: An error occurred (that has been logged) while loading Stripe settings from the database.<br/>Please report the issue to the staff.", "stripe")
+                . '<br/>' . _T("Our apologies for the annoyance.", "stripe")
             );
         }
 
@@ -358,7 +358,7 @@ class StripeController extends AbstractPluginController
                 }
             }
 
-            if (abs(time() - $sig_timestamp) > 5) { //@phpstan-ignore-line
+            if (abs(time() - $sig_timestamp) > 5) {
                 Analog::log(
                     'Stripe signature delayed for too many seconds!',
                     Analog::ERROR
@@ -456,8 +456,8 @@ class StripeController extends AbstractPluginController
                     $valid = $contrib->setNoCheckLogin()->check($check_contrib_args, [], []);
                     if ($valid !== true) {
                         Analog::log(
-                            'An error occurred while storing a new contribution from Stripe payment:' .
-                            implode("\n   ", $valid),
+                            'An error occurred while storing a new contribution from Stripe payment:'
+                            . implode("\n   ", $valid),
                             Analog::ERROR
                         );
                         $ph->setState(StripeHistory::STATE_ERROR);
