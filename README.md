@@ -4,7 +4,7 @@
 
 ### English
 
-A [Galette](https://galette.eu) plugin to handle membership fees and donations payments with Stripe.
+A [Galette](https://galette.eu) plugin to handle membership fees and donations payments with [Stripe](https://stripe.com/).
 
 * [website](https://galette-community.github.io/plugin-stripe)
 * [bugs and features](https://github.com/galette-community/plugin-stripe/issues)
@@ -17,7 +17,7 @@ To use Galette Stripe plugin, you'll need a reliable Galette version, and of cou
 
 ### Français
 
-Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations et de dons via Stripe.
+Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations et de dons via [Stripe](https://stripe.com/).
 
 * [site web](https://galette-community.github.io/plugin-stripe)
 * [bogues et fonctionnalités](https://github.com/galette-community/plugin-stripe/issues)
