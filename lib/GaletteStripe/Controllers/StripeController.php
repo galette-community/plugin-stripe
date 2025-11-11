@@ -469,12 +469,12 @@ class StripeController extends AbstractPluginController
                     $contrib_args = [
                         'type'          => $post['data']['object']['metadata']['item_id'],
                         'adh'           => $member_id,
-                        'payment_type'  => PaymentType::CREDITCARD
+                        'payment_type'  => PaymentType::STRIPE
                     ];
                     $check_contrib_args = [
                         ContributionsTypes::PK  => $post['data']['object']['metadata']['item_id'],
                         Adherent::PK            => $member_id,
-                        'type_paiement_cotis'   => PaymentType::CREDITCARD,
+                        'type_paiement_cotis'   => PaymentType::STRIPE,
                         'montant_cotis'         => $stripe->isZeroDecimal($stripe->getCurrency()) ? $amount : $amount / 100,
                     ];
                     if ($this->preferences->pref_membership_ext != '') { //@phpstan-ignore-line
