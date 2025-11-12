@@ -278,6 +278,7 @@ class StripeController extends AbstractPluginController
             'amounts'       => $amounts,
             'countries'     => $countries,
             'currencies'    => $currencies,
+            'documentation' => 'https://galette-community.github.io/plugin-stripe/documentation.html#settings'
         ];
 
         // display page
