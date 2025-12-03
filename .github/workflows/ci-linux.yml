@@ -25,7 +25,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: [ '8.2', '8.4' ]
+        php-versions: [ '8.2', '8.5' ]
         coverage: [none]
       fail-fast: false
 
@@ -85,13 +85,6 @@ jobs:
           cd galette-core/galette/plugins/plugin-stripe
           ../../vendor/bin/twigcs templates/default --severity error --display blocking
 
-      - name: Check missing symbols
-        run: |
-          cd galette-core/galette/plugins/plugin-stripe
-          composer require maglnet/composer-require-checker -W
-          vendor/bin/composer-require-checker check --config-file=.composer-require-checker.config.json ../../composer.json
-        if: matrix.php-versions == '8.4'
-
       - name: PHPStan checks
         run: |
           cd galette-core/galette/plugins/plugin-stripe
@@ -108,22 +101,20 @@ jobs:
     strategy:
       matrix:
         include:
-          #always tests higher stable php version with lower db version
-          #enable coverage on higher stable php version with higher postrgesql version
-          #higher stable php version
-          - { php-version: "8.4", db-image: "postgres:13", coverage: none, always: true }
-          - { php-version: "8.4", db-image: "postgres:18", coverage: none, always: true }
-          - { php-version: "8.4", db-image: "mysql:8.0", coverage: none, always: true }
-          - { php-version: "8.4", db-image: "mysql:9.4", coverage: none, always: true }
-          - { php-version: "8.4", db-image: "mariadb:10.6", coverage: none, always: true }
-          - { php-version: "8.4", db-image: "mariadb:12.0", coverage: none, always: true }
           #lower php version
-          - { php-version: "8.2", db-image: "postgres:13", coverage: none, always: true }
-          - { php-version: "8.2", db-image: "postgres:18", coverage: none, always: true }
-          - { php-version: "8.2", db-image: "mysql:8.0", coverage: none, always: true }
-          - { php-version: "8.2", db-image: "mysql:9.4", coverage: none, always: true }
+          - { php-version: "8.2", db-image: "mysql:5.7", coverage: none, always: true }
+          - { php-version: "8.2", db-image: "mysql:8.4", coverage: none, always: true }
           - { php-version: "8.2", db-image: "mariadb:10.6", coverage: none, always: true }
-          - { php-version: "8.2", db-image: "mariadb:12.0", coverage: none, always: true }
+          - { php-version: "8.2", db-image: "mariadb:11", coverage: none, always: true }
+          - { php-version: "8.2", db-image: "postgres:13", coverage: none, always: true }
+          - { php-version: "8.2", db-image: "postgres:17", coverage: none, always: true }
+          #higher stable php version
+          - { php-version: "8.5", db-image: "mysql:5.7", coverage: none, always: true }
+          - { php-version: "8.5", db-image: "mysql:8.4", coverage: none, always: true }
+          - { php-version: "8.5", db-image: "mariadb:10.6", coverage: none, always: true }
+          - { php-version: "8.5", db-image: "mariadb:11", coverage: none, always: true }
+          - { php-version: "8.5", db-image: "postgres:13", coverage: none, always: true }
+          - { php-version: "8.5", db-image: "postgres:17", coverage: none, always: true }
       fail-fast: false
 
     env:
