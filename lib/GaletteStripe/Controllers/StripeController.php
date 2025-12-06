@@ -114,8 +114,6 @@ class StripeController extends AbstractPluginController
         $stripe = new Stripe($this->zdb, $this->preferences);
         $adherent = new Adherent($this->zdb);
 
-        $current_url = $this->preferences->getURL();
-
         // Check the amount
         $item_id = $stripe_request['item_id'];
         $stripe_amounts = $stripe->getAmounts($this->login);
@@ -330,8 +328,7 @@ class StripeController extends AbstractPluginController
                 _T('You have to select a currency.', 'stripe')
             );
         } else {
-            $stored = $stripe->store();
-            if ($stored) {
+            if ($stripe->store()) {
                 $this->flash->addMessage(
                     'success_detected',
                     _T('Stripe settings have been saved.', 'stripe')
@@ -399,7 +396,7 @@ class StripeController extends AbstractPluginController
         $stripe_signatures = $request->getHeader('HTTP_STRIPE_SIGNATURE');
         if (!empty($stripe_signatures)) {
             try {
-                $event = \Stripe\Webhook::constructEvent((string)$body, $stripe_signatures[0], $stripe->getWebhookSecret());
+                \Stripe\Webhook::constructEvent((string)$body, $stripe_signatures[0], $stripe->getWebhookSecret());
             } catch (\Stripe\Exception\SignatureVerificationException $e) {
                 Analog::log(
                     'Error verifying webhook signature: ' . $e->getMessage(),
@@ -497,7 +494,6 @@ class StripeController extends AbstractPluginController
                             return $response->withStatus(500, 'Internal error');
                         }
 
-                        $store = $contrib->store();
                         if ($contrib->store()) {
                             // contribution has been stored :)
                             Analog::log(
