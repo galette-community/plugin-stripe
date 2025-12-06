@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-08 09:41+0200\n"
+"POT-Creation-Date: 2025-12-06 11:39+0100\n"
 "PO-Revision-Date: 2025-07-03 15:53+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
@@ -59,23 +59,23 @@ msgstr ""
 msgid "Stripe Settings"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:329
+#: ../lib/GaletteStripe/Controllers/StripeController.php:330
 msgid "You have to select a currency."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:336
+#: ../lib/GaletteStripe/Controllers/StripeController.php:337
 msgid "Stripe settings have been saved."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:342
+#: ../lib/GaletteStripe/Controllers/StripeController.php:343
 msgid "An error occured saving stripe settings."
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:549
+#: ../lib/GaletteStripe/Controllers/StripeController.php:550
 msgid "Payment success"
 msgstr ""
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:573
+#: ../lib/GaletteStripe/Controllers/StripeController.php:574
 msgid "Your payment has been aborted!"
 msgstr ""
 
@@ -153,7 +153,7 @@ msgid "Please, check if the plugin's database has been properly initialized."
 msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:98
-msgid "Stripe webhook URL"
+msgid "Stripe webhook endpoint URL"
 msgstr ""
 
 #: ../tempcache/stripe_preferences.html.twig:108

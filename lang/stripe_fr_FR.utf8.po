@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-08 09:41+0200\n"
-"PO-Revision-Date: 2025-08-08 09:46+0200\n"
+"POT-Creation-Date: 2025-12-06 11:39+0100\n"
+"PO-Revision-Date: 2025-12-06 11:51+0100\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.6\n"
 
 #: ../lib/GaletteStripe/Controllers/StripeController.php:74
 msgid "Online payment"
@@ -66,24 +66,24 @@ msgstr "Historique Stripe"
 msgid "Stripe Settings"
 msgstr "Préférences Stripe"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:329
+#: ../lib/GaletteStripe/Controllers/StripeController.php:330
 msgid "You have to select a currency."
 msgstr "Vous devez sélectionner une devise."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:336
+#: ../lib/GaletteStripe/Controllers/StripeController.php:337
 msgid "Stripe settings have been saved."
 msgstr "Les préférences Stripe ont été sauvegardées."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:342
+#: ../lib/GaletteStripe/Controllers/StripeController.php:343
 msgid "An error occured saving stripe settings."
 msgstr ""
 "Une erreur est survenue lors de l'enregistrement des préférences stripe."
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:549
+#: ../lib/GaletteStripe/Controllers/StripeController.php:550
 msgid "Payment success"
 msgstr "Paiement effectué"
 
-#: ../lib/GaletteStripe/Controllers/StripeController.php:573
+#: ../lib/GaletteStripe/Controllers/StripeController.php:574
 msgid "Your payment has been aborted!"
 msgstr "Votre paiement a été annulé !"
 
@@ -167,12 +167,12 @@ msgstr ""
 "initialisée."
 
 #: ../tempcache/stripe_preferences.html.twig:98
-msgid "Stripe webhook URL"
-msgstr "URL du webhook à configurer dans Stripe"
+msgid "Stripe webhook endpoint URL"
+msgstr "URL du point de terminaison du webhook Stripe"
 
 #: ../tempcache/stripe_preferences.html.twig:108
 msgid "Stripe webhook event"
-msgstr "Événement du webhook à configurer dans Stripe"
+msgstr "Événement du webhook Stripe"
 
 #: ../tempcache/stripe_preferences.html.twig:116
 msgid "Stripe public key"
@@ -192,7 +192,7 @@ msgstr "Renseignez ici votre clé secrète Stripe."
 
 #: ../tempcache/stripe_preferences.html.twig:128
 msgid "Stripe webhook secret key"
-msgstr "Clé secrète Stripe du webhook"
+msgstr "Clé secrète du webhook Stripe"
 
 #: ../tempcache/stripe_preferences.html.twig:128
 msgid "Enter here your Stripe secret key for the webhook."
