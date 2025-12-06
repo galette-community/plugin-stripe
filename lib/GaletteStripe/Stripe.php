@@ -180,7 +180,7 @@ class Stripe
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             //store stripe privkey
             $values = [
@@ -195,7 +195,7 @@ class Stripe
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             //store stripe webhook secret
             $values = [
@@ -210,7 +210,7 @@ class Stripe
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             //store stripe country
             $values = [
@@ -225,7 +225,7 @@ class Stripe
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             //store stripe currency
             $values = [
@@ -240,7 +240,7 @@ class Stripe
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             //store inactives
             $values = [
@@ -255,7 +255,7 @@ class Stripe
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             Analog::log(
                 '[' . get_class($this)
@@ -641,7 +641,7 @@ class Stripe
      *
      * @param string $currency Currency
      *
-     * @return boolean
+     * @return bool
      */
     public function isZeroDecimal(string $currency): bool
     {
@@ -669,7 +669,7 @@ class Stripe
     /**
      * Is the plugin loaded?
      *
-     * @return boolean
+     * @return bool
      */
     public function isLoaded(): bool
     {
@@ -679,7 +679,7 @@ class Stripe
     /**
      * Are amounts loaded?
      *
-     * @return boolean
+     * @return bool
      */
     public function areAmountsLoaded(): bool
     {
@@ -751,7 +751,7 @@ class Stripe
      *
      * @param int $id type identifier
      *
-     * @return boolean
+     * @return bool
      */
     public function isInactive(int $id): bool
     {

@@ -74,7 +74,7 @@ class StripeHistory extends History
      * @param string       $argument the argument
      * @param string       $query    the query (if relevant)
      *
-     * @return boolean true if entry was successfully added, false otherwise
+     * @return bool true if entry was successfully added, false otherwise
      */
     public function add(array|string $action, string $argument = '', string $query = ''): bool
     {
@@ -115,7 +115,7 @@ class StripeHistory extends History
     /**
      * Get table's name
      *
-     * @param boolean $prefixed Whether table name should be prefixed
+     * @param bool $prefixed Whether table name should be prefixed
      *
      * @return string
      */
@@ -217,7 +217,7 @@ class StripeHistory extends History
      *
      * @param array $request Verify sign stripe parameter
      *
-     * @return boolean
+     * @return bool
      */
     public function isProcessed(array $request): bool
     {
@@ -236,9 +236,9 @@ class StripeHistory extends History
     /**
      * Set payment state
      *
-     * @param integer $state State, one of self::STATE_ constants
+     * @param int $state State, one of self::STATE_ constants
      *
-     * @return boolean
+     * @return bool
      */
     public function setState(int $state): bool
     {
