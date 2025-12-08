@@ -1,90 +1,129 @@
+This plugin provides:
+
+* a payment form,
+* a payment history,
+* automatic creation of contributions in Galette once payments are validated.
+
+**Note**: this plugin requires **Galette version 1.2.1 or later**.
+
+![Payment form visible by unlogged users](images/form_public.jpg)
+
+**Important**: to use this plugin, your instance of Galette must be publically accessible and served in https.
+
 ## Installation
 
-S'agissant d'un plugin pour [Galette](https://galette.eu), vous devez obligatoirement avoir installé préablement un serveur avec Galette en version 0.9.4 minimum.
+First of all, download the plugin:
 
-Dézippez l'archive dans le répertoire plugins de Galette.
+[![Get latest Stripe plugin!](https://img.shields.io/badge/1.0.0-Stripe-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-alpha1&color=ffb619
+)](https://github.com/galette-community/plugin-stripe/releases/tag/1.0.0-alpha1)
 
-Rendez vous sur la page de configuration des plugins, comme décrit [dans la documentation Galette](https://galette.eu/documentation/fr/plugins/index.html), activez le plugin _Galette Stripe_ si ce n'est pas fait, et lancez la procédure de création des tables SQL.
+Extract the downloaded archive into Galette `plugins` directory. For example, on linux (replacing *{url}* and *{version}* with the corresponding values):
 
-Vous devriez avoir 3 nouvelles tables dans la base de données :
+```
+$ cd /var/www/html/galette/plugins
+$ wget {url}
+$ tar xjvf galette-plugin-stripe-{version}.tar.bz2
+```
 
-* `galette_stripe_history` : stocke les informations relatives aux webhooks reçus par le site
-* `galette_stripe_preferences` : stocke les préférences du plugin : clés publiques et secrètes, pays, devise
-* `galette_stripe_types_cotisation_prices` : stocke les prix des contributions facturées par le plugin
+## Database initialisation
 
-## Configuration
+In order to work, this plugin requires several tables in the database. See the [Galette plugins management interface](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
-* Pour commencer, vous devez [ajouter vos clés API](#clés-api).
-* Ensuite si nécessaire, [créer un webhook](#créer-un-webhook) et [renseigner le secret](#secret-du-webhook).
-* Enfin, ajoutez les [prix des contributions](#contributions) pour les adapter à votre association.
+And that’s it, the *Stripe* plugin is installed. :)
 
-La [liste des paramètres](parametrage) est disponible pour référence.
+## Plugin usage
 
-## Clés API
+When the plugin is installed, a Stripe group is added to the Galette menu when a user is logged in, allowing administrators and staff members to define the settings of the plugin and view payment history.
 
-### Récupérer les clés dans Stripe
+![Plugin's menu](images/galette_menu.jpg)
 
-Rendez-vous dans votre interface de Stripe, sous le menu **Développeurs** puis **Clés API**, et récupérez votre clé publique.
+The payment form is accessible from Galette's public pages.
 
-![Version de développement](images/stripe_menu_api_key.png)
+Only users logged into their account can pay contributions with a membership extension (or membership fees).
 
+![Payment form visible by logged in users](images/form.jpg)
 
-Créez ensuite une clé secrète limitée, ou utilisez la clé secrète principale. En principe, le plugin n'a besoin que des autorisations principales et les autorisations de Issuing. La clé n'a pas besoin des autorisations liées aux webhooks pour que le plugin reçoive les webhooks, les webhooks sont configurés dans l'interface de Stripe.
+Regular visitors (users not logged into their account) can only pay contributions without a membership extension (or donations). In this case, no contribution is automatically created in Galette, the payment only appears in the plugin's payment history.
 
-**Attention** : faites un essai avec les clés de Test avant d'utiliser les clés Live. Les clés de test sont préfixées **\_test\_** et se créent en mode Test.
+![Payment history screen](images/history.jpg)
 
-![Version de développement](images/stripe_menu_test_mode.png)
+## Settings
 
-En mode Test, les cartes à utiliser sont : https://stripe.com/docs/testing#cards . **N'utilisez pas de CB réelle en mode Test**, c'est interdit par les CGU de Stripe, et la carte pourrait être débitée pour de vrai.
+![Settings screen](images/settings.jpg)
 
-### Renseignez les clés dans Galette
+* **Stripe webhook endpoint URL**: URL to use to create a “Webhook” in your association’s account on Stripe ([read more below](#create-a-webhook)).
+* **Stripe webhook event**: name of the event to use to create a “Webhook” in your association’s account on Stripe ([read more below](#create-a-webhook)).
+* **Stripe public key**: you will find this information in your association’s account on Stripe ([read more below](#create-api-keys)).
+* **Stripe secret key**: you will find this information in your association’s account on Stripe ([read more below](#create-api-keys)).
+* **Stripe webhook secret key**: you will find this information in the details of the "Webhook" you need to create in your association’s account on Stripe ([read more below](#create-a-webhook)).
+* **Country of your Stripe account**: choose a country according to your Stripe account settings ([read more below](#set-a-country-and-a-currency)).
+* **Currency for payments**: choose a currency according to your Stripe account settings ([read more below](#set-a-country-and-a-currency)).
+* **Contribution types**: in this table, you can disable [contribution types configured in Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types) that you do not want to be offered as a payment reason on the online payment form.
 
-Allez sur la page **Préférences** du plugin et renseignez vos clés publique et secrète.
+  *Contribution types with a zero amount, or whose amount is not configured, will not be offered as payment reasons on the form, even if they are not marked as inactive in the table.*
 
-![Menu du plugin](images/galette_menu.png)
+### Note about the sandbox mode
 
-## Créer un webhook
+![Stripe sandbox mode](images/stripe_menu_sandbox_mode.jpg)
 
-Le chemin de votre webhook est indiqué dans la page Préférences du plugin, celui-ci est de la forme `https://VOTRE_URL_GALETTE/plugins/stripe/webhook` .
+It is recommended to test the plugin's functionality in sandbox mode. To learn how to set up such a testing environment, please refer to the [Stripe documentation](https://docs.stripe.com/sandboxes).
 
-Rendez-vous dans l'interface de Stripe, sous le menu **Développeurs** puis **Webhooks**, et créez votre webhook.
+**Warning**: in this mode, do not use real credit card numbers, but only test cards (see the list of test cards in [Stripe documentation](https://docs.stripe.com/testing#cards)).
 
-L'événement à envoyer est `payment_intent.succeeded`. Les autres événements se sont pas traités par le plugin.
+## Configure your Stripe account
 
-Cette URL doit être publiquement accessible pour que les webhooks fonctionnent.
+To learn how to create an account, please refer to the [Stripe documentation](https://docs.stripe.com/get-started/account).
 
-![Créer Webhook](images/stripe_webhook_config.png)
+### Get the country and currency defined in your account settings
 
-## Secret du webhook
+The choice of a country and a currency is usually requested when creating your account. You can find this information in your account settings:
 
-### Récupérez le secret du Webhook dans Stripe
+![Stripe settings menu](images/stripe_menu_settings.jpg)
 
-Stripe utilise le secret du webhook pour signer la requête envoyée via une fonction HMAC SHA-256. Le plugin vérifie la signature de la requête avant tout traitement du webhook.
+* *Settings > Business > Account details*
 
-Cliquez sur le webhook dans la liste, puis récupérez le secret du webhook en cliquant sur "Révéler".
+![Country defined in the account settings](images/stripe_settings_country.jpg)
 
-![Secret du Webhook](images/stripe_webhook_secret.png)
+* *Settings > Business > Bank accounts and currencies*
 
-**Celui-ci est différent de votre clé secrète et se trouve dans les détails du webhook, pas dans "Clé API"**.
+![Currency defined in the account settings](images/stripe_settings_currency.jpg)
 
-### Renseignez le secret du webhook dans Galette
+### Create a Webhook and get the corresponding secret key
 
-Allez sur la page **Préférences** du plugin et renseignez le secret du webhook.
+The *Webhook* required for the proper functioning of the plugin can be created from the *Developers* menu (located at the bottom left of your dashboard):
 
-![Menu du plugin](images/galette_menu.png)
+![Webhooks in developers menu](images/stripe_developers_menu_webhooks.jpg)
 
-**Attention** : toute cette configuration doit être ensuite répétée en mode Live, si vous êtes en train de le configurer en mode Test.
+The *Endpoint URL* to define in your webhook is indicated in the plugin settings (example: `https://YOUR_DOMAIN_NAME/plugins/stripe/webhook`).
 
-## Contributions
+Only one *Event* needs to be defined in your webhook. It is also indicated in the plugin settings; it is `payment_intent.succeeded`.
 
-Comme pour le plugin Paypal pour Galette, le prix des contributions est paramétrable dans les **Préférences** du plugin.
+![Webhook created in Stripe account](images/stripe_webhook_config.jpg)
 
-Chaque contribution peut étendre l'adhésion ou non, consultez les paramètres de Galette sous **Types de contributions** pour régler l'extension ou non de l'adhésion selon les contributions.
+Once created, you need to get the *webhook secret key* to define in the plugin settings. From the list of webhooks, click on the one your created:
 
-Une contribution marquée "inactif"" ne sera pas proposée au paiement.
+![Webhooks list in Stripe account](images/stripe_webhooks_list.jpg)
 
-Le prix de la contribution est un minimum et n'empêche pas l'adhérent de spécifier un montant supérieur au moment du paiement.
+The *webhook secret key* can be copied from it's details:
 
-**À noter** : Si un adhérent paie deux fois une contribution dont le paramètre __Extension d'adhésion__ est à __Oui__, le plugin enregistrera deux adhésions consécutives, prolongeant de deux périodes l'adhésion (pas de paiement double sur une seule période). Par exemple, si en 2020 l'adhérent paie deux fois la contribution __Cotisation annuelle__, sa date d'échéance sera 2022.
+![Webhook secret](images/stripe_webhook_secret.jpg)
 
-Rendez-vous dans les paramètres de Galette sous __Type de contribution__ pour configurer l'extension de l'adhésion pour certaines contributions.
+### Get the API keys
+
+The *API keys* required for the proper functioning of the plugin can be obtained from the *Developers* menu (located at the bottom left of your dashboard):
+
+![API keys in developers menu](images/stripe_developers_menu_api_keys.jpg)
+
+**Important**: To reduce the potential impact of a compromise, create a *Restricted key*. This key can be created without customizing the permissions. Please refer to the [Stripe documentation](https://docs.stripe.com/keys#create-restricted-api-secret-key) for more information about restricted keys.
+
+![API keys created in Stripe account](images/stripe_api_keys.jpg)
+
+### Enable the necessary payment methods
+
+Stripe offers many payment methods. In your account settings, you should enable only the methods you wish to use.
+
+**Warning**: do not enable delayed payment methods (Multibanco, ACH direct debit, SEPA direct debit, Bank transfer), because the different corresponding payment statuses are not handled by the plugin at the moment and they cannot be tracked in the history.
+
+* *Settings > Payments > Payment methods*
+
+![Payment methods defined in the account settings](images/stripe_settings_payment_methods.jpg)

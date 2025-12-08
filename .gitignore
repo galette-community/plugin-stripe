@@ -1,0 +1,7 @@
+*.swp
+*.exvim*
+dist/
+tempcache/
+templates/
+webroot/
+vendor/
