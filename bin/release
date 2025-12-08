@@ -372,7 +372,6 @@ def add_libs(rel_name, galette_archive):
     shutil.rmtree(os.path.join(npm_dir, '.github'))
     shutil.rmtree(os.path.join(npm_dir, 'bin'))
     shutil.rmtree(os.path.join(npm_dir, 'tests'))
-    os.remove(os.path.join(npm_dir, '.composer-require-checker.config.json'))
     os.remove(os.path.join(npm_dir, 'composer.json.checker'))
     os.remove(os.path.join(npm_dir, '.docheader'))
     os.remove(os.path.join(npm_dir, '.gitignore'))
