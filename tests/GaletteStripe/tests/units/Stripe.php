@@ -21,7 +21,7 @@
 
 namespace GaletteStripe\tests\units;
 
-use Galette\GaletteTestCase;
+use Galette\Tests\GaletteTestCase;
 
 /**
  * Stripe tests
