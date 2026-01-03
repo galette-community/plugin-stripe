@@ -40,6 +40,6 @@ $this->register(
 
 $this->setCsrfExclusions(
     [
-    '/stripe_(webhook|success|cancel)/',
+        '/stripe_(webhook|success|cancel)/',
     ]
 );

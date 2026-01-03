@@ -85,8 +85,6 @@ class Stripe
 
     /**
      * Load preferences form the database and amounts from core contributions types
-     *
-     * @return void
      */
     public function load(): void
     {
@@ -138,8 +136,6 @@ class Stripe
 
     /**
      * Load amounts from core contributions types
-     *
-     * @return void
      */
     private function loadContributionsTypes(): void
     {
@@ -161,8 +157,6 @@ class Stripe
 
     /**
      * Store values in the database
-     *
-     * @return bool
      */
     public function store(): bool
     {
@@ -280,8 +274,6 @@ class Stripe
      * @param array<string, mixed> $metadata Array of metadata to transmit with payment
      * @param string               $amount   Amount of payment
      * @param string               $currency Currency used
-     *
-     * @return array|bool
      */
     public function checkout(array $metadata, string $amount, string $currency): array|bool
     {
@@ -325,8 +317,6 @@ class Stripe
 
     /**
      * Get Stripe public key
-     *
-     * @return string
      */
     public function getPubKey(): ?string
     {
@@ -335,8 +325,6 @@ class Stripe
 
     /**
      * Get Stripe private key
-     *
-     * @return string
      */
     public function getPrivKey(): ?string
     {
@@ -345,8 +333,6 @@ class Stripe
 
     /**
      * Get Stripe webhook secret
-     *
-     * @return string
      */
     public function getWebhookSecret(): ?string
     {
@@ -355,8 +341,6 @@ class Stripe
 
     /**
      * Get Stripe country
-     *
-     * @return string
      */
     public function getCountry(): ?string
     {
@@ -365,8 +349,6 @@ class Stripe
 
     /**
      * Get Stripe currency
-     *
-     * @return string
      */
     public function getCurrency(): ?string
     {
@@ -640,8 +622,6 @@ class Stripe
      * https://docs.stripe.com/currencies#zero-decimal
      *
      * @param string $currency Currency
-     *
-     * @return bool
      */
     public function isZeroDecimal(string $currency): bool
     {
@@ -668,8 +648,6 @@ class Stripe
 
     /**
      * Is the plugin loaded?
-     *
-     * @return bool
      */
     public function isLoaded(): bool
     {
@@ -678,8 +656,6 @@ class Stripe
 
     /**
      * Are amounts loaded?
-     *
-     * @return bool
      */
     public function areAmountsLoaded(): bool
     {
@@ -690,8 +666,6 @@ class Stripe
      * Set stripe public key
      *
      * @param string $pubkey public key
-     *
-     * @return void
      */
     public function setPubKey(string $pubkey): void
     {
@@ -702,8 +676,6 @@ class Stripe
      * Set stripe private key
      *
      * @param string $privkey private key
-     *
-     * @return void
      */
     public function setPrivKey(string $privkey): void
     {
@@ -714,8 +686,6 @@ class Stripe
      * Set stripe webhook secret
      *
      * @param string $secret webhook secret
-     *
-     * @return void
      */
     public function setWebhookSecret(string $secret): void
     {
@@ -726,8 +696,6 @@ class Stripe
      * Set stripe country
      *
      * @param string $country country
-     *
-     * @return void
      */
     public function setCountry(string $country): void
     {
@@ -738,8 +706,6 @@ class Stripe
      * Set stripe currency
      *
      * @param string $currency currency
-     *
-     * @return void
      */
     public function setCurrency(string $currency): void
     {
@@ -750,8 +716,6 @@ class Stripe
      * Check if the specified contribution is active
      *
      * @param int $id type identifier
-     *
-     * @return bool
      */
     public function isInactive(int $id): bool
     {
@@ -762,8 +726,6 @@ class Stripe
      * Set inactives types
      *
      * @param array<int, string> $inactives array of inactives types
-     *
-     * @return void
      */
     public function setInactives(array $inactives): void
     {
@@ -772,8 +734,6 @@ class Stripe
 
     /**
      * Unset inactives types
-     *
-     * @return void
      */
     public function unsetInactives(): void
     {
