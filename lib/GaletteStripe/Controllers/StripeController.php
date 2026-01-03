@@ -59,8 +59,6 @@ class StripeController extends AbstractPluginController
      *
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function form(Request $request, Response $response): Response
     {
@@ -105,8 +103,6 @@ class StripeController extends AbstractPluginController
      *
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function formCheckout(Request $request, Response $response): Response
     {
@@ -166,8 +162,6 @@ class StripeController extends AbstractPluginController
      * @param Response        $response PSR Response
      * @param string|null     $option   Either order, reset or page
      * @param string|int|null $value    Option value
-     *
-     * @return Response
      */
     public function history(Request $request, Response $response, ?string $option = null, string|int|null $value = null): Response
     {
@@ -183,7 +177,7 @@ class StripeController extends AbstractPluginController
         if ($option !== null) {
             switch ($option) {
                 case 'page':
-                    $filters->current_page = (int) $value;
+                    $filters->current_page = (int)$value;
                     break;
                 case 'order':
                     $filters->orderby = $value;
@@ -225,8 +219,6 @@ class StripeController extends AbstractPluginController
      *
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function filter(Request $request, Response $response): Response
     {
@@ -252,8 +244,6 @@ class StripeController extends AbstractPluginController
      *
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function preferences(Request $request, Response $response): Response
     {
@@ -293,8 +283,6 @@ class StripeController extends AbstractPluginController
      *
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function storePreferences(Request $request, Response $response): Response
     {
@@ -352,8 +340,6 @@ class StripeController extends AbstractPluginController
      *
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function refreshCurrencies(Request $request, Response $response): Response
     {
@@ -383,8 +369,6 @@ class StripeController extends AbstractPluginController
      *
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function webhook(Request $request, Response $response): Response
     {
@@ -537,8 +521,6 @@ class StripeController extends AbstractPluginController
      *
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function successUrl(Request $request, Response $response): Response
     {
@@ -560,8 +542,6 @@ class StripeController extends AbstractPluginController
      *
      * @param Request  $request  PSR Request
      * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function cancelUrl(Request $request, Response $response): Response
     {

@@ -95,7 +95,7 @@ class StripeHistory extends History
             $insert = $this->zdb->insert($this->getTableName());
             $insert->values($values);
             $this->zdb->execute($insert);
-            $this->id = (int) $this->zdb->driver->getLastGeneratedValue();
+            $this->id = (int)$this->zdb->driver->getLastGeneratedValue();
 
             Analog::log(
                 'An entry has been added in stripe history',
@@ -116,8 +116,6 @@ class StripeHistory extends History
      * Get table's name
      *
      * @param bool $prefixed Whether table name should be prefixed
-     *
-     * @return string
      */
     protected function getTableName(bool $prefixed = false): string
     {
@@ -130,8 +128,6 @@ class StripeHistory extends History
 
     /**
      * Get table's PK
-     *
-     * @return string
      */
     protected function getPk(): string
     {
@@ -140,8 +136,6 @@ class StripeHistory extends History
 
     /**
      * Gets Stripe history
-     *
-     * @return array
      */
     public function getStripeHistory(): array
     {
@@ -182,8 +176,6 @@ class StripeHistory extends History
      * Gets Stripe Payment Method details
      *
      * @param string $id ID of the payment method to retrieve
-     *
-     * @return array
      */
     public function getStripePaymentMethod(string $id): array
     {
@@ -216,8 +208,6 @@ class StripeHistory extends History
      * Is payment already processed?
      *
      * @param array $request Verify sign stripe parameter
-     *
-     * @return bool
      */
     public function isProcessed(array $request): bool
     {
@@ -237,8 +227,6 @@ class StripeHistory extends History
      * Set payment state
      *
      * @param int $state State, one of self::STATE_ constants
-     *
-     * @return bool
      */
     public function setState(int $state): bool
     {
