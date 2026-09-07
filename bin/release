@@ -109,18 +109,15 @@ def propose_version():
     last_minor = '0'
 
     for tagref in tagrefs:
-        tag = tagref.tag
-        if tag is None:
-            # lightweight tag, there is no tag object to read
-            continue
-        if valid_version(tag.tag):
+        # name is set on annotated and lightweight tags alike
+        if valid_version(tagref.name):
             # last minor version is always the last one :)
-            if tag.tag > last_minor:
-                last_minor = tag.tag
+            if tagref.name > last_minor:
+                last_minor = tagref.name
 
             # last major version
-            if len(tag.tag) == 5 and tag.tag > last_major:
-                last_major = tag.tag
+            if len(tagref.name) == 5 and tagref.name > last_major:
+                last_major = tagref.name
 
     if verbose:
         print('last minor: %s | last major %s' % (last_minor, last_major))
@@ -151,14 +148,18 @@ def get_latest_version():
 
     last = None
     for tagref in tagrefs:
-        tag = tagref.tag
-        if tag is not None and valid_version(tag.tag):
+        # name is set on annotated and lightweight tags alike
+        if valid_version(tagref.name):
             # last minor version is always the last one :)
-            if last is None or tag.tag > last.tag:
-                last = tag
+            if last is None or tagref.name > last.name:
+                last = tagref
 
-    tag_commit = last.hexsha
-    return last.tag
+    if last is None:
+        print_err('No version tag found, cannot guess a version to build!')
+        sys.exit(1)
+
+    tag_commit = last.commit.hexsha
+    return last.name
 
 
 def is_existing_version(ver):
@@ -166,13 +167,9 @@ def is_existing_version(ver):
     Look specified version exists
     """
     for tagref in tagrefs:
-        tag = tagref.tag
-        if tag is None:
-            # lightweight tag, there is no tag object to read
-            continue
-        if valid_version(tag.tag):
-            if tag.tag == ver:
-                return True
+        # name is set on annotated and lightweight tags alike
+        if valid_version(tagref.name) and tagref.name == ver:
+            return True
     return False
 
 def ask_user_confirm(msg):
