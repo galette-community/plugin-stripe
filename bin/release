@@ -399,36 +399,72 @@ def add_libs(rel_name, galette_archive):
     galette.extractall(path=src_dir)
     galette.close()
 
-    npm_dir = os.path.join(src_dir, rel_name)
-    shutil.rmtree(os.path.join(npm_dir, '.github'))
-    shutil.rmtree(os.path.join(npm_dir, 'bin'))
-    shutil.rmtree(os.path.join(npm_dir, 'tests'))
-    os.remove(os.path.join(npm_dir, '.gitignore'))
-    os.remove(os.path.join(npm_dir, '.php-cs-fixer.dist.php'))
-    os.remove(os.path.join(npm_dir, 'phpstan.neon'))
-    os.remove(os.path.join(npm_dir, 'lang/Makefile'))
-    os.remove(os.path.join(npm_dir, 'lang/stripe.pot'))
+    build_dir = os.path.join(src_dir, rel_name)
 
-    po_files = glob.glob(os.path.join(npm_dir, 'lang/*.po'))
+    shutil.rmtree(os.path.join(build_dir, '.github'))
+    shutil.rmtree(os.path.join(build_dir, 'bin'))
+    shutil.rmtree(os.path.join(build_dir, 'tests'))
+    os.remove(os.path.join(build_dir, '.gitignore'))
+    os.remove(os.path.join(build_dir, '.php-cs-fixer.dist.php'))
+    os.remove(os.path.join(build_dir, 'phpstan.neon'))
+    os.remove(os.path.join(build_dir, 'lang/README.md'))
+    os.remove(os.path.join(build_dir, 'lang/Makefile'))
+    os.remove(os.path.join(build_dir, 'lang/stripe.pot'))
+
+    po_files = glob.glob(os.path.join(build_dir, 'lang/*.po'))
     for po_file in po_files:
         try:
             os.remove(po_file)
         except:
             print("Error while deleting : ", po_file)
 
+    # cleanup node.js dependencies files and directories
+    npm_dir = os.path.join(src_dir, rel_name)
+    has_npm = os.path.exists(
+        os.path.join(
+            build_dir,
+            'package.json'
+        )
+    )
+
+    if has_npm:
+        # install js dependencies
+        npm_cmd = 'npm install --prefix %s' % build_dir
+        print(npm_cmd)
+        run(npm_cmd, cwd=build_dir)
+
+        # run build script
+        build_cmd = 'npm run build'
+        print(build_cmd)
+        run(build_cmd, cwd=build_dir)
+
+        # cleaunp files not required in releases
+        todrop = [
+            'gulpfile.js',
+            'package.json',
+            'package-lock.json'
+        ]
+        for td in todrop:
+            if os.path.exists(os.path.join(build_dir, td)):
+                os.remove(os.path.join(build_dir, td))
+
+        #cleanup node_modules directory
+        shutil.rmtree(os.path.join(build_dir, 'node_modules'))
+
+    # cleanup composer dependencies files and directories
     composer_dir = os.path.join(src_dir, rel_name)
     has_composer = os.path.exists(
         os.path.join(
-            composer_dir,
+            build_dir,
             'composer.json'
         )
     )
 
     if has_composer:
         # install php dependencies
-        composer_cmd = 'composer install --ignore-platform-reqs --no-dev'
-        print(composer_dir)
-        run(composer_cmd, cwd=composer_dir)
+        composer_cmd = 'composer install --no-dev'
+        print(composer_cmd)
+        run(composer_cmd, cwd=build_dir)
 
         # cleaunp files not required in releases
         todrop = [
@@ -437,30 +473,30 @@ def add_libs(rel_name, galette_archive):
             'composer.json.checker'
         ]
         for td in todrop:
-            if os.path.exists(os.path.join(src_dir, rel_name, td)):
-                os.remove(os.path.join(src_dir, rel_name, td))
+            if os.path.exists(os.path.join(build_dir, td)):
+                os.remove(os.path.join(build_dir, td))
 
         #cleanup vendors
-        for root, dirnames, filenames in os.walk(os.path.join(composer_dir, 'vendor')):
+        for root, dirnames, filenames in os.walk(os.path.join(build_dir, 'vendor')):
             #remove git directories
             for dirname in fnmatch.filter(dirnames, '.git*'):
-                remove_dir = os.path.join(composer_dir, root, dirname)
+                remove_dir = os.path.join(build_dir, root, dirname)
                 shutil.rmtree(remove_dir)
             #remove test directories
             for dirname in fnmatch.filter(dirnames, 'test?'):
-                remove_dir = os.path.join(composer_dir, root, dirname)
+                remove_dir = os.path.join(build_dir, root, dirname)
                 shutil.rmtree(remove_dir)
             #remove examples directories
             for dirname in fnmatch.filter(dirnames, 'example?'):
-                remove_dir = os.path.join(composer_dir, root, dirname)
+                remove_dir = os.path.join(build_dir, root, dirname)
                 shutil.rmtree(remove_dir)
             #remove doc directories
             for dirname in fnmatch.filter(dirnames, 'doc?'):
-                remove_dir = os.path.join(composer_dir, root, dirname)
+                remove_dir = os.path.join(build_dir, root, dirname)
                 shutil.rmtree(remove_dir)
             #remove composer stuff
             for filename in fnmatch.filter(filenames, 'composer*'):
-                remove_file = os.path.join(composer_dir, root, filename)
+                remove_file = os.path.join(build_dir, root, filename)
                 os.remove(remove_file)
 
             for dirname in dirnames:
